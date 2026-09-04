@@ -1,0 +1,144 @@
+---
+interface KeyDef {
+  main: string;
+  extension?: string;
+  layer?: string;
+  utility?: boolean;
+}
+
+interface Props {
+  variant?: "standard" | "lite";
+  compact?: boolean;
+}
+
+const { variant = "standard", compact = false } = Astro.props;
+
+const standardLeft: KeyDef[][] = [
+  [{ main: "P" }, { main: "Z" }, { main: "H" }, { main: "F" }, { main: "←", utility: true }],
+  [{ main: "D" }, { main: "S" }, { main: "N" }, { main: "T" }, { main: "G" }],
+  [{ main: "B" }, { main: "R" }, { main: "M" }, { main: "C", extension: "K" }, { main: "K" }],
+];
+
+const standardRight: KeyDef[][] = [
+  [{ main: "→", utility: true }, { main: "Q", extension: "YO" }, { main: "O" }, { main: "W" }, { main: "X", extension: "YA" }],
+  [
+    { main: "L" },
+    { main: "A", layer: "⌫" },
+    { main: "I", layer: "ん" },
+    { main: "U", layer: "ー" },
+    { main: "E", layer: "っ" },
+  ],
+  [{ main: "Y" }, { main: "," }, { main: "J", extension: "YU" }, { main: "." }, { main: "V" }],
+];
+
+const liteLeft: KeyDef[][] = [
+  [{ main: "P" }, { main: "Z" }, { main: "H" }, { main: "F" }, { main: "←", utility: true }],
+  [{ main: "D" }, { main: "S" }, { main: "N" }, { main: "T" }, { main: "G" }],
+  [{ main: "B" }, { main: "R" }, { main: "M" }, { main: "K" }, { main: "J" }],
+];
+
+const liteRight: KeyDef[][] = [
+  [{ main: "→", utility: true }, { main: "Y" }, { main: "O" }, { main: "W" }, { main: "V" }],
+  [{ main: "L" }, { main: "A" }, { main: "I" }, { main: "U" }, { main: "E" }],
+  [{ main: "X" }, { main: "," }, { main: "C" }, { main: "." }, { main: "Q" }],
+];
+
+const rowsToColumns = (rows: KeyDef[][]) =>
+  rows[0].map((_, columnIndex) => rows.map((row) => row[columnIndex]));
+
+const leftRows = variant === "standard" ? standardLeft : liteLeft;
+const rightRows = variant === "standard" ? standardRight : liteRight;
+
+const leftColumns = rowsToColumns(leftRows);
+const rightColumns = rowsToColumns(rightRows);
+
+/*
+ * Schematic only. The exact physical stagger differs by keyboard.
+ * This version is tuned a little closer to the Model 100 impression:
+ * center columns stay shallower, while outer columns drop a bit more.
+ */
+const leftStagger = [18, 9, 2, 8, 15];
+const rightStagger = [15, 8, 2, 9, 18];
+---
+
+<figure class:list={["keyboard", compact && "keyboard--compact"]}>
+  <figcaption class="keyboard__caption">
+    <div>
+      <strong>{variant === "standard" ? "Standard" : "Lite"}</strong>
+      <span>論理配列</span>
+    </div>
+    <p>左：主に子音 <i>·</i> 右：主に母音</p>
+  </figcaption>
+
+  <div class="keyboard__viewport">
+    <div class="keyboard__board" aria-label={`せおと配列 ${variant}`}>
+      <section class="keyboard__half" aria-label="左手 子音側">
+        <span class="keyboard__hand">左手 / 子音側</span>
+        <div class="keyboard__plate">
+          <div class="keyboard__columns">
+            {leftColumns.map((column, index) => (
+              <div class="keyboard__column" style={`--stagger: ${leftStagger[index]}px`}>
+                {column.map((key) => (
+                  <div class:list={[
+                    "keyboard-key",
+                      key.utility && "is-utility",
+                    key.extension && "has-extension",
+                    key.layer && "has-layer",
+                  ]}>
+                    <div class="keyboard-key__main">
+                      <strong>{key.main}</strong>
+                      {key.extension && <small>→{key.extension}</small>}
+                    </div>
+                    {key.layer && <div class="keyboard-key__sub">{key.layer}</div>}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div class="keyboard__flow" aria-hidden="true">
+        <i><b></b></i>
+      </div>
+
+      <section class="keyboard__half" aria-label="右手 母音側">
+        <span class="keyboard__hand keyboard__hand--right">右手 / 母音側</span>
+        <div class="keyboard__plate">
+          <div class="keyboard__columns">
+            {rightColumns.map((column, index) => (
+              <div class="keyboard__column" style={`--stagger: ${rightStagger[index]}px`}>
+                {column.map((key) => (
+                  <div class:list={[
+                    "keyboard-key",
+                      key.utility && "is-utility",
+                    key.extension && "has-extension",
+                    key.layer && "has-layer",
+                  ]}>
+                    <div class="keyboard-key__main">
+                      <strong>{key.main}</strong>
+                      {key.extension && <small>→{key.extension}</small>}
+                    </div>
+                    {key.layer && <div class="keyboard-key__sub">{key.layer}</div>}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="keyboard__legend">
+    {variant === "standard" ? (
+      <>
+        <span>キー下部：⌫ / ん / ー / っ = 母音側サブレイヤー</span>
+        <span>右上：C→K / X→YA / J→YU / Q→YO = 日本語時のローマ字拡張</span>
+      </>
+    ) : (
+      <span>Liteは標準的なローマ字規則を使い、Standardとは配置が一部異なります。</span>
+    )}
+    <span>キー間隔とスタッガ量は模式的です。</span>
+  </div>
+</figure>

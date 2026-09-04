@@ -1,0 +1,130 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectRow from "../../components/ProjectRow.astro";
+import { projects } from "../../data/projects";
+
+const domains = [
+  ["all", "すべて"],
+  ["japanese-input", "日本語入力"],
+  ["search", "検索"],
+  ["language", "言語"],
+  ["browser", "ブラウザ"],
+  ["notes", "ノート"],
+  ["web-ux", "Web改善"],
+];
+
+const layers = [
+  ["all", "すべて"],
+  ["ime", "IME"],
+  ["search ui", "検索UI"],
+  ["presentation", "表示"],
+  ["runtime", "実行時"],
+  ["evaluation", "評価"],
+  ["local data", "ローカルデータ"],
+];
+---
+
+<BaseLayout
+  title="制作物 | koyasi777"
+  description="koyasi777の公開プロジェクトを、名前・用途・介入した層から探せる一覧です。"
+>
+  <section class="projects-head">
+    <div class="shell">
+      <h1>制作物</h1>
+      <p>公開している{projects.length}件のリポジトリ。</p>
+
+      <div class="project-tools">
+        <label class="project-search" for="project-search">
+          <span>検索</span>
+          <input id="project-search" type="search" placeholder="名前 / 内容 / 問題" autocomplete="off" />
+        </label>
+
+        <div class="filter-line">
+          <span>分野</span>
+          <div>
+            {domains.map(([value, label]) => (
+              <button type="button" class:list={[value === "all" && "is-active"]} data-filter-domain={value}>{label}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="filter-line">
+          <span>介入した層</span>
+          <div>
+            {layers.map(([value, label]) => (
+              <button type="button" class:list={[value === "all" && "is-active"]} data-filter-layer={value}>{label}</button>
+            ))}
+          </div>
+        </div>
+
+        <p class="project-result"><strong id="project-count">{projects.length}</strong>件</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-index">
+    <div class="shell">
+      {projects.map((project) => <ProjectRow project={project} />)}
+      <p id="project-empty" class="project-empty" hidden>該当する制作物はありません。</p>
+    </div>
+  </section>
+
+  <section class="plain-section projects-note">
+    <div class="shell projects-note__grid">
+      <h2>Forkについて</h2>
+      <p>
+        Mozkeyのようにupstreamから大きく変更しているもの、既存実装を再構成したもの、実験目的のforkは、Originalと区別して表示しています。
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const search = document.querySelector<HTMLInputElement>("#project-search");
+    const rows = Array.from(document.querySelectorAll<HTMLElement>("[data-project]"));
+    const count = document.querySelector<HTMLElement>("#project-count");
+    const empty = document.querySelector<HTMLElement>("#project-empty");
+
+    if (search && count && empty) {
+      let domain = "all";
+      let layer = "all";
+      let query = "";
+
+      const normalize = (value: string) => value.normalize("NFKC").toLocaleLowerCase("ja-JP").trim();
+
+      const render = () => {
+        let visible = 0;
+        for (const row of rows) {
+          const matchesDomain = domain === "all" || row.dataset.domain === domain;
+          const matchesLayer = layer === "all" || (row.dataset.layers ?? "").includes(layer);
+          const matchesQuery = !query || normalize(row.dataset.search ?? "").includes(query);
+          const show = matchesDomain && matchesLayer && matchesQuery;
+          row.hidden = !show;
+          if (show) visible += 1;
+        }
+        count.textContent = String(visible);
+        empty.hidden = visible !== 0;
+      };
+
+      document.querySelectorAll<HTMLButtonElement>("[data-filter-domain]").forEach((button) => {
+        button.addEventListener("click", () => {
+          domain = button.dataset.filterDomain ?? "all";
+          document.querySelectorAll<HTMLButtonElement>("[data-filter-domain]").forEach((item) => item.classList.toggle("is-active", item === button));
+          render();
+        });
+      });
+
+      document.querySelectorAll<HTMLButtonElement>("[data-filter-layer]").forEach((button) => {
+        button.addEventListener("click", () => {
+          layer = button.dataset.filterLayer ?? "all";
+          document.querySelectorAll<HTMLButtonElement>("[data-filter-layer]").forEach((item) => item.classList.toggle("is-active", item === button));
+          render();
+        });
+      });
+
+      search.addEventListener("input", () => {
+        query = normalize(search.value);
+        render();
+      });
+    }
+  </script>
+</BaseLayout>

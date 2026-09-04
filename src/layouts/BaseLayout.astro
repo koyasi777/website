@@ -1,0 +1,106 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  product?: "seoto" | "default";
+  noindex?: boolean;
+}
+
+const { title, description, product = "default", noindex = false } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const pathname = Astro.url.pathname;
+const ogPath = pathname.startsWith("/seoto/")
+  ? "/og/seoto.png"
+  : pathname.startsWith("/projects/")
+    ? "/og/projects.png"
+    : "/og/default.png";
+const ogImageURL = new URL(ogPath, Astro.site ?? Astro.url.origin);
+const ogAlt = pathname.startsWith("/seoto/")
+  ? "せおと配列 — 日本語を、指の流れから。"
+  : pathname.startsWith("/projects/")
+    ? "koyasi777 制作物"
+    : "koyasi777";
+const projectsCurrent = pathname.startsWith("/projects/");
+const seotoCurrent = pathname.startsWith("/seoto/");
+---
+
+<!doctype html>
+<html lang="ja" data-product={product}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#fafbf9" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="koyasi777" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogAlt} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+    <meta name="twitter:image:alt" content={ogAlt} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  </head>
+
+  <body>
+    <canvas class="ambient-particles" data-ambient-particles aria-hidden="true"></canvas>
+    <a class="skip-link" href="#main-content">本文へスキップ</a>
+
+    <header class="site-header">
+      <div class="shell site-header__inner">
+        <a class="site-brand" href="/" aria-label="koyasi777 ホーム">
+          <img
+            class="site-brand__icon"
+            src="/koyasi777-icon.jpg"
+            width="32"
+            height="32"
+            alt=""
+            decoding="async"
+          />
+          <span>koyasi777</span>
+        </a>
+        <nav class="site-nav" aria-label="メインナビゲーション">
+          <a href="/projects/" aria-current={projectsCurrent ? "page" : undefined}>制作物</a>
+          <a href="/seoto/" aria-current={seotoCurrent ? "page" : undefined}>せおと配列</a>
+          <a href="https://github.com/koyasi777">GitHub ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content"><slot /></main>
+
+    <footer class="site-footer">
+      <div class="shell site-footer__inner">
+        <p>© koyasi777</p>
+        <nav aria-label="フッターナビゲーション">
+          <a href="/projects/">制作物</a>
+          <a href="/seoto/">せおと配列</a>
+          <a href="https://github.com/koyasi777">GitHub</a>
+          <a href="https://note.com/firstyear_dev">note</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script is:inline src="/ambient-particles.js" defer></script>
+  </body>
+</html>

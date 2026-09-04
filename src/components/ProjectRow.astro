@@ -1,0 +1,75 @@
+---
+import type { Project } from "../data/projects";
+
+interface Props { project: Project; }
+const { project } = Astro.props;
+
+const domainLabels: Record<string, string> = {
+  "japanese-input": "日本語入力",
+  search: "検索・情報収集",
+  language: "言語",
+  browser: "ブラウザ・環境",
+  notes: "ノート",
+  "web-ux": "Web改善",
+};
+
+const originLabels: Record<string, string> = {
+  original: "Original",
+  "fork-heavy": "Fork / 大幅改変",
+  adaptation: "派生 / 再構成",
+  "fork-experiment": "Fork / 実験",
+};
+
+const layerLabels: Record<string, string> = {
+  IME: "IME",
+  Conversion: "変換",
+  Learning: "学習",
+  Runtime: "実行時",
+  "Search UI": "検索UI",
+  "Local Data": "ローカルデータ",
+  Organization: "整理",
+  "Evaluation Model": "評価モデル",
+  Ergonomics: "運指",
+  Visualization: "可視化",
+  Presentation: "表示",
+  "URL / Query": "URL / クエリ",
+  Navigation: "ナビゲーション",
+  Performance: "性能",
+  Privacy: "プライバシー",
+};
+
+const domainLabel = domainLabels[project.domain] ?? project.domainLabel;
+const originLabel = originLabels[project.origin] ?? project.originLabel;
+const layers = project.layers.map((layer) => layerLabels[layer] ?? layer);
+---
+
+<article
+  class="project-row"
+  data-project
+  data-domain={project.domain}
+  data-origin={project.origin}
+  data-layers={project.layers.join("|").toLowerCase()}
+  data-search={`${project.name} ${project.problem} ${project.intervention} ${project.summary} ${project.layers.join(" ")}`.toLowerCase()}
+>
+  <div class="project-row__main">
+    <div class="project-row__text">
+      <h2>{project.name}</h2>
+      <p>{project.summary}</p>
+      <p class="project-row__meta">{domainLabel} · {layers.join(" · ")} · {originLabel}</p>
+    </div>
+
+    <div class="project-row__links">
+      {project.demo && <a href={project.demo}>デモ ↗</a>}
+      <a href={project.repo}>GitHub ↗</a>
+    </div>
+  </div>
+
+  <details>
+    <summary>詳細</summary>
+    <div class="project-row__details">
+      <div><strong>何が不便だったか</strong><p>{project.problem}</p></div>
+      <div><strong>何を変えたか</strong><p>{project.intervention}</p></div>
+      <div><strong>言語</strong><p>{project.language}</p></div>
+    </div>
+  </details>
+</article>

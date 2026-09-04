@@ -1,0 +1,129 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { projects, projectBySlug } from "../data/projects";
+
+const selected = [
+  {
+    name: "Mozkey",
+    kind: "日本語IME",
+    description: "Mozcをベースに、日常利用向けの変換・学習・文脈処理などを拡張したIME。",
+    href: projectBySlug["mozkey"].repo,
+  },
+  {
+    name: "せおと配列",
+    kind: "日本語キーボード配列",
+    description: "分割・カラムスタッガード環境で、日本語を指の流れから設計したローマ字配列。",
+    href: "/seoto/",
+  },
+  {
+    name: "Advanced Search for X",
+    kind: "検索ツール",
+    description: "Xの高度検索、保存、履歴、整理を一つの検索ワークスペースへまとめるツール。",
+    href: projectBySlug["advanced-search-for-x-twitter"].repo,
+  },
+  {
+    name: "Amazon Review Trust Badge",
+    kind: "Amazonレビュー分析 Userscript",
+    description: "レビュアーの活動傾向からS〜Dの信頼度バッジを算出し、レビュー判断の材料を詳しく表示するUserscript。",
+    href: projectBySlug["amazon-review-trust-badge"].repo,
+  },
+  {
+    name: "Keyflow Analyzer",
+    kind: "キーボード配列評価",
+    description: "キー位置だけでなく、指の遷移・疲労・コスト分布まで含めて配列を評価するツール。",
+    href: projectBySlug["keyflow-analyzer"].demo!,
+  },
+];
+
+const groups = [
+  ["入力・キーボード", ["character-transition-visualizer", "us2jis-ahk"]],
+  ["検索・情報収集", ["google-search-options-enhancer", "searxng-search-options-enhancer", "searxng-gemini-answer-injector", "suumo-hidden-property-manager"]],
+  ["ブラウザ・環境", ["haganefox", "amazon-cpu-tamer-pro"]],
+  ["言語", ["tsunagu-context-translator", "nihongo-helper-kr"]],
+];
+---
+
+<BaseLayout
+  title="koyasi777 | システムエンジニア / プログラマー"
+  description="koyasi777の公式サイト。日本語入力、キーボード配列、検索、ブラウザ周辺のソフトウェアや小さな改善ツールを公開しています。"
+>
+  <section class="home-intro">
+    <div class="shell">
+      <div class="home-intro__identity">
+        <img
+          class="home-intro__icon"
+          src="/koyasi777-icon.jpg"
+          width="400"
+          height="400"
+          alt="koyasi777のアイコン"
+          decoding="async"
+          fetchpriority="high"
+        />
+        <h1>koyasi777</h1>
+      </div>
+
+      <p class="home-intro__role">システムエンジニア / プログラマー。</p>
+      <p class="home-intro__body">
+        日本語入力、キーボード配列、検索、ブラウザ周辺を中心に、
+        日常的に使うソフトウェアと小さな改善ツールを作っています。
+      </p>
+      <div class="plain-links">
+        <a href="https://github.com/koyasi777">GitHub ↗</a>
+        <a href="https://note.com/firstyear_dev">note ↗</a>
+        <span>公開リポジトリ {projects.length}件</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="plain-section">
+    <div class="shell">
+      <h2 class="plain-section__title">主な制作物</h2>
+
+      <div class="work-list">
+        {selected.map((work) => (
+          <a class="work-list__item" href={work.href}>
+            <div>
+              <h3>{work.name}</h3>
+              <span>{work.kind}</span>
+            </div>
+            <p>{work.description}</p>
+            <i aria-hidden="true">↗</i>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="plain-section">
+    <div class="shell">
+      <h2 class="plain-section__title">その他の制作物</h2>
+
+      <div class="other-work">
+        {groups.map(([label, slugs]) => (
+          <section>
+            <h3>{label}</h3>
+            <ul>
+              {(slugs as string[]).map((slug) => (
+                <li><a href={projectBySlug[slug].repo}>{projectBySlug[slug].name} ↗</a></li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+      <p class="all-projects-link"><a href="/projects/">制作物27件をすべて見る →</a></p>
+    </div>
+  </section>
+
+  <section class="plain-section about">
+    <div class="shell about__grid">
+      <h2 class="plain-section__title">About</h2>
+      <div>
+        <p>
+          自分が日常的に使うソフトウェアで感じた不便を、必要な場所まで降りて実装で直すことが多いです。
+          CSSで済むものからUserscript、キーボード配列、IMEの内部まで、問題に合わせて手段を選びます。
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

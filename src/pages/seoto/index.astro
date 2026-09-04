@@ -1,0 +1,233 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SeotoKeyboard from "../../components/SeotoKeyboard.astro";
+
+const noteUrl = "https://note.com/firstyear_dev/n/ne4aedaad09b2";
+const keyflowUrl = "https://koyasi777.github.io/keyflow-analyzer/";
+const mozkeyUrl = "https://github.com/koyasi777/mozkey";
+---
+
+<BaseLayout
+  title="せおと配列 | 日本語ローマ字入力向けキーボード配列"
+  description="せおと配列は、分割・カラムスタッガードキーボードで、日本語を指の流れから打ちやすくするローマ字配列です。"
+  product="seoto"
+>
+  <section class="seoto-hero" id="overview">
+    <div class="shell">
+      <div class="seoto-hero__copy">
+        <div>
+          <h1>せおと配列</h1>
+          <p class="seoto-hero__tagline">日本語を、指の流れから。</p>
+        </div>
+        <p>
+          分割・カラムスタッガードキーボード向けの日本語ローマ字配列です。
+          左手に主に子音、右手に主に母音を置き、キー単体ではなく連続する指の遷移を重視して設計しています。
+        </p>
+      </div>
+
+      <div id="layout" class="seoto-hero__keyboard">
+        <SeotoKeyboard variant="standard" />
+      </div>
+    </div>
+  </section>
+
+  <nav class="seoto-nav" aria-label="せおと配列ページ内ナビゲーション">
+    <div class="shell">
+      <a href="#overview">概要</a>
+      <a href="#features">特徴</a>
+      <a href="#variants">Standard / Lite</a>
+      <a href="#setup">導入</a>
+      <a href="#design">設計</a>
+      <a href="#reference">仕様</a>
+    </div>
+  </nav>
+
+  <section class="plain-section" id="features">
+    <div class="shell">
+      <h2 class="plain-section__title">特徴</h2>
+      <div class="seoto-features">
+        <article><h3>左右の役割</h3><p>ローマ字の「子音→母音」を、主に左手→右手という身体の役割へ対応させます。</p></article>
+        <article><h3>遷移</h3><p>キーごとの押しやすさだけでなく、前の指から次の指へどう移るかを重視します。</p></article>
+        <article><h3>負荷のばらつき</h3><p>平均だけでなく、時々現れる重い運指やコストのばらつきを減らすことを重視します。</p></article>
+        <article><h3>日本語優先</h3><p>日本語ローマ字入力を主対象にしつつ、アルファベット配列として英語入力にも使える構成を残します。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="plain-section" id="variants">
+    <div class="shell">
+      <h2 class="plain-section__title">Standard / Lite</h2>
+
+      <div class="variant-block">
+        <h3>Standard</h3>
+        <p>C → K、X → YA、J → YU、Q → YOのローマ字拡張を含む通常版。</p>
+        <SeotoKeyboard variant="standard" compact={true} />
+      </div>
+
+      <div class="variant-block">
+        <h3>Lite</h3>
+        <p>IME側のローマ字拡張を使わず、標準的なローマ字規則で使いやすくした版。Standardとは配置自体も一部異なります。</p>
+        <SeotoKeyboard variant="lite" compact={true} />
+      </div>
+    </div>
+  </section>
+
+  <section class="plain-section">
+    <div class="shell">
+      <h2 class="plain-section__title">向いている環境</h2>
+      <div class="fit-columns">
+        <div>
+          <h3>向いている</h3>
+          <ul>
+            <li>分割・カラムスタッガードキーボードを使う</li>
+            <li>日本語入力の比率が高い</li>
+            <li>ローマ字入力を使いたい</li>
+            <li>配列を覚え直すことに抵抗がない</li>
+          </ul>
+        </div>
+        <div>
+          <h3>別の選択肢が向きやすい</h3>
+          <ul>
+            <li>ノートPC標準配列だけで完結したい</li>
+            <li>QWERTYショートカット位置を完全維持したい</li>
+            <li>IMEやキーマップを一切設定したくない</li>
+            <li>英語入力だけを最優先したい</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="plain-section" id="setup">
+    <div class="shell setup-grid">
+      <h2 class="plain-section__title">導入</h2>
+      <div>
+        <ol class="setup-steps">
+          <li><strong>Standard / Liteを選ぶ</strong><span>IMEのローマ字設定を変更できるならStandard。可搬性を優先するならLite。</span></li>
+          <li><strong>キーマップを設定する</strong><span>キーボード側またはOS側で、せおとの配置を設定します。</span></li>
+          <li><strong>Standardならローマ字規則を設定する</strong><span>C / X / J / Qの日本語入力時の規則をIMEへ追加します。</span></li>
+        </ol>
+        <p class="note-link">現時点の制作記と設定情報は <a href={noteUrl}>noteの記事 ↗</a> にあります。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="design-head" id="design">
+    <div class="shell">
+      <h2>設計</h2>
+      <p>ここから先は、せおと配列の設計モデルと評価方法についての説明です。</p>
+    </div>
+  </section>
+
+  <section class="design-section">
+    <div class="shell design-grid">
+      <div class="design-label"><span>1</span><h2>遷移</h2></div>
+      <div>
+        <div class="equations">
+          <p><strong>頻度</strong><span>≠</span>入力の流れ</p>
+          <p><strong>距離</strong><span>≠</span>疲労</p>
+          <p><strong>同指率</strong><span>≠</span>打ちにくさ</p>
+        </div>
+        <h3>評価単位を「キー」から「遷移」へ。</h3>
+        <p>同じ距離でも、どの指からどの指へ、どの方向へ動くかで身体コストは変わります。せおとでは前後の運動を一つの単位として扱います。</p>
+        <p class="one-action"><strong>1文字1アクション：</strong> 左手 / 子音 → 右手 / 母音を、一文字を作る一つの協調動作として捉えます。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="design-section">
+    <div class="shell design-grid">
+      <div class="design-label"><span>2</span><h2>ローマ字と入力システム</h2></div>
+      <div>
+        <p>身体、物理キーボード、論理配列、ローマ字規則、IMEを一つの入力システムとして扱います。</p>
+        <p class="system-line">身体 → 物理キーボード → <strong>せおと配列</strong> → ローマ字規則 → IME</p>
+        <p>日本語を子音と母音へ分解し、扱う記号と運指パターンを小さくします。Standardではローマ字規則自体も固定された前提とせず、設計対象にします。</p>
+        <dl class="romaji-list">
+          <div><dt>C</dt><dd>K / か行</dd></div>
+          <div><dt>X</dt><dd>YA / や</dd></div>
+          <div><dt>J</dt><dd>YU / ゆ</dd></div>
+          <div><dt>Q</dt><dd>YO / よ</dd></div>
+        </dl>
+        <p>A / I / U / E の母音側サブレイヤーには <strong>⌫ / ん / ー / っ</strong> を置きます。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="design-section">
+    <div class="shell design-grid">
+      <div class="design-label"><span>3</span><h2>評価</h2></div>
+      <div>
+        <p>Keyflow Analyzerでは、位置・遷移・反復・疲労回復と、コスト分布を同じモデルで確認します。</p>
+        <ul class="metrics">
+          <li>位置コスト / 遷移コスト / 反復</li>
+          <li>指ごとの負荷 / 疲労回復</li>
+          <li>平均 / 中央値 / 標準偏差 / 95パーセンタイル</li>
+        </ul>
+
+        <div class="distribution">
+          <div class="distribution__caption">
+            <strong>コスト分布の模式図</strong>
+            <span>実測値ではありません</span>
+          </div>
+          <div class="distribution__row"><span>ばらつく</span><i style="--v:25%"></i><i style="--v:34%"></i><i style="--v:28%"></i><i style="--v:76%"></i><i style="--v:36%"></i><i style="--v:94%"></i><i style="--v:31%"></i><i style="--v:48%"></i></div>
+          <div class="distribution__row"><span>なだらか</span><i style="--v:34%"></i><i style="--v:39%"></i><i style="--v:33%"></i><i style="--v:46%"></i><i style="--v:41%"></i><i style="--v:49%"></i><i style="--v:37%"></i><i style="--v:43%"></i></div>
+        </div>
+
+        <div class="evaluation-columns">
+          <div><h3>見るもの</h3><p>95パーセンタイル、標準偏差、コスト分布、指負荷、実使用。</p></div>
+          <div><h3>限界</h3><p>身体差、キーボード差、姿勢・訓練差、設定したコストモデルへの依存。</p></div>
+        </div>
+        <p><a href={keyflowUrl}>Keyflow Analyzerを開く ↗</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="design-section">
+    <div class="shell design-grid">
+      <div class="design-label"><span>4</span><h2>境界と位置づけ</h2></div>
+      <div>
+        <div class="boundary-columns">
+          <div><h3>せおとのコア</h3><p>配列 / Standard・Lite / 1文字1アクション / 評価モデル</p></div>
+          <div><h3>任意拡張</h3><p>子音連続ショートカット / Mozkey</p></div>
+        </div>
+        <p><code>nrhd → なるほど</code> のようなショートカットやMozkeyは、せおと配列の必須条件ではありません。</p>
+
+        <table class="positioning">
+          <thead><tr><th>配列</th><th>主な設計焦点</th></tr></thead>
+          <tbody>
+            <tr><th>QWERTY</th><td>歴史的標準・既存環境との互換性</td></tr>
+            <tr><th>大西配列</th><td>ローマ字入力の改善と、IME無拡張・汎用性・移行しやすさを含む実用的な提案</td></tr>
+            <tr><th>せおと配列</th><td>カラムスタッガード前提で、日本語ローマ字入力の身体フローと負荷均質性を再設計</td></tr>
+          </tbody>
+        </table>
+        <p><a href={mozkeyUrl}>Mozkeyを見る ↗</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="plain-section" id="reference">
+    <div class="shell">
+      <h2 class="plain-section__title">仕様</h2>
+      <dl class="reference-list">
+        <div><dt>対象</dt><dd>分割・カラムスタッガードキーボードでの日本語ローマ字入力</dd></div>
+        <div><dt>左右の役割</dt><dd>左：主に子音 / 右：主に母音</dd></div>
+        <div><dt>Standard拡張</dt><dd>C → K / X → YA / J → YU / Q → YO</dd></div>
+        <div><dt>母音側サブレイヤー</dt><dd>A: ⌫ / I: ん / U: ー / E: っ</dd></div>
+        <div><dt>Lite</dt><dd>標準ローマ字規則。Standardとはキー配置が一部異なる</dd></div>
+        <div><dt>評価</dt><dd>Keyflow Analyzer：位置・遷移・疲労回復・分布</dd></div>
+      </dl>
+      <p class="reference-links"><a href={noteUrl}>note ↗</a> <a href={keyflowUrl}>Keyflow Analyzer ↗</a> <a href={mozkeyUrl}>Mozkey ↗</a></p>
+    </div>
+  </section>
+
+  <section class="seoto-name">
+    <div class="shell seoto-name__grid">
+      <h2>名前の由来</h2>
+      <div>
+        <p class="seoto-name__word">せおと</p>
+        <blockquote>自然な運指で、コロコロと流れる瀬音のように、軽やかにリズミカルに日本語を紡げますように。</blockquote>
+        <p>最高速だけではなく、長く入力しても流れを崩しにくいこと。その意図を名前にしています。</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
