@@ -21,7 +21,7 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
         </div>
         <p>
           分割・カラムスタッガードキーボード向けの日本語ローマ字配列です。
-          左手に主に子音、右手に主に母音を置き、キー単体ではなく連続する指の遷移を重視して設計しています。
+          左手に主に子音、右手に主に母音を置き、指の動きが自然につながるように設計しています。
         </p>
       </div>
 
@@ -35,7 +35,7 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
     <div class="shell">
       <a href="#overview">概要</a>
       <a href="#features">特徴</a>
-      <a href="#variants">Standard / Lite</a>
+      <a href="#variants">通常版 / Lite版</a>
       <a href="#setup">導入</a>
       <a href="#design">設計</a>
       <a href="#reference">仕様</a>
@@ -46,27 +46,27 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
     <div class="shell">
       <h2 class="plain-section__title">特徴</h2>
       <div class="seoto-features">
-        <article><h3>左右の役割</h3><p>ローマ字の「子音→母音」を、主に左手→右手という身体の役割へ対応させます。</p></article>
-        <article><h3>遷移</h3><p>キーごとの押しやすさだけでなく、前の指から次の指へどう移るかを重視します。</p></article>
-        <article><h3>負荷のばらつき</h3><p>平均だけでなく、時々現れる重い運指やコストのばらつきを減らすことを重視します。</p></article>
-        <article><h3>日本語優先</h3><p>日本語ローマ字入力を主対象にしつつ、アルファベット配列として英語入力にも使える構成を残します。</p></article>
+        <article><h3>① シンプルで覚えやすい</h3><p>ローマ字配列は、かな配列と比べて使用するキーが少なく、運指パターンもシンプルです。さらに、せおと配列では子音と母音を左右に分けることで、配置の規則性を高めています。同時押しや複雑なレイヤー操作を前提とせず、基本は順次打鍵。覚えることが少なく、習得後の記憶維持コストも抑えられます。</p></article>
+        <article><h3>② どんな言葉も打ちやすい</h3><p>左手に主に子音、右手に主に母音を配置することで、特定の文字列だけが極端に打ちにくくなることを避けています。さらに、子音同士・母音同士の連接頻度をもとに、左右それぞれの指の動きが自然につながるように配置を設計しています。拗音の ya / yu / yo はローマ字拡張によって一打で入力可能。通常の日本語入力では使う機会の少ないアルファベットも活用することで、日本語だけでなく英語入力でも高い効率を目指しています。</p></article>
+        <article><h3>③ 打ちやすく、疲れにくい</h3><p>使用するキーが少ないため、手全体を大きく動かす場面を抑えられます。さらに、指の動きが自然につながるように配置されているため、無理な運指が生まれにくい設計です。操作そのものもシンプルなので、長時間の入力でも、指だけでなく操作を考えるための負担も増やしにくくしています。</p></article>
+        <article><h3>まとめ</h3><p>日本語入力において一切妥協なしの「究極のユニバーサルデザイン」を探索し、見出した一つの答えです。</p></article>
       </div>
     </div>
   </section>
 
   <section class="plain-section" id="variants">
     <div class="shell">
-      <h2 class="plain-section__title">Standard / Lite</h2>
+      <h2 class="plain-section__title">通常版 / Lite版</h2>
 
       <div class="variant-block">
-        <h3>Standard</h3>
+        <h3>通常版</h3>
         <p>C → K、X → YA、J → YU、Q → YOのローマ字拡張を含む通常版。</p>
         <SeotoKeyboard variant="standard" compact={true} />
       </div>
 
       <div class="variant-block">
-        <h3>Lite</h3>
-        <p>IME側のローマ字拡張を使わず、標準的なローマ字規則で使いやすくした版。Standardとは配置自体も一部異なります。</p>
+        <h3>Lite版</h3>
+        <p>IME側のローマ字拡張を使わず、標準的なローマ字規則で使いやすくした版。通常版とは配置自体も一部異なります。</p>
         <SeotoKeyboard variant="lite" compact={true} />
       </div>
     </div>
@@ -103,9 +103,9 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
       <h2 class="plain-section__title">導入</h2>
       <div>
         <ol class="setup-steps">
-          <li><strong>Standard / Liteを選ぶ</strong><span>IMEのローマ字設定を変更できるならStandard。可搬性を優先するならLite。</span></li>
+          <li><strong>通常版 / Lite版を選ぶ</strong><span>IMEのローマ字設定を変更できるなら通常版。可搬性を優先するならLite版。</span></li>
           <li><strong>キーマップを設定する</strong><span>キーボード側またはOS側で、せおとの配置を設定します。</span></li>
-          <li><strong>Standardならローマ字規則を設定する</strong><span>C / X / J / Qの日本語入力時の規則をIMEへ追加します。</span></li>
+          <li><strong>通常版ならローマ字規則を設定する</strong><span>C / X / J / Qの日本語入力時の規則をIMEへ追加します。</span></li>
         </ol>
         <p class="note-link">現時点の制作記と設定情報は <a href={noteUrl}>noteの記事 ↗</a> にあります。</p>
       </div>
@@ -141,7 +141,7 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
       <div>
         <p>身体、物理キーボード、論理配列、ローマ字規則、IMEを一つの入力システムとして扱います。</p>
         <p class="system-line">身体 → 物理キーボード → <strong>せおと配列</strong> → ローマ字規則 → IME</p>
-        <p>日本語を子音と母音へ分解し、扱う記号と運指パターンを小さくします。Standardではローマ字規則自体も固定された前提とせず、設計対象にします。</p>
+        <p>日本語を子音と母音へ分解し、扱う記号と運指パターンを小さくします。通常版ではローマ字規則自体も固定された前提とせず、設計対象にします。</p>
         <dl class="romaji-list">
           <div><dt>C</dt><dd>K / か行</dd></div>
           <div><dt>X</dt><dd>YA / や</dd></div>
@@ -187,7 +187,7 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
       <div class="design-label"><span>4</span><h2>境界と位置づけ</h2></div>
       <div>
         <div class="boundary-columns">
-          <div><h3>せおとのコア</h3><p>配列 / Standard・Lite / 1文字1アクション / 評価モデル</p></div>
+          <div><h3>せおとのコア</h3><p>配列 / 通常版・Lite版 / 1文字1アクション / 評価モデル</p></div>
           <div><h3>任意拡張</h3><p>子音連続ショートカット / Mozkey</p></div>
         </div>
         <p><code>nrhd → なるほど</code> のようなショートカットやMozkeyは、せおと配列の必須条件ではありません。</p>
@@ -211,9 +211,9 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
       <dl class="reference-list">
         <div><dt>対象</dt><dd>分割・カラムスタッガードキーボードでの日本語ローマ字入力</dd></div>
         <div><dt>左右の役割</dt><dd>左：主に子音 / 右：主に母音</dd></div>
-        <div><dt>Standard拡張</dt><dd>C → K / X → YA / J → YU / Q → YO</dd></div>
+        <div><dt>通常版拡張</dt><dd>C → K / X → YA / J → YU / Q → YO</dd></div>
         <div><dt>母音側サブレイヤー</dt><dd>A: ⌫ / I: ん / U: ー / E: っ</dd></div>
-        <div><dt>Lite</dt><dd>標準ローマ字規則。Standardとはキー配置が一部異なる</dd></div>
+        <div><dt>Lite版</dt><dd>標準ローマ字規則。通常版とはキー配置が一部異なる</dd></div>
         <div><dt>評価</dt><dd>Keyflow Analyzer：位置・遷移・疲労回復・分布</dd></div>
       </dl>
       <p class="reference-links"><a href={noteUrl}>note ↗</a> <a href={keyflowUrl}>Keyflow Analyzer ↗</a> <a href={mozkeyUrl}>Mozkey ↗</a></p>

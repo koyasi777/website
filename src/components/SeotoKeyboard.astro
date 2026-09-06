@@ -1,4 +1,6 @@
 ---
+import { randomUUID } from "node:crypto";
+
 interface KeyDef {
   main: string;
   extension?: string;
@@ -12,6 +14,8 @@ interface Props {
 }
 
 const { variant = "standard", compact = false } = Astro.props;
+
+const svgIdPrefix = `s48-${variant}-${compact ? "compact" : "full"}-${randomUUID().slice(0, 8)}`;
 
 const standardLeft: KeyDef[][] = [
   [{ main: "P" }, { main: "Z" }, { main: "H" }, { main: "F" }, { main: "←", utility: true }],
@@ -48,97 +52,638 @@ const rowsToColumns = (rows: KeyDef[][]) =>
 
 const leftRows = variant === "standard" ? standardLeft : liteLeft;
 const rightRows = variant === "standard" ? standardRight : liteRight;
-
 const leftColumns = rowsToColumns(leftRows);
 const rightColumns = rowsToColumns(rightRows);
 
-/*
- * Schematic only. The exact physical stagger differs by keyboard.
- * This version is tuned a little closer to the Model 100 impression:
- * center columns stay shallower, while outer columns drop a bit more.
- */
-const leftStagger = [18, 9, 2, 8, 15];
-const rightStagger = [15, 8, 2, 9, 18];
+const stagger = [8, 4, 0, 4, 8];
+
+const pitch = 44;
+const socket = 42;
+const cap = 38.8;
+const topCap = 34.6;
+const baseX = 14;
+const baseY = 12;
+
+const outerFrame =
+  "M12 8 " +
+  "C54 6 92 5 123 5 " +
+  "C154 5 193 6 235 8 " +
+  "Q246 9 247 20 " +
+  "L249 143 " +
+  "Q249 151 243 157 " +
+  "C243 164 245 174 247 183 " +
+  "C248 193 244 203 233 210 " +
+  "C226 215 219 216 211 214 " +
+  "C191 210 171 204 151 198 " +
+  "C136 196 126 194 120 187 " +
+  "L112 168 " +
+  "C82 168 49 167 12 164 " +
+  "Q2 163 2 152 " +
+  "L1 19 " +
+  "Q1 9 12 8 Z";
+
+const innerPlate =
+  "M16 12 " +
+  "C56 10 93 9 123 9 " +
+  "C153 9 191 10 231 12 " +
+  "Q240 13 241 21 " +
+  "L243 140 " +
+  "Q243 148 238 153 " +
+  "C240 160 242 169 243 178 " +
+  "C244 187 239 196 230 203 " +
+  "C223 208 216 209 208 207 " +
+  "C189 203 170 197 152 192 " +
+  "C138 190 126 191 120 187 " +
+  "L114 163 " +
+  "C90 161 52 159 16 156 " +
+  "Q7 155 7 146 " +
+  "L6 21 " +
+  "Q7 13 16 12 Z";
 ---
 
-<figure class:list={["keyboard", compact && "keyboard--compact"]}>
-  <figcaption class="keyboard__caption">
-    <div>
-      <strong>{variant === "standard" ? "Standard" : "Lite"}</strong>
-      <span>論理配列</span>
-    </div>
-    <p>左：主に子音 <i>·</i> 右：主に母音</p>
-  </figcaption>
+<figure
+  class:list={["seoto48", compact && "seoto48--compact"]}
+  style={`--s48-case-shell:url(#${svgIdPrefix}-case-shell);--s48-case-edge:url(#${svgIdPrefix}-case-edge);--s48-plate:url(#${svgIdPrefix}-plate);--s48-socket:url(#${svgIdPrefix}-socket);--s48-left-side:url(#${svgIdPrefix}-left-side);--s48-left-top:url(#${svgIdPrefix}-left-top);--s48-right-side:url(#${svgIdPrefix}-right-side);--s48-right-top:url(#${svgIdPrefix}-right-top);--s48-util:url(#${svgIdPrefix}-util);--s48-board-shadow:url(#${svgIdPrefix}-board-shadow);--s48-key-shadow:url(#${svgIdPrefix}-key-shadow);`}
+>
+  <div class="seoto48__meta">
+    <p>左：主に子音 ・ 右：主に母音</p>
+  </div>
 
-  <div class="keyboard__viewport">
-    <div class="keyboard__board" aria-label={`せおと配列 ${variant}`}>
-      <section class="keyboard__half" aria-label="左手 子音側">
-        <span class="keyboard__hand">左手 / 子音側</span>
-        <div class="keyboard__plate">
-          <div class="keyboard__columns">
-            {leftColumns.map((column, index) => (
-              <div class="keyboard__column" style={`--stagger: ${leftStagger[index]}px`}>
-                {column.map((key) => (
-                  <div class:list={[
-                    "keyboard-key",
-                      key.utility && "is-utility",
-                    key.extension && "has-extension",
-                    key.layer && "has-layer",
-                  ]}>
-                    <div class="keyboard-key__main">
-                      <strong>{key.main}</strong>
-                      {key.extension && <small>→{key.extension}</small>}
-                    </div>
-                    {key.layer && <div class="keyboard-key__sub">{key.layer}</div>}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+  <div class="seoto48__stage">
+    <svg
+      class="seoto48__svg"
+      viewBox="0 0 708 226"
+      role="img"
+      aria-label={`せおと配列 ${variant}。左手は主に子音、右手は主に母音。${variant === "standard" ? "キー下部の表記は母音側サブレイヤー、キー右上の表記は日本語入力時のローマ字拡張を表します。" : ""}`}
+    >
+      <defs>
+        <linearGradient id={`${svgIdPrefix}-case-shell`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#5f6971" stop-opacity="0.82" />
+          <stop offset="55%" stop-color="#444c52" stop-opacity="0.74" />
+          <stop offset="100%" stop-color="#2a3034" stop-opacity="0.68" />
+        </linearGradient>
 
-      <div class="keyboard__flow" aria-hidden="true">
-        <i><b></b></i>
-      </div>
+        <linearGradient id={`${svgIdPrefix}-case-edge`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#394045" stop-opacity="0.88" />
+          <stop offset="100%" stop-color="#202428" stop-opacity="0.78" />
+        </linearGradient>
 
-      <section class="keyboard__half" aria-label="右手 母音側">
-        <span class="keyboard__hand keyboard__hand--right">右手 / 母音側</span>
-        <div class="keyboard__plate">
-          <div class="keyboard__columns">
-            {rightColumns.map((column, index) => (
-              <div class="keyboard__column" style={`--stagger: ${rightStagger[index]}px`}>
-                {column.map((key) => (
-                  <div class:list={[
-                    "keyboard-key",
-                      key.utility && "is-utility",
-                    key.extension && "has-extension",
-                    key.layer && "has-layer",
-                  ]}>
-                    <div class="keyboard-key__main">
-                      <strong>{key.main}</strong>
-                      {key.extension && <small>→{key.extension}</small>}
-                    </div>
-                    {key.layer && <div class="keyboard-key__sub">{key.layer}</div>}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        <linearGradient id={`${svgIdPrefix}-plate`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#14191b" />
+          <stop offset="100%" stop-color="#0c1012" />
+        </linearGradient>
+
+        <linearGradient id={`${svgIdPrefix}-socket`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0c1012" />
+          <stop offset="100%" stop-color="#06090a" />
+        </linearGradient>
+
+        <linearGradient id={`${svgIdPrefix}-left-side`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4d607c" />
+          <stop offset="100%" stop-color="#3b4d67" />
+        </linearGradient>
+
+        <radialGradient id={`${svgIdPrefix}-left-top`} cx="32%" cy="20%" r="94%">
+          <stop offset="0%" stop-color="#8ea2c2" />
+          <stop offset="62%" stop-color="#7285a2" />
+          <stop offset="100%" stop-color="#5e708c" />
+        </radialGradient>
+
+        <linearGradient id={`${svgIdPrefix}-right-side`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4d645d" />
+          <stop offset="100%" stop-color="#3d504a" />
+        </linearGradient>
+
+        <radialGradient id={`${svgIdPrefix}-right-top`} cx="32%" cy="20%" r="94%">
+          <stop offset="0%" stop-color="#879e96" />
+          <stop offset="62%" stop-color="#6f857e" />
+          <stop offset="100%" stop-color="#5d706a" />
+        </radialGradient>
+
+        <radialGradient id={`${svgIdPrefix}-util`} cx="32%" cy="20%" r="94%">
+          <stop offset="0%" stop-color="#6a6f72" />
+          <stop offset="100%" stop-color="#555b5e" />
+        </radialGradient>
+
+        <filter id={`${svgIdPrefix}-board-shadow`} x="-20%" y="-20%" width="160%" height="180%">
+          <feDropShadow dx="0" dy="2.4" stdDeviation="2.4" flood-color="#121514" flood-opacity="0.12" />
+        </filter>
+
+        <filter id={`${svgIdPrefix}-key-shadow`} x="-20%" y="-20%" width="160%" height="180%">
+          <feDropShadow dx="0" dy="0.7" stdDeviation="0.45" flood-color="#040607" flood-opacity="0.24" />
+        </filter>
+      </defs>
+
+      <g class="seoto48__half seoto48__half--left" transform="translate(60 9) rotate(-0.35 125 84)">
+        <path class="seoto48__edge" d={outerFrame} transform="translate(0 2.2)" />
+        <path class="seoto48__frame" d={outerFrame} />
+        <path class="seoto48__plate" d={innerPlate} />
+        <path class="seoto48__rim" d="M18 11 C58 10 94 9 123 9 C152 9 188 10 228 12" />
+
+        {leftColumns.map((column, ci) =>
+          column.map((item, ri) => {
+            const x = baseX + ci * pitch;
+            const y = baseY + stagger[ci] + ri * pitch;
+            return (
+              <g
+                class:list={[
+                  "seoto48-key",
+                  item.utility && "seoto48-key--utility",
+                  item.extension && "seoto48-key--extension",
+                  item.layer && "seoto48-key--layer",
+                ]}
+                transform={`translate(${x} ${y})`}
+              >
+                <rect class="seoto48-key__socket" x="0" y="0" width={socket} height={socket} rx="2.2" />
+                <rect class="seoto48-key__side" x="1.7" y="2.7" width={cap} height="35.8" rx="3.1" />
+                <rect class="seoto48-key__top" x="3.8" y="1.2" width={topCap} height="31.4" rx="2.35" />
+                <path class="seoto48-key__bevel" d="M7.3 3.8 H34.7" />
+                <text class="seoto48-key__main" x="21" y="20.8">{item.main}</text>
+                {item.extension && (
+                  <text class="seoto48-key__extension" x="38.1" y="7.2">→{item.extension}</text>
+                )}
+                {item.layer && (
+                  <text class="seoto48-key__layer" x="21" y="31.2">{item.layer}</text>
+                )}
+              </g>
+            );
+          })
+        )}
+
+        <g class="seoto48__thumbCluster seoto48__thumbCluster--left">
+          <g class="seoto48-thumb" transform="translate(128 151) rotate(-4 17 17)">
+            <rect class="seoto48-thumb__socket" x="0" y="0" width="34" height="34" rx="2" />
+            <rect class="seoto48-thumb__side" x="1.4" y="2.3" width="31.2" height="28.8" rx="2.7" />
+            <rect class="seoto48-thumb__top" x="3.3" y="1.1" width="27.4" height="24.8" rx="2.1" />
+          </g>
+
+          <g class="seoto48-thumb" transform="translate(163 156) rotate(7 17 17)">
+            <rect class="seoto48-thumb__socket" x="0" y="0" width="34" height="34" rx="2" />
+            <rect class="seoto48-thumb__side" x="1.4" y="2.3" width="31.2" height="28.8" rx="2.7" />
+            <rect class="seoto48-thumb__top" x="3.3" y="1.1" width="27.4" height="24.8" rx="2.1" />
+          </g>
+
+          <g class="seoto48-thumb" transform="translate(197 164) rotate(18 17 17)">
+            <rect class="seoto48-thumb__socket" x="0" y="0" width="34" height="34" rx="2" />
+            <rect class="seoto48-thumb__side" x="1.4" y="2.3" width="31.2" height="28.8" rx="2.7" />
+            <rect class="seoto48-thumb__top" x="3.3" y="1.1" width="27.4" height="24.8" rx="2.1" />
+          </g>
+        </g>
+      </g>
+
+      <g class="seoto48__half seoto48__half--right" transform="translate(399 9) rotate(0.35 125 84)">
+        <g transform="translate(250 0) scale(-1 1)">
+          <path class="seoto48__edge" d={outerFrame} transform="translate(0 2.2)" />
+          <path class="seoto48__frame" d={outerFrame} />
+          <path class="seoto48__plate" d={innerPlate} />
+          <path class="seoto48__rim" d="M18 11 C58 10 94 9 123 9 C152 9 188 10 228 12" />
+        </g>
+
+        {rightColumns.map((column, ci) =>
+          column.map((item, ri) => {
+            const x = baseX + ci * pitch;
+            const y = baseY + stagger[ci] + ri * pitch;
+            return (
+              <g
+                class:list={[
+                  "seoto48-key",
+                  item.utility && "seoto48-key--utility",
+                  item.extension && "seoto48-key--extension",
+                  item.layer && "seoto48-key--layer",
+                ]}
+                transform={`translate(${x} ${y})`}
+              >
+                <rect class="seoto48-key__socket" x="0" y="0" width={socket} height={socket} rx="2.2" />
+                <rect class="seoto48-key__side" x="1.7" y="2.7" width={cap} height="35.8" rx="3.1" />
+                <rect class="seoto48-key__top" x="3.8" y="1.2" width={topCap} height="31.4" rx="2.35" />
+                <path class="seoto48-key__bevel" d="M7.3 3.8 H34.7" />
+                <text class="seoto48-key__main" x="21" y="20.8">{item.main}</text>
+                {item.extension && (
+                  <text class="seoto48-key__extension" x="38.1" y="7.2">→{item.extension}</text>
+                )}
+                {item.layer && (
+                  <text class="seoto48-key__layer" x="21" y="31.2">{item.layer}</text>
+                )}
+              </g>
+            );
+          })
+        )}
+
+        <g class="seoto48__thumbCluster seoto48__thumbCluster--right" transform="translate(250 0) scale(-1 1)">
+          <g class="seoto48-thumb" transform="translate(128 151) rotate(-4 17 17)">
+            <rect class="seoto48-thumb__socket" x="0" y="0" width="34" height="34" rx="2" />
+            <rect class="seoto48-thumb__side" x="1.4" y="2.3" width="31.2" height="28.8" rx="2.7" />
+            <rect class="seoto48-thumb__top" x="3.3" y="1.1" width="27.4" height="24.8" rx="2.1" />
+          </g>
+
+          <g class="seoto48-thumb" transform="translate(163 156) rotate(7 17 17)">
+            <rect class="seoto48-thumb__socket" x="0" y="0" width="34" height="34" rx="2" />
+            <rect class="seoto48-thumb__side" x="1.4" y="2.3" width="31.2" height="28.8" rx="2.7" />
+            <rect class="seoto48-thumb__top" x="3.3" y="1.1" width="27.4" height="24.8" rx="2.1" />
+          </g>
+
+          <g class="seoto48-thumb" transform="translate(197 164) rotate(18 17 17)">
+            <rect class="seoto48-thumb__socket" x="0" y="0" width="34" height="34" rx="2" />
+            <rect class="seoto48-thumb__side" x="1.4" y="2.3" width="31.2" height="28.8" rx="2.7" />
+            <rect class="seoto48-thumb__top" x="3.3" y="1.1" width="27.4" height="24.8" rx="2.1" />
+          </g>
+        </g>
+      </g>
+    </svg>
+
+    <div class="seoto48__flow" aria-hidden="true">
+      <div class="seoto48__flowLine"></div>
+      <div class="seoto48__flowGlow"></div>
+      <div class="seoto48__flowHead"></div>
     </div>
   </div>
 
-  <div class="keyboard__legend">
+  <div class="seoto48__legend">
     {variant === "standard" ? (
       <>
-        <span>キー下部：⌫ / ん / ー / っ = 母音側サブレイヤー</span>
-        <span>右上：C→K / X→YA / J→YU / Q→YO = 日本語時のローマ字拡張</span>
+        <span class="seoto48__legendItem">
+          <span class="seoto48__legendKey seoto48__legendKey--layer">キー下部</span>：母音側サブレイヤー。左親指クラスタの中で最も押しやすいキーにレイヤー切り替えキーを割り当てることを推奨
+        </span>
+        <span class="seoto48__legendItem">
+          <span class="seoto48__legendKey seoto48__legendKey--extension">キー右上</span>：日本語入力時のローマ字拡張。ローマ字テーブルの変更が必要。（通常使わないアルファベットを活用し、ya/yu/yoの拗音を一打化し、同時に英語入力性能も向上させる）
+        </span>
       </>
     ) : (
-      <span>Liteは標準的なローマ字規則を使い、Standardとは配置が一部異なります。</span>
+      <span>Lite版は標準的なローマ字規則を使い、通常版とは配置が一部異なります。</span>
     )}
-    <span>キー間隔とスタッガ量は模式的です。</span>
   </div>
+
+  <script is:inline>
+    (() => {
+      if (typeof window === "undefined") return;
+      if (window.__seoto48FlowStarted) return;
+      window.__seoto48FlowStarted = true;
+
+      const flowSelector = ".seoto48__flow";
+      let rafId = 0;
+
+      const animate = (time) => {
+        const flows = document.querySelectorAll(flowSelector);
+        const seconds = time * 0.001;
+
+        flows.forEach((flow, index) => {
+          const glow = flow.querySelector(".seoto48__flowGlow");
+          const head = flow.querySelector(".seoto48__flowHead");
+          if (!(glow instanceof HTMLElement) || !(head instanceof HTMLElement)) return;
+
+          const trackWidth = Math.max(48, flow.clientWidth - 22);
+          const cycle = 2.45;
+          const phase = ((seconds + index * 0.21) % cycle) / cycle;
+          const x = phase * trackWidth;
+          const bell = Math.sin(phase * Math.PI);
+
+          glow.style.transform = `translate(${x}px, -50%)`;
+          glow.style.opacity = `${0.12 + bell * 0.72}`;
+
+          const headActive = Math.max(0, Math.min(1, (phase - 0.78) / 0.22));
+          head.style.opacity = `${0.2 + headActive * 0.8}`;
+        });
+
+        rafId = window.requestAnimationFrame(animate);
+      };
+
+      const start = () => {
+        window.cancelAnimationFrame(rafId);
+        rafId = window.requestAnimationFrame(animate);
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start, { once: true });
+      } else {
+        start();
+      }
+
+      window.addEventListener(
+        "pagehide",
+        () => {
+          window.cancelAnimationFrame(rafId);
+        },
+        { passive: true }
+      );
+    })();
+  </script>
 </figure>
+
+<style>
+  .seoto48 {
+    margin: 0;
+    padding: 8px 0 8px;
+    border: 0;
+  }
+
+  .seoto48__meta {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 0 3px;
+  }
+
+  .seoto48__meta p {
+    margin: 0;
+    color: #858d88;
+    font-size: .7rem;
+  }
+
+  .seoto48__stage {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .seoto48__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    shape-rendering: geometricPrecision;
+  }
+
+  .seoto48__edge {
+    fill: var(--s48-case-edge);
+  }
+
+  .seoto48__frame {
+    fill: var(--s48-case-shell);
+    stroke: rgba(255, 255, 255, .15);
+    stroke-width: .52;
+    vector-effect: non-scaling-stroke;
+    filter: var(--s48-board-shadow);
+  }
+
+  .seoto48__plate {
+    fill: var(--s48-plate);
+    stroke: rgba(255, 255, 255, .04);
+    stroke-width: .34;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .seoto48__rim {
+    fill: none;
+    stroke: rgba(255, 255, 255, .18);
+    stroke-width: .56;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .seoto48-key {
+    filter: var(--s48-key-shadow);
+  }
+
+  .seoto48-key__socket {
+    fill: var(--s48-socket);
+  }
+
+  .seoto48-key__side {
+    fill: var(--s48-left-side);
+  }
+
+  .seoto48-key__top {
+    fill: var(--s48-left-top);
+    stroke: rgba(255, 255, 255, .05);
+    stroke-width: .34;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .seoto48__half--right .seoto48-key__side {
+    fill: var(--s48-right-side);
+  }
+
+  .seoto48__half--right .seoto48-key__top {
+    fill: var(--s48-right-top);
+  }
+
+  .seoto48-key__bevel {
+    fill: none;
+    stroke: rgba(255, 255, 255, .08);
+    stroke-width: .4;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .seoto48-key__main,
+  .seoto48-key__extension,
+  .seoto48-key__layer {
+    font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    dominant-baseline: middle;
+  }
+
+  .seoto48-key__main {
+    fill: #f3f4f1;
+    font-size: 12.7px;
+    font-weight: 450;
+    text-anchor: middle;
+  }
+
+  .seoto48-key__extension {
+    fill: #efb474;
+    font-size: 5.7px;
+    font-weight: 675;
+    text-anchor: end;
+  }
+
+  .seoto48-key__layer {
+    fill: #7bd7d0;
+    font-size: 7.3px;
+    font-weight: 635;
+    text-anchor: middle;
+  }
+
+  .seoto48-key--layer .seoto48-key__main {
+    transform: translateY(-1.6px);
+  }
+
+  .seoto48-key--utility .seoto48-key__side {
+    fill: #565d60;
+  }
+
+  .seoto48-key--utility .seoto48-key__top {
+    fill: var(--s48-util);
+  }
+
+  .seoto48-key--utility .seoto48-key__main {
+    fill: #dfe4e1;
+  }
+
+  .seoto48__thumbCluster {
+    filter: var(--s48-key-shadow);
+  }
+
+  .seoto48-thumb__socket {
+    fill: var(--s48-socket);
+  }
+
+  .seoto48-thumb__side {
+    fill: var(--s48-left-side);
+  }
+
+  .seoto48-thumb__top {
+    fill: var(--s48-left-top);
+    stroke: rgba(255, 255, 255, .05);
+    stroke-width: .34;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .seoto48__half--right .seoto48-thumb__side {
+    fill: var(--s48-right-side);
+  }
+
+  .seoto48__half--right .seoto48-thumb__top {
+    fill: var(--s48-right-top);
+  }
+
+  .seoto48__flow {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    width: 106px;
+    height: 18px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .seoto48__flowLine,
+  .seoto48__flowGlow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 999px;
+  }
+
+  .seoto48__flowLine {
+    left: 0;
+    right: 20px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(142, 215, 208, .08), rgba(142, 215, 208, .36), rgba(142, 215, 208, .1));
+  }
+
+  .seoto48__flowGlow {
+    left: 0;
+    width: 34px;
+    height: 7px;
+    background: linear-gradient(90deg, rgba(166, 236, 229, 0), rgba(166, 236, 229, .86), rgba(166, 236, 229, 0));
+    filter: blur(3.1px);
+    opacity: .18;
+    will-change: transform, opacity;
+  }
+
+  .seoto48__flowHead {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 11px;
+    height: 11px;
+    margin-top: -5.5px;
+    border-top: 2px solid rgba(136, 203, 196, .82);
+    border-right: 2px solid rgba(136, 203, 196, .82);
+    transform: rotate(45deg);
+    filter: drop-shadow(0 0 4px rgba(136, 203, 196, .24));
+    opacity: .26;
+    will-change: opacity;
+  }
+
+  .seoto48__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    margin-top: 26px;
+    color: #747c78;
+    font-size: .67rem;
+  }
+
+  .seoto48__legendItem {
+    display: inline;
+  }
+
+  .seoto48__legendKey--layer {
+    color: #7bd7d0;
+    font-weight: 620;
+  }
+
+  .seoto48__legendKey--extension {
+    color: #efb474;
+    font-weight: 620;
+  }
+
+  .seoto48--compact .seoto48__flow {
+    width: 72px;
+    height: 16px;
+  }
+
+  .seoto48--compact .seoto48__flowLine {
+    right: 18px;
+  }
+
+  .seoto48--compact .seoto48__flowGlow {
+    width: 26px;
+    height: 6px;
+  }
+
+  .seoto48--compact .seoto48__flowHead {
+    width: 9px;
+    height: 9px;
+    margin-top: -4.5px;
+  }
+
+  .seoto48--compact .seoto48__svg {
+    max-height: 250px;
+  }
+
+  .seoto48--compact .seoto48__legend {
+    margin-top: 24px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .seoto48-key {
+      transition: opacity 100ms ease;
+    }
+
+    .seoto48-key:hover {
+      opacity: .98;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .seoto48 {
+      width: 100%;
+      min-width: 0;
+      padding-top: 6px;
+    }
+
+    .seoto48__meta {
+      margin-bottom: 2px;
+    }
+
+    .seoto48__stage {
+      width: calc(100% + 16px);
+      margin-inline: -8px;
+    }
+
+    .seoto48__flow {
+      width: 84px;
+      height: 16px;
+    }
+
+    .seoto48__flowLine {
+      right: 16px;
+    }
+
+    .seoto48__flowHead {
+      width: 9px;
+      height: 9px;
+      margin-top: -4.5px;
+    }
+
+    .seoto48--compact .seoto48__flow {
+      width: 62px;
+    }
+
+    .seoto48__legend {
+      gap: 4px 10px;
+      margin-top: 21px;
+      font-size: .64rem;
+    }
+  }
+</style>
