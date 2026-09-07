@@ -662,22 +662,30 @@ const innerPlate =
     }
 
     .seoto48__flow {
-      width: 84px;
-      height: 16px;
+      width: clamp(30px, calc(12.7% - 10px), 52px);
+      height: 14px;
     }
 
     .seoto48__flowLine {
-      right: 16px;
+      right: 12px;
+      height: 1.5px;
+    }
+
+    .seoto48__flowGlow {
+      width: 22px;
+      height: 5px;
     }
 
     .seoto48__flowHead {
-      width: 9px;
-      height: 9px;
-      margin-top: -4.5px;
+      width: 8px;
+      height: 8px;
+      margin-top: -4px;
+      border-top-width: 1.6px;
+      border-right-width: 1.6px;
     }
 
     .seoto48--compact .seoto48__flow {
-      width: 62px;
+      width: clamp(28px, calc(12.7% - 12px), 46px);
     }
 
     .seoto48__legend {

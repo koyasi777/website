@@ -35,7 +35,9 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
     <div class="shell">
       <a href="#overview">概要</a>
       <a href="#features">特徴</a>
+      <a href="#hardware">物理配列</a>
       <a href="#variants">通常版 / Lite版</a>
+      <a href="#optional">任意拡張</a>
       <a href="#setup">導入</a>
       <a href="#design">設計</a>
       <a href="#reference">仕様</a>
@@ -51,6 +53,93 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
         <article><h3>③ 打ちやすく、疲れにくい</h3><p>使用するキーが少ないため、手全体を大きく動かす場面を抑えられます。さらに、指の動きが自然につながるように配置されているため、無理な運指が生まれにくい設計です。操作そのものもシンプルなので、長時間の入力でも、指だけでなく操作を考えるための負担も増やしにくくしています。</p></article>
         <article><h3>まとめ</h3><p>日本語入力において一切妥協なしの「究極のユニバーサルデザイン」を探索し、見出した一つの答えです。</p></article>
       </div>
+    </div>
+  </section>
+
+  <section class="plain-section seoto-hardware" id="hardware">
+    <div class="shell">
+      <h2 class="plain-section__title">なぜ分割・カラムスタッガードなのか</h2>
+
+      <div class="hardware-intro">
+        <h3>論理配列は、ハードウェアと切り離せない</h3>
+        <p>キーボードの論理配列は、文字の並びだけで完結するものではありません。どこに物理キーがあり、そこへ各指がどう動くかによって、同じ配列でも運指の性質は大きく変わります。せおと配列では、一般的なロウスタッガードではなく、分割・カラムスタッガードキーボードを前提としています。</p>
+      </div>
+
+      <div class="hardware-comparison" aria-label="ロウスタッガード、オーソリニア、カラムスタッガードの比較">
+        <article class="hardware-layout-card">
+          <div class="hardware-layout-card__head">
+            <span>ROW STAGGER</span>
+            <h3>ロウスタッガード</h3>
+          </div>
+          <div class="hardware-layout-demo" aria-hidden="true">
+            <div class="hardware-row-layout">
+              <div class="hardware-row"><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="hardware-row hardware-row--2"><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="hardware-row hardware-row--3"><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <p>行ごとに横へずれる一般的な配列です。指ごとの上下運動を基準にした配置ではないため、せおと配列が重視する「各指を自然に使う」設計とは方向が異なります。</p>
+        </article>
+
+        <article class="hardware-layout-card hardware-layout-card--ortho">
+          <div class="hardware-layout-card__head">
+            <span>ORTHOLINEAR</span>
+            <h3>オーソリニア</h3>
+          </div>
+          <div class="hardware-layout-demo" aria-hidden="true">
+            <div class="hardware-column-layout hardware-column-layout--ortho">
+              <div class="hardware-column" style="--offset:0px"><i class="hardware-key--pinky-top"></i><i></i><i></i></div>
+              <div class="hardware-column" style="--offset:0px"><i></i><i></i><i></i></div>
+              <div class="hardware-column" style="--offset:0px"><i></i><i></i><i></i></div>
+              <div class="hardware-column" style="--offset:0px"><i></i><i></i><i></i></div>
+              <div class="hardware-column" style="--offset:0px"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <p>キーを縦横の格子状にそろえ、横方向のずれをなくした配列です。各指を上下に動かしやすい一方、列の高さはそろっているため、指の長さの違いまでは吸収しません。特に短い小指では上段が相対的に遠くなりやすくなります。</p>
+        </article>
+
+        <article class="hardware-layout-card hardware-layout-card--column">
+          <div class="hardware-layout-card__head">
+            <span>COLUMN STAGGER</span>
+            <h3>カラムスタッガード</h3>
+          </div>
+          <div class="hardware-layout-demo" aria-hidden="true">
+            <div class="hardware-column-layout">
+              <div class="hardware-column" style="--offset:8px"><i></i><i></i><i></i></div>
+              <div class="hardware-column" style="--offset:4px"><i></i><i></i><i></i></div>
+              <div class="hardware-column" style="--offset:0px"><i></i><i></i><i></i></div>
+              <div class="hardware-column" style="--offset:4px"><i></i><i></i><i></i></div>
+              <div class="hardware-column" style="--offset:8px"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <p>縦列を保ちつつ、指ごとに列の高さをずらした配列です。中指・薬指・小指など、それぞれの長さに合わせてキーを近づけやすく、特に小指上段のような遠いキーへの無理な伸びを抑えやすくなります。</p>
+        </article>
+      </div>
+
+      <p class="hardware-conclusion">せおと配列では、各指の自然な可動範囲を活かし、特定の指に負荷を集中させないため、分割・カラムスタッガードキーボードを前提としています。</p>
+
+      <div class="hardware-principles">
+        <h3>せおとが重視する物理設計</h3>
+        <div class="hardware-reasons">
+          <article>
+            <h4>分割で、左右の手を独立させる</h4>
+            <p>分割型なら左右のユニット間隔や角度を体格に合わせて調整でき、肩を自然に開いたまま、手首を無理に内側へ寄せない姿勢を取りやすくなります。せおとの「左手は主に子音、右手は主に母音」という役割分担とも相性がよく、左右の手をそれぞれ一つの入力単位として設計しやすくなります。</p>
+          </article>
+          <article>
+            <h4>5本の指へ負荷を分散する</h4>
+            <p>カラムスタッガードでは、薬指や小指を含めた各指が自然に動ける位置へキーを置きやすくなります。特定の指だけに仕事を集中させず、5本の指で相互に助け合うことが、物理的な負荷を抑えるというせおとの目的に合っています。</p>
+          </article>
+          <article>
+            <h4>ハードが変われば、良い配列も変わる</h4>
+            <p>ロウスタッガードとカラムスタッガードでは、求められる指の動きそのものが異なります。だから、どんなキーボードでも同じ論理配列が最適とは限りません。カラムスタッガードへ移行することは、論理配列そのものを見直す良い機会でもあります。</p>
+          </article>
+        </div>
+      </div>
+
+      <aside class="hardware-note">
+        <strong>キースイッチの重さも重要</strong>
+        <p>押下圧によって、力の弱い小指列をどこまで自然に使えるかも変わります。せおとでは、各指を無理なく活用するための目安として30g前後の軽めのスイッチをおすすめしています。</p>
+      </aside>
     </div>
   </section>
 
@@ -98,6 +187,46 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
     </div>
   </section>
 
+  <section class="plain-section seoto-optional" id="optional">
+    <div class="shell">
+      <div class="optional-intro">
+        <span class="optional-eyebrow">OPTIONAL</span>
+        <h2 class="plain-section__title">任意拡張：子音連続ショートカット</h2>
+        <p>通常版 / Lite版だけで、せおと配列は成立します。ここから先は必須ではありません。IMEのローマ字テーブルを自由に調整できる環境では、子音側でほとんど使われない連続入力を、頻出表現への「近道」として追加できます。</p>
+      </div>
+
+      <div class="optional-examples" aria-label="子音連続ショートカットの例">
+        <div><code>nrhd</code><span>→</span><strong>なるほど</strong></div>
+        <div><code>nnd</code><span>→</span><strong>なので</strong></div>
+      </div>
+
+      <div class="optional-points">
+        <article>
+          <h3>子音側の空いている経路を使う</h3>
+          <p>ローマ字入力は基本的に「子音 → 母音」で進むため、子音 → 子音の連続は多くありません。せおと配列では促音も専用キーで扱うため、左手の子音側にはさらに使われにくい連続入力が残ります。そこへ頻出表現を割り当てます。</p>
+        </article>
+        <article>
+          <h3>操作を増やさず、近道だけを増やす</h3>
+          <p>レイヤーを増やしたり、同時押しを覚えたりする必要はありません。省略しない通常の入力はそのまま使え、覚えたショートカットだけを必要に応じて使えます。既存の道を置き換えるのではなく、近道を追加する考え方です。</p>
+        </article>
+        <article>
+          <h3>可搬性とのトレードオフ</h3>
+          <p>この拡張にはIME側のローマ字テーブル変更が必要です。設定を自由に持ち込めない環境では使わず、可搬性を優先するLite版を選ぶのが自然です。自分の入力環境を管理できる場合に、さらに効率を高めるためのオプションです。</p>
+        </article>
+      </div>
+
+      <div class="optional-mozkey">
+        <div>
+          <span class="optional-mozkey__label">MOZKEY</span>
+          <h3>ローマ字拡張を、より自由に使うために</h3>
+          <p>こうした拡張を快適に扱える入力環境を作るため、Google日本語入力のOSS版であるMozcをフォークしたIME「Mozkey」も開発しています。子音連続ショートカットはせおと配列の必須機能ではなく、入力環境まで含めて最適化したい場合の任意拡張です。</p>
+        </div>
+        <a href={mozkeyUrl} target="_blank" rel="noopener noreferrer">Mozkeyを見る ↗</a>
+      </div>
+    </div>
+  </section>
+
+
   <section class="plain-section" id="setup">
     <div class="shell setup-grid">
       <h2 class="plain-section__title">導入</h2>
@@ -107,7 +236,16 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
           <li><strong>キーマップを設定する</strong><span>キーボード側またはOS側で、せおとの配置を設定します。</span></li>
           <li><strong>通常版ならローマ字規則を設定する</strong><span>C / X / J / Qの日本語入力時の規則をIMEへ追加します。</span></li>
         </ol>
-        <p class="note-link">現時点の制作記と設定情報は <a href={noteUrl}>noteの記事 ↗</a> にあります。</p>
+
+    <aside class="setup-optional-callout" aria-label="任意拡張">
+      <span class="setup-optional-callout__eyebrow">OPTIONAL</span>
+      <div class="setup-optional-callout__body">
+        <h3>任意：頻出表現への近道を追加する</h3>
+        <p>通常版 / Lite版の基本導入は、上の3ステップで完了です。さらに入力を短縮したい場合は、IMEのローマ字テーブルに <code>nrhd → なるほど</code> のような子音連続ショートカットを登録できます。通常の入力方法はそのまま残るため、必要な近道だけを後から追加できます。</p>
+      </div>
+      <a href="#optional">任意拡張を詳しく見る</a>
+    </aside>
+        <p class="note-link">現時点の制作記と設定情報は <a href={noteUrl} target="_blank" rel="noopener noreferrer">noteの記事 ↗</a> にあります。</p>
       </div>
     </div>
   </section>
@@ -164,20 +302,109 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
           <li>平均 / 中央値 / 標準偏差 / 95パーセンタイル</li>
         </ul>
 
-        <div class="distribution">
+        <div class="distribution distribution--measured distribution--integrated">
           <div class="distribution__caption">
-            <strong>コスト分布の模式図</strong>
-            <span>実測値ではありません</span>
+            <div>
+              <span class="distribution__eyebrow">DISTRIBUTION</span>
+              <strong>コスト分布</strong>
+            </div>
+            <span>作者環境での Keyflow Analyzer 計測例 / 左：快適・右：高負荷</span>
           </div>
-          <div class="distribution__row"><span>ばらつく</span><i style="--v:25%"></i><i style="--v:34%"></i><i style="--v:28%"></i><i style="--v:76%"></i><i style="--v:36%"></i><i style="--v:94%"></i><i style="--v:31%"></i><i style="--v:48%"></i></div>
-          <div class="distribution__row"><span>なだらか</span><i style="--v:34%"></i><i style="--v:39%"></i><i style="--v:33%"></i><i style="--v:46%"></i><i style="--v:41%"></i><i style="--v:49%"></i><i style="--v:37%"></i><i style="--v:43%"></i></div>
+
+          <div class="distribution__scale" aria-hidden="true">
+            <span>快適</span><i></i><span>高負荷</span>
+          </div>
+
+          <div class="distribution__compare">
+            <div class="distribution__series">
+              <div class="distribution__series-head">
+                <strong>せおと配列</strong>
+                <span>低負荷側に集中</span>
+              </div>
+              <div class="distribution__bars" aria-label="せおと配列のコスト分布。低負荷側に大きな山があり、高負荷側の尾が短い。">
+                <i class="is-blue" style="--v:100%"></i>
+                <i class="is-blue" style="--v:76%"></i>
+                <i class="is-blue" style="--v:51%"></i>
+                <i class="is-green" style="--v:71%"></i>
+                <i class="is-green" style="--v:41%"></i>
+                <i class="is-green" style="--v:28%"></i>
+                <i class="is-green" style="--v:26%"></i>
+                <i class="is-yellow" style="--v:17%"></i>
+                <i class="is-yellow" style="--v:7%"></i>
+                <i class="is-yellow" style="--v:6%"></i>
+                <i class="is-yellow" style="--v:5%"></i>
+                <i class="is-yellow" style="--v:5%"></i>
+                <i class="is-red" style="--v:4%"></i>
+              </div>
+            </div>
+
+            <div class="distribution__series">
+              <div class="distribution__series-head">
+                <strong>大西配列</strong>
+                <span>低負荷中心で、高負荷側に細い尾</span>
+              </div>
+              <div class="distribution__bars" aria-label="大西配列のコスト分布。低負荷側に山があり、高負荷側に細い尾が続く。">
+                <i class="is-blue" style="--v:100%"></i>
+                <i class="is-blue" style="--v:71%"></i>
+                <i class="is-blue" style="--v:57%"></i>
+                <i class="is-green" style="--v:61%"></i>
+                <i class="is-green" style="--v:43%"></i>
+                <i class="is-green" style="--v:27%"></i>
+                <i class="is-green" style="--v:27%"></i>
+                <i class="is-yellow" style="--v:18%"></i>
+                <i class="is-yellow" style="--v:25%"></i>
+                <i class="is-yellow" style="--v:20%"></i>
+                <i class="is-yellow" style="--v:11%"></i>
+                <i class="is-yellow" style="--v:10%"></i>
+                <i class="is-red" style="--v:5%"></i>
+                <i class="is-red" style="--v:5%"></i>
+                <i class="is-red" style="--v:5%"></i>
+                <i class="is-red" style="--v:5%"></i>
+                <i class="is-red" style="--v:12%"></i>
+                <i class="is-red" style="--v:5%"></i>
+                <i class="is-red" style="--v:5%"></i>
+                <i class="is-red" style="--v:9%"></i>
+                <i class="is-red" style="--v:5%"></i>
+              </div>
+            </div>
+
+            <div class="distribution__series">
+              <div class="distribution__series-head">
+                <strong>QWERTY</strong>
+                <span>中〜高負荷側まで広く分布</span>
+              </div>
+              <div class="distribution__bars" aria-label="QWERTYのコスト分布。中負荷帯にも山があり、高負荷側まで裾が広がる。">
+                <i class="is-blue" style="--v:61%"></i>
+                <i class="is-blue" style="--v:71%"></i>
+                <i class="is-blue" style="--v:85%"></i>
+                <i class="is-green" style="--v:100%"></i>
+                <i class="is-green" style="--v:89%"></i>
+                <i class="is-green" style="--v:73%"></i>
+                <i class="is-green" style="--v:60%"></i>
+                <i class="is-yellow" style="--v:65%"></i>
+                <i class="is-yellow" style="--v:45%"></i>
+                <i class="is-yellow" style="--v:55%"></i>
+                <i class="is-yellow" style="--v:63%"></i>
+                <i class="is-yellow" style="--v:51%"></i>
+                <i class="is-red" style="--v:24%"></i>
+                <i class="is-red" style="--v:26%"></i>
+                <i class="is-red" style="--v:33%"></i>
+                <i class="is-red" style="--v:45%"></i>
+                <i class="is-red" style="--v:43%"></i>
+                <i class="is-red" style="--v:15%"></i>
+                <i class="is-red" style="--v:17%"></i>
+                <i class="is-red" style="--v:25%"></i>
+                <i class="is-red" style="--v:18%"></i>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="evaluation-columns">
           <div><h3>見るもの</h3><p>95パーセンタイル、標準偏差、コスト分布、指負荷、実使用。</p></div>
           <div><h3>限界</h3><p>身体差、キーボード差、姿勢・訓練差、設定したコストモデルへの依存。</p></div>
         </div>
-        <p><a href={keyflowUrl}>Keyflow Analyzerを開く ↗</a></p>
+        <p><a href={keyflowUrl} target="_blank" rel="noopener noreferrer">Keyflow Analyzerを開く ↗</a></p>
       </div>
     </div>
   </section>
@@ -200,7 +427,7 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
             <tr><th>せおと配列</th><td>カラムスタッガード前提で、日本語ローマ字入力の身体フローと負荷均質性を再設計</td></tr>
           </tbody>
         </table>
-        <p><a href={mozkeyUrl}>Mozkeyを見る ↗</a></p>
+        <p><a href={mozkeyUrl} target="_blank" rel="noopener noreferrer">Mozkeyを見る ↗</a></p>
       </div>
     </div>
   </section>
@@ -216,7 +443,7 @@ const mozkeyUrl = "https://github.com/koyasi777/mozkey";
         <div><dt>Lite版</dt><dd>標準ローマ字規則。通常版とはキー配置が一部異なる</dd></div>
         <div><dt>評価</dt><dd>Keyflow Analyzer：位置・遷移・疲労回復・分布</dd></div>
       </dl>
-      <p class="reference-links"><a href={noteUrl}>note ↗</a> <a href={keyflowUrl}>Keyflow Analyzer ↗</a> <a href={mozkeyUrl}>Mozkey ↗</a></p>
+      <p class="reference-links"><a href={noteUrl} target="_blank" rel="noopener noreferrer">note ↗</a> <a href={keyflowUrl} target="_blank" rel="noopener noreferrer">Keyflow Analyzer ↗</a> <a href={mozkeyUrl} target="_blank" rel="noopener noreferrer">Mozkey ↗</a></p>
     </div>
   </section>
 

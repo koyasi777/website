@@ -102,5 +102,33 @@ const seotoCurrent = pathname.startsWith("/seoto/");
     </footer>
 
     <script is:inline src="/ambient-particles.js" defer></script>
-  </body>
+    <script is:inline data-global-external-links>
+    (() => {
+      const applyExternalLinkBehavior = () => {
+        document.querySelectorAll('a[href]').forEach((anchor) => {
+          const href = anchor.getAttribute('href');
+          if (!href || href.startsWith('#')) return;
+          let url;
+          try {
+            url = new URL(href, window.location.href);
+          } catch {
+            return;
+          }
+          if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+          if (url.origin === window.location.origin) return;
+          anchor.target = '_blank';
+          const rel = new Set((anchor.getAttribute('rel') || '').split(/\s+/).filter(Boolean));
+          rel.add('noopener');
+          rel.add('noreferrer');
+          anchor.setAttribute('rel', Array.from(rel).join(' '));
+        });
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyExternalLinkBehavior, { once: true });
+      } else {
+        applyExternalLinkBehavior();
+      }
+    })();
+  </script>
+</body>
 </html>
