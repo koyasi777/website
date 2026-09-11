@@ -114,7 +114,7 @@ export const projects: Project[] = [
     slug: "keyflow-analyzer",
     name: "Keyflow Analyzer",
     repo: "https://github.com/koyasi777/keyflow-analyzer",
-    demo: "https://koyasi777.github.io/keyflow-analyzer/",
+    demo: "https://keyflow.koyasi777.com/",
     domain: "japanese-input",
     domainLabel: "Japanese Input",
     origin: "original",
