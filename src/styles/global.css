@@ -1828,3 +1828,1081 @@ main,
     flex-basis: 11px;
   }
 }
+
+/* Seoto: design story v2 */
+.design-story-head {
+  padding-bottom: 28px;
+}
+
+.design-story-head .shell {
+  max-width: 1120px;
+}
+
+.design-story-head__eyebrow,
+.design-story__kicker {
+  display: inline-block;
+  color: #a7b8b1;
+  font-size: .68rem;
+  font-weight: 760;
+  letter-spacing: .14em;
+}
+
+.design-story-head__eyebrow {
+  margin-bottom: 9px;
+}
+
+.design-story-head h2 {
+  color: #f4f7f6;
+}
+
+.design-story-head p {
+  max-width: 760px;
+  color: #cbd5d1;
+  line-height: 1.9;
+}
+
+.design-roadmap {
+  padding: 0 0 46px;
+}
+
+.design-roadmap .shell {
+  max-width: 1120px;
+}
+
+.design-roadmap__head {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.design-roadmap__head > span {
+  flex: 0 0 auto;
+  color: #87aee0;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+
+.design-roadmap__head p {
+  margin: 0;
+  color: #b7c4bf;
+  font-size: .8rem;
+  line-height: 1.7;
+}
+
+.design-roadmap__track {
+  display: grid;
+  grid-template-columns:
+    minmax(74px, 1fr) 18px
+    minmax(74px, 1fr) 18px
+    minmax(74px, 1fr) 18px
+    minmax(74px, 1fr) 18px
+    minmax(74px, 1fr) 18px
+    minmax(74px, 1fr) 18px
+    minmax(88px, 1.15fr) 18px
+    minmax(88px, 1.15fr);
+  align-items: center;
+  gap: 0;
+  padding: 15px 16px;
+  border: 1px solid rgba(158, 181, 173, .13);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .022);
+}
+
+.design-roadmap__item {
+  min-width: 0;
+  text-align: center;
+}
+
+.design-roadmap__item b {
+  display: block;
+  margin-bottom: 3px;
+  color: #79a9e7;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: .65rem;
+  letter-spacing: .06em;
+}
+
+.design-roadmap__item span {
+  color: #edf3f0;
+  font-size: .78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.design-roadmap__track > i {
+  position: relative;
+  display: block;
+  height: 1px;
+  background: rgba(145, 166, 158, .28);
+}
+
+.design-roadmap__track > i::after {
+  position: absolute;
+  top: 50%;
+  right: -1px;
+  width: 5px;
+  height: 5px;
+  border-top: 1px solid rgba(145, 166, 158, .52);
+  border-right: 1px solid rgba(145, 166, 158, .52);
+  content: "";
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.design-roadmap__branches {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: min(620px, 100%);
+  margin: 10px 0 0 auto;
+}
+
+.design-roadmap__branches > div {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: baseline;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid rgba(158, 181, 173, .1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .014);
+}
+
+.design-roadmap__branches b {
+  color: #79a9e7;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: .62rem;
+}
+
+.design-roadmap__branches span {
+  color: #eef3f1;
+  font-size: .74rem;
+  font-weight: 760;
+}
+
+.design-roadmap__branches small {
+  color: #aab8b3;
+  font-size: .68rem;
+}
+
+.design-story {
+  border-top: 1px solid rgba(255, 255, 255, .06);
+}
+
+.design-story__step {
+  position: relative;
+  padding: 46px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .055);
+}
+
+.design-story__step::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(83, 124, 177, .045), transparent 23rem);
+  content: "";
+}
+
+.design-story__step--optional::before {
+  background:
+    radial-gradient(circle at 88% 18%, rgba(184, 145, 58, .045), transparent 23rem);
+}
+
+.design-story__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(390px, 1.1fr);
+  grid-template-areas:
+    "heading visual"
+    "body visual";
+  gap: 13px 38px;
+  max-width: 1120px;
+  align-items: start;
+}
+
+.design-story__heading {
+  grid-area: heading;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  min-width: 0;
+}
+
+.design-story__number {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(121, 169, 231, .24);
+  border-radius: 11px;
+  color: #8db8ed;
+  background: rgba(89, 135, 193, .08);
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+
+.design-story__heading > div {
+  min-width: 0;
+}
+
+.design-story__heading h2 {
+  margin: 4px 0 0;
+  color: #f4f7f6;
+  font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+  line-height: 1.34;
+  letter-spacing: -.03em;
+}
+
+.design-story__body {
+  grid-area: body;
+  min-width: 0;
+  padding-left: 53px;
+}
+
+.design-story__body p {
+  margin: 0;
+  color: #d2dcd8;
+  font-size: .9rem;
+  line-height: 1.9;
+}
+
+.design-story__body p + p {
+  margin-top: 1em;
+}
+
+.design-story__body strong {
+  color: #f1f5f3;
+  font-weight: 760;
+}
+
+.design-story__body code,
+.design-story__source-note code {
+  padding: .1em .36em;
+  border: 1px solid rgba(124, 166, 221, .2);
+  border-radius: 5px;
+  color: #c8def9;
+  background: rgba(76, 115, 166, .13);
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: .9em;
+}
+
+.design-story__principle {
+  padding: 10px 12px 10px 13px;
+  border: 1px solid rgba(109, 160, 224, .13);
+  border-left: 2px solid rgba(109, 160, 224, .62);
+  border-radius: 0 9px 9px 0;
+  color: #dce6e2 !important;
+  background: rgba(84, 123, 171, .07);
+}
+
+.design-story__source-note {
+  color: #aebbb6 !important;
+  font-size: .76rem !important;
+}
+
+.design-story__visual {
+  grid-area: visual;
+  align-self: center;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .075);
+  border-radius: 15px;
+  background: #10161d;
+  box-shadow: 0 15px 36px rgba(0, 0, 0, .14);
+}
+
+.design-story__visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 310px;
+  object-fit: contain;
+  object-position: center;
+  background: #10161d;
+}
+
+.design-story__visual figcaption {
+  padding: 9px 12px 10px;
+  border-top: 1px solid rgba(255, 255, 255, .055);
+  color: #aebbb6;
+  background: rgba(255, 255, 255, .018);
+  font-size: .69rem;
+  line-height: 1.55;
+}
+
+.design-story__visual--tall {
+  grid-area: auto;
+  grid-column: 1 / -1;
+  width: min(920px, 100%);
+  margin: 12px auto 0;
+}
+
+.design-story__visual--tall img {
+  max-height: 520px;
+}
+
+.design-story__step--optional .design-story__number {
+  border-color: rgba(205, 169, 83, .25);
+  color: #d6b66a;
+  background: rgba(175, 136, 49, .075);
+}
+
+.design-story__step--optional .design-story__kicker {
+  color: #c3ab78;
+}
+
+.design-story__validation {
+  padding: 58px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .055);
+  background: rgba(255, 255, 255, .012);
+}
+
+.design-story__validation-grid {
+  display: grid;
+  grid-template-columns: minmax(210px, .48fr) minmax(0, 1fr);
+  gap: 36px 64px;
+  max-width: 1120px;
+  align-items: start;
+}
+
+.design-story__validation h2 {
+  margin: 6px 0 0;
+  color: #f4f7f6;
+  font-size: clamp(1.55rem, 2.8vw, 2.2rem);
+  line-height: 1.34;
+  letter-spacing: -.035em;
+}
+
+.design-story__validation p {
+  max-width: 740px;
+  margin: 0;
+  color: #cfd9d5;
+  font-size: .9rem;
+  line-height: 1.9;
+}
+
+.design-story__validation p + p {
+  margin-top: .95em;
+}
+
+.design-story__validation-link {
+  display: inline-flex;
+  margin-top: 18px;
+  color: #9bc5f7;
+  font-size: .8rem;
+  font-weight: 730;
+  text-decoration: none;
+}
+
+.design-story__closing {
+  padding: 62px 0 70px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .012), transparent 72%);
+}
+
+.design-story__closing-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, .55fr) minmax(0, 1fr);
+  gap: 38px 64px;
+  max-width: 1120px;
+  align-items: start;
+}
+
+.design-story__closing h2 {
+  margin: 6px 0 0;
+  color: #f4f7f6;
+  font-size: clamp(1.7rem, 3.2vw, 2.45rem);
+  line-height: 1.3;
+  letter-spacing: -.04em;
+}
+
+.design-story__closing p {
+  max-width: 740px;
+  margin: 0;
+  color: #d1dad7;
+  font-size: .92rem;
+  line-height: 1.92;
+}
+
+.design-story__closing p + p {
+  margin-top: 1em;
+}
+
+@media (max-width: 980px) {
+  .design-roadmap__track {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .design-roadmap__track > i {
+    display: none;
+  }
+
+  .design-roadmap__item {
+    padding: 9px 6px;
+    border: 1px solid rgba(158, 181, 173, .09);
+    border-radius: 9px;
+    background: rgba(255, 255, 255, .012);
+  }
+
+  .design-story__grid {
+    grid-template-columns: minmax(0, .88fr) minmax(330px, 1.12fr);
+    gap: 12px 28px;
+  }
+}
+
+@media (max-width: 760px) {
+  .design-roadmap {
+    padding-bottom: 34px;
+  }
+
+  .design-roadmap__head {
+    display: block;
+  }
+
+  .design-roadmap__head p {
+    margin-top: 7px;
+  }
+
+  .design-roadmap__track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .design-roadmap__branches {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .design-story__step {
+    padding: 38px 0 42px;
+  }
+
+  .design-story__grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "heading"
+      "body"
+      "visual";
+    gap: 14px;
+  }
+
+  .design-story__body {
+    padding-left: 0;
+  }
+
+  .design-story__body p {
+    font-size: .88rem;
+    line-height: 1.84;
+  }
+
+  .design-story__visual,
+  .design-story__visual--tall {
+    grid-area: visual;
+    grid-column: auto;
+    width: 100%;
+    margin: 5px 0 0;
+    overflow: hidden;
+  }
+
+  .design-story__visual img,
+  .design-story__visual--tall img {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    max-height: none;
+    height: auto;
+  }
+
+  .design-story__validation,
+  .design-story__closing {
+    padding: 48px 0 54px;
+  }
+
+  .design-story__validation-grid,
+  .design-story__closing-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .design-story__heading {
+    gap: 11px;
+  }
+
+  .design-story__number {
+    width: 34px;
+    height: 34px;
+  }
+
+  .design-story__heading h2 {
+    font-size: 1.28rem;
+  }
+
+  .design-story__kicker {
+    font-size: .62rem;
+  }
+
+  .design-roadmap__branches > div {
+    grid-template-columns: auto auto;
+  }
+
+  .design-roadmap__branches small {
+    grid-column: 2;
+  }
+}
+
+/* Seoto: design story light-contrast v3
+   Use the site's semantic light-theme variables instead of dark-theme hardcoded colors. */
+
+.design-story-head h2,
+.design-story__heading h2,
+.design-story__validation h2,
+.design-story__closing h2 {
+  color: var(--ink);
+}
+
+.design-story-head p,
+.design-roadmap__head p,
+.design-story__body p,
+.design-story__validation p,
+.design-story__closing p {
+  color: color-mix(in srgb, var(--ink) 78%, var(--muted));
+}
+
+.design-story-head__eyebrow,
+.design-story__kicker,
+.design-roadmap__head > span {
+  color: color-mix(in srgb, var(--seoto) 82%, var(--ink));
+}
+
+.design-roadmap__track,
+.design-roadmap__branches > div {
+  border-color: var(--line);
+  background: color-mix(in srgb, var(--paper) 72%, transparent);
+}
+
+.design-roadmap__item b,
+.design-roadmap__branches b {
+  color: color-mix(in srgb, var(--seoto) 82%, var(--ink));
+}
+
+.design-roadmap__item span,
+.design-roadmap__branches span {
+  color: var(--ink);
+}
+
+.design-roadmap__branches small {
+  color: var(--muted);
+}
+
+.design-roadmap__track > i {
+  background: var(--line-strong);
+}
+
+.design-roadmap__track > i::after {
+  border-color: var(--line-strong);
+}
+
+.design-story,
+.design-story__step,
+.design-story__validation {
+  border-color: var(--line);
+}
+
+.design-story__step::before,
+.design-story__step--optional::before {
+  background: none;
+}
+
+.design-story__number {
+  border-color: color-mix(in srgb, var(--seoto) 28%, var(--line));
+  color: var(--seoto);
+  background: color-mix(in srgb, var(--seoto-soft) 58%, transparent);
+}
+
+.design-story__body strong {
+  color: var(--ink);
+}
+
+.design-story__body code,
+.design-story__source-note code {
+  border-color: color-mix(in srgb, var(--seoto) 22%, var(--line));
+  color: color-mix(in srgb, var(--ink) 82%, var(--seoto));
+  background: color-mix(in srgb, var(--seoto-soft) 62%, var(--paper));
+}
+
+.design-story__principle {
+  border-color: color-mix(in srgb, var(--seoto) 22%, var(--line));
+  border-left-color: var(--seoto);
+  color: color-mix(in srgb, var(--ink) 88%, var(--muted)) !important;
+  background: color-mix(in srgb, var(--seoto-soft) 46%, transparent);
+}
+
+.design-story__source-note {
+  color: var(--muted) !important;
+}
+
+.design-story__step--optional .design-story__number {
+  border-color: color-mix(in srgb, #9a6a16 28%, var(--line));
+  color: #80570f;
+  background: color-mix(in srgb, #f1dfb8 42%, var(--paper));
+}
+
+.design-story__step--optional .design-story__kicker {
+  color: #75541b;
+}
+
+.design-story__validation {
+  background: color-mix(in srgb, var(--paper) 45%, transparent);
+}
+
+.design-story__validation-link {
+  color: var(--seoto);
+}
+
+.design-story__closing {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--paper) 52%, transparent),
+    transparent 72%
+  );
+}
+
+/* The diagrams themselves are intentionally dark, so their captions stay light. */
+.design-story__visual {
+  border-color: rgba(19, 28, 33, .18);
+  background: #10161d;
+}
+
+.design-story__visual figcaption {
+  border-top-color: rgba(255, 255, 255, .08);
+  color: #c6d0cc;
+  background: #151c22;
+}
+
+@media (max-width: 980px) {
+  .design-roadmap__item {
+    border-color: var(--line);
+    background: color-mix(in srgb, var(--paper) 72%, transparent);
+  }
+}
+
+/* Seoto: design story layout v4
+   Simplify the narrative by removing the roadmap and give the diagrams more breathing room. */
+
+.design-story__grid {
+  column-gap: 58px;
+}
+
+.design-story__visual:not(.design-story__visual--tall) {
+  align-self: start;
+  margin-top: 50px;
+}
+
+/* Step 09 is a different kind of figure: keep its wide, full-row presentation. */
+.design-story__visual--tall {
+  margin-top: 18px;
+}
+
+@media (max-width: 980px) {
+  .design-story__grid {
+    column-gap: 42px;
+  }
+
+  .design-story__visual:not(.design-story__visual--tall) {
+    margin-top: 42px;
+  }
+}
+
+@media (max-width: 760px) {
+  .design-story__grid {
+    column-gap: 0;
+  }
+
+  .design-story__visual:not(.design-story__visual--tall),
+  .design-story__visual--tall {
+    margin-top: 10px;
+  }
+}
+
+/* Seoto: feature principles v7 */
+.feature-principles {
+  position: relative;
+}
+
+.feature-principles__head {
+  margin-bottom: 18px;
+}
+
+.feature-principles__eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: color-mix(in srgb, var(--seoto) 84%, var(--ink));
+  font-size: .66rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+}
+
+.feature-principles__list {
+  border-top: 1px solid var(--line);
+}
+
+.feature-principle {
+  display: grid;
+  grid-template-columns: minmax(260px, .78fr) minmax(0, 1.22fr);
+  gap: 64px;
+  padding: 46px 0 50px;
+  border-bottom: 1px solid var(--line);
+}
+
+.feature-principle__side {
+  min-width: 0;
+}
+
+.feature-principle__index {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--seoto);
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.feature-principle__side h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.65rem, 2.8vw, 2.4rem);
+  font-weight: 720;
+  line-height: 1.34;
+  letter-spacing: -.045em;
+}
+
+.feature-principle__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 14px;
+  margin-top: 22px;
+}
+
+.feature-principle__facts span {
+  position: relative;
+  padding-left: 13px;
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 700;
+}
+
+.feature-principle__facts span::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--seoto) 72%, var(--ink));
+  content: "";
+  transform: translateY(-50%);
+}
+
+.feature-principle__body {
+  max-width: 760px;
+  padding-top: 31px;
+}
+
+.feature-principle__body p {
+  margin: 0;
+  color: color-mix(in srgb, var(--ink) 76%, var(--muted));
+  font-size: .9rem;
+  line-height: 1.95;
+}
+
+.feature-principles__conclusion {
+  display: grid;
+  grid-template-columns: minmax(150px, .35fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  margin-top: 42px;
+  padding: 34px 0 8px;
+}
+
+.feature-principles__conclusion > span {
+  padding-top: 8px;
+  color: color-mix(in srgb, var(--seoto) 84%, var(--ink));
+  font-size: .66rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+}
+
+.feature-principles__conclusion p {
+  max-width: 820px;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.35rem, 2.6vw, 2.1rem);
+  font-weight: 690;
+  line-height: 1.6;
+  letter-spacing: -.035em;
+}
+
+@media (max-width: 820px) {
+  .feature-principle {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 36px 0 40px;
+  }
+
+  .feature-principle__side h3 {
+    max-width: 620px;
+  }
+
+  .feature-principle__facts {
+    margin-top: 16px;
+  }
+
+  .feature-principle__body {
+    max-width: none;
+    padding-top: 0;
+  }
+
+  .feature-principles__conclusion {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 28px;
+    padding-top: 28px;
+  }
+
+  .feature-principles__conclusion > span {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .feature-principle {
+    padding: 30px 0 34px;
+  }
+
+  .feature-principle__side h3 {
+    font-size: 1.72rem;
+  }
+
+  .feature-principle__body p {
+    font-size: .86rem;
+    line-height: 1.9;
+  }
+
+  .feature-principles__desktop-break {
+    display: none;
+  }
+
+  .feature-principles__conclusion p {
+    font-size: 1.35rem;
+  }
+}
+
+/* Seoto: shortcut full-width v10 */
+.design-story__step--shortcut .design-story__grid {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "heading"
+    "body"
+    "visual";
+  row-gap: 18px;
+}
+
+.design-story__step--shortcut .design-story__body {
+  max-width: none;
+  padding-left: 53px;
+}
+
+.design-story__step--shortcut .design-story__visual--tall {
+  grid-area: visual;
+  grid-column: auto;
+  margin-top: 24px;
+}
+
+@media (max-width: 760px) {
+  .design-story__step--shortcut .design-story__body {
+    padding-left: 0;
+  }
+
+  .design-story__step--shortcut .design-story__visual--tall {
+    margin-top: 10px;
+  }
+}
+
+/* Seoto: feature underline v12
+   Add only a restrained color underline to the three feature headings. */
+
+.feature-principle__side h3 {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 14px;
+}
+
+.feature-principle__side h3::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 108px;
+  height: 3px;
+  border-radius: 999px;
+  content: "";
+}
+
+.feature-principle:nth-child(1) .feature-principle__side h3::after {
+  background: linear-gradient(
+    90deg,
+    #5e9fe6 0%,
+    #65b995 100%
+  );
+}
+
+.feature-principle:nth-child(2) .feature-principle__side h3::after {
+  background: linear-gradient(
+    90deg,
+    #65b995 0%,
+    #e0a85a 100%
+  );
+}
+
+.feature-principle:nth-child(3) .feature-principle__side h3::after {
+  background: linear-gradient(
+    90deg,
+    #e0a85a 0%,
+    #5e9fe6 100%
+  );
+}
+
+@media (max-width: 560px) {
+  .feature-principle__side h3 {
+    padding-bottom: 12px;
+  }
+
+  .feature-principle__side h3::after {
+    width: 88px;
+    height: 3px;
+  }
+}
+
+/* Seoto: cohesion v13 */
+
+/* Conclusion is a statement, so give the second line enough measure. */
+.feature-principles__conclusion p {
+  max-width: 1100px;
+}
+
+/* Treat validation + real comparison as one evaluation chapter. */
+.design-evidence-group {
+  position: relative;
+  margin: 18px 0 58px;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--seoto-soft) 18%, var(--paper)),
+      color-mix(in srgb, var(--paper) 96%, transparent)
+    );
+}
+
+.design-evidence-group > section {
+  margin: 0;
+  background: transparent !important;
+}
+
+.design-evidence-group .design-story__validation {
+  padding-top: 56px;
+  padding-bottom: 34px;
+  border: 0;
+  background: transparent;
+}
+
+.design-evidence-group > section + section {
+  position: relative;
+  border-top: 0;
+}
+
+.design-evidence-group > section + section::before {
+  display: block;
+  width: min(1120px, calc(100% - 40px));
+  height: 1px;
+  margin: 0 auto;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--seoto) 22%, var(--line)) 15%,
+      var(--line) 50%,
+      color-mix(in srgb, var(--seoto) 22%, var(--line)) 85%,
+      transparent
+    );
+  content: "";
+}
+
+.design-story__validation-bridge {
+  margin-top: 18px !important;
+  padding-top: 17px;
+  border-top: 1px solid color-mix(in srgb, var(--seoto) 16%, var(--line));
+  color: color-mix(in srgb, var(--ink) 82%, var(--muted)) !important;
+  font-weight: 650;
+}
+
+@media (max-width: 760px) {
+  .design-evidence-group {
+    margin-bottom: 42px;
+  }
+
+  .design-evidence-group .design-story__validation {
+    padding-top: 44px;
+    padding-bottom: 26px;
+  }
+
+  .design-evidence-group > section + section::before {
+    width: calc(100% - 28px);
+  }
+}
+
+/* Seoto: validation merge v15
+   Merge the closing principle into the validation chapter and avoid a double divider. */
+
+.design-evidence-group {
+  margin-top: 0;
+  border-top: 0;
+}
+
+.design-story__validation-merged {
+  color: color-mix(in srgb, var(--ink) 79%, var(--muted)) !important;
+}
+
+.design-story__validation-merged + .design-story__validation-merged {
+  margin-top: .9em !important;
+}
+
+/* Seoto: design top divider v16
+   Keep step separators, but remove the extra line directly below the Design intro. */
+
+.design-story {
+  border-top: 0;
+}
+
+/* Seoto: name origin line removal v18
+   Remove only the vertical accent line from the "名前の由来" section. */
+
+.name-origin-no-line > .shell > :first-child,
+.name-origin-no-line > .shell > :first-child > :first-child {
+  border-left: 0 !important;
+}
+
+.name-origin-no-line > .shell > :first-child::before,
+.name-origin-no-line > .shell > :first-child > :first-child::before {
+  display: none !important;
+  content: none !important;
+}
