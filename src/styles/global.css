@@ -2906,3 +2906,42 @@ main,
   display: none !important;
   content: none !important;
 }
+
+/* Seoto: section spacing polish */
+
+/* "向いている環境": tighter above, more breathing room below. */
+.fit-section-tight {
+  padding-top: 24px !important;
+  padding-bottom: 84px !important;
+}
+
+/* Remove only the divider between the Design intro and Step 01. */
+#design,
+.design-story-head {
+  border-bottom: 0 !important;
+}
+
+.design-story,
+.design-story-head + .design-story {
+  border-top: 0 !important;
+}
+
+.design-story > .design-story__step:first-child {
+  border-top: 0 !important;
+}
+
+/* Add a little more breathing room above "測って、打って、直す". */
+.design-evidence-group .design-story__validation {
+  padding-top: 68px;
+}
+
+@media (max-width: 760px) {
+  .fit-section-tight {
+    padding-top: 28px !important;
+    padding-bottom: 58px !important;
+  }
+
+  .design-evidence-group .design-story__validation {
+    padding-top: 52px;
+  }
+}
