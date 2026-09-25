@@ -12,7 +12,7 @@ const { title, description, product = "default", noindex = false } = Astro.props
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const pathname = Astro.url.pathname;
 const ogPath = pathname.startsWith("/seoto/")
-  ? "/og/seoto.png"
+  ? "/og/seoto-v2.png"
   : pathname.startsWith("/projects/")
     ? "/og/projects.png"
     : "/og/default.png";
