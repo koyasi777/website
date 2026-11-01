@@ -146,7 +146,7 @@ main,
 
 .work-list__item {
   display: grid;
-  grid-template-columns: 34px 215px 1fr 18px;
+  grid-template-columns: 34px minmax(240px, 260px) minmax(0, 1fr) 18px;
   align-items: center;
   gap: 24px;
   min-height: 104px;
@@ -2959,4 +2959,62 @@ main,
 .feature-principles__ending {
   display: inline-block;
   white-space: nowrap;
+}
+
+/* Project icon presentation. Real logos stay unchanged; placeholders use subtle domain colors. */
+.project-icon {
+  --project-icon-size: 40px;
+  --project-icon-bg: #eef2ed;
+  --project-icon-ink: #306c60;
+  display: inline-flex;
+  width: var(--project-icon-size);
+  height: var(--project-icon-size);
+  min-width: var(--project-icon-size);
+  flex: 0 0 var(--project-icon-size);
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(30, 64, 57, .08);
+  border-radius: 11px;
+  color: var(--project-icon-ink);
+  background: var(--project-icon-bg);
+  vertical-align: middle;
+}
+.project-icon--featured { --project-icon-size: 48px; border-radius: 13px; }
+.project-icon--search { --project-icon-bg: #edf2f7; --project-icon-ink: #385e7d; }
+.project-icon--language { --project-icon-bg: #f1eef8; --project-icon-ink: #695a92; }
+.project-icon--browser { --project-icon-bg: #f0f3eb; --project-icon-ink: #607b43; }
+.project-icon--notes { --project-icon-bg: #f3f0eb; --project-icon-ink: #806b51; }
+.project-icon--web-ux { --project-icon-bg: #f7efec; --project-icon-ink: #946355; }
+.project-icon--image { background: transparent; border: 0; border-radius: 0; }
+.project-icon img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.project-icon__monogram {
+  display: block;
+  margin: 0;
+  color: inherit;
+  font-size: .72rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+.project-icon--featured .project-icon__monogram { font-size: .8rem; }
+.work-list__identity { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 14px; min-width: 0; }
+.work-list__label { min-width: 0; }
+.work-list__item .project-icon { display: inline-flex; margin: 0; color: var(--project-icon-ink); }
+.work-list__item .project-icon__monogram { color: inherit; font-size: .8rem; }
+.work-list__item .work-list__label > span { margin-top: 3px; }
+.project-row__identity { display: grid; grid-template-columns: 40px minmax(0, 1fr); align-items: start; gap: 16px; min-width: 0; }
+.project-row__text { min-width: 0; }
+@media (min-width: 701px) and (max-width: 900px) {
+  .work-list__item { grid-template-columns: 28px minmax(0, 1fr) 18px; gap: 10px 14px; }
+  .work-list__item::before { grid-column: 1; grid-row: 1; }
+  .work-list__item > .work-list__identity { grid-column: 2; grid-row: 1; }
+  .work-list__item > p { grid-column: 2 / 4; grid-row: 2; }
+  .work-list__item > i { grid-column: 3; grid-row: 1; }
+}
+@media (max-width: 700px) {
+  .work-list__identity { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; }
+  .project-icon--featured { --project-icon-size: 44px; }
+  .project-row__identity { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; }
+  .project-icon--compact { --project-icon-size: 36px; }
 }

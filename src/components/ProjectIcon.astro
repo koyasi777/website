@@ -1,0 +1,68 @@
+---
+/**
+ * A single display component for the site's project icons.
+ * Real project assets are preferred. The remaining projects use neutral
+ * monogram placeholders, not fabricated project logos.
+ */
+interface Props {
+  slug: string;
+  name: string;
+  domain: string;
+  size?: "featured" | "compact";
+}
+
+const { slug, name, domain, size = "compact" } = Astro.props;
+
+const iconPaths: Record<string, string> = {
+  mozkey: "/mozkey/icon.svg",
+  seoto: "/seoto/apple-touch-icon.png",
+  "advanced-search-for-x-twitter": "/projects/icons/advanced-search-for-x-twitter.png",
+  "amazon-review-trust-badge": "/projects/icons/amazon-review-trust-badge.png",
+  "keyflow-analyzer": "/projects/icons/keyflow-analyzer.svg",
+  "tsunagu-context-translator": "/projects/icons/tsunagu-context-translator.png",
+};
+
+const imagePath = iconPaths[slug];
+// Deliberately distinct initials for related tools (for example Standard Notes).
+// These are placeholders, not substitutes for an original product logo.
+const monograms: Record<string, string> = {
+  haganefox: "HF",
+  "character-transition-visualizer": "CV",
+  "youtube-auto-comment-expander": "YC",
+  "youtube-comment-zoom-control": "YZ",
+  "amazon-jp-url-cleaner": "AC",
+  "amazon-official-seller-filter": "AS",
+  "youtube-disable-experiencing-interruptions": "YI",
+  "return-youtube-dislike-pc-only": "YD",
+  "searxng-search-options-enhancer": "SO",
+  "standardnotes-markdown-enhancer": "MD",
+  "standardnotes-ja-localizer": "JA",
+  "standardnotes-mobile-back-fix": "MB",
+  "standardnotes-ui-cleaner": "UI",
+  "suumo-hidden-property-manager": "SU",
+  perplexica: "PX",
+  "nihongo-helper-kr": "NH",
+  "searxng-ublacklist-mobile-notice-fix": "UB",
+  "searxng-gemini-answer-injector": "AI",
+  "amazon-cpu-tamer-pro": "AP",
+  "rakuten-full-title": "RT",
+  "google-search-options-enhancer": "GO",
+  "us2jis-ahk": "UJ",
+};
+const words = name.match(/[A-Za-z0-9]+/g) ?? [];
+const derived = words.length >= 2
+  ? `${words[0]?.charAt(0) ?? ""}${words[1]?.charAt(0) ?? ""}`.toUpperCase()
+  : (words[0]?.slice(0, 2).toUpperCase() ?? "・");
+const monogram = monograms[slug] ?? derived;
+---
+
+<span
+  class:list={["project-icon", `project-icon--${size}`, `project-icon--${domain}`, imagePath && "project-icon--image"]}
+  aria-hidden="true"
+>
+  {imagePath ? (
+    <img src={imagePath} alt="" width="48" height="48" loading="lazy" decoding="async" />
+  ) : (
+    <span class="project-icon__monogram">{monogram}</span>
+  )}
+</span>

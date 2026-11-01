@@ -1,5 +1,6 @@
 ---
 import type { Project } from "../data/projects";
+import ProjectIcon from "./ProjectIcon.astro";
 
 interface Props { project: Project; }
 const { project } = Astro.props;
@@ -52,10 +53,13 @@ const layers = project.layers.map((layer) => layerLabels[layer] ?? layer);
   data-search={`${project.name} ${project.problem} ${project.intervention} ${project.summary} ${project.layers.join(" ")}`.toLowerCase()}
 >
   <div class="project-row__main">
-    <div class="project-row__text">
-      <h2>{project.name}</h2>
-      <p>{project.summary}</p>
-      <p class="project-row__meta">{domainLabel} · {layers.join(" · ")} · {originLabel}</p>
+    <div class="project-row__identity">
+      <ProjectIcon slug={project.slug} name={project.name} domain={project.domain} />
+      <div class="project-row__text">
+        <h2>{project.name}</h2>
+        <p>{project.summary}</p>
+        <p class="project-row__meta">{domainLabel} · {layers.join(" · ")} · {originLabel}</p>
+      </div>
     </div>
 
     <div class="project-row__links">

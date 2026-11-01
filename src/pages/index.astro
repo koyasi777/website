@@ -1,34 +1,45 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectIcon from "../components/ProjectIcon.astro";
 import { projects, projectBySlug } from "../data/projects";
 
 const selected = [
   {
     name: "Mozkey",
+    slug: "mozkey",
+    domain: "japanese-input",
     kind: "日本語IME",
     description: "Mozcをベースに、日常利用向けの変換・学習・文脈処理などを拡張したIME。",
     href: "/mozkey/",
   },
   {
     name: "せおと配列",
+    slug: "seoto",
+    domain: "japanese-input",
     kind: "日本語キーボード配列",
     description: "分割・カラムスタッガード環境で、日本語を指の流れから設計したローマ字配列。",
     href: "/seoto/",
   },
   {
     name: "Advanced Search for X",
+    slug: "advanced-search-for-x-twitter",
+    domain: "search",
     kind: "検索ツール",
     description: "Xの高度検索、保存、履歴、整理を一つの検索ワークスペースへまとめるツール。",
     href: projectBySlug["advanced-search-for-x-twitter"].repo,
   },
   {
     name: "Amazon Review Trust Badge",
+    slug: "amazon-review-trust-badge",
+    domain: "web-ux",
     kind: "Amazonレビュー分析 Userscript",
     description: "レビュアーの活動傾向からS〜Dの信頼度バッジを算出し、レビュー判断の材料を詳しく表示するUserscript。",
     href: projectBySlug["amazon-review-trust-badge"].repo,
   },
   {
     name: "Keyflow Analyzer",
+    slug: "keyflow-analyzer",
+    domain: "japanese-input",
     kind: "キーボード配列評価",
     description: "キー位置だけでなく、指の遷移・疲労・コスト分布まで含めて配列を評価するツール。",
     href: projectBySlug["keyflow-analyzer"].demo!,
@@ -82,9 +93,12 @@ const groups = [
       <div class="work-list">
         {selected.map((work) => (
           <a class="work-list__item" href={work.href}>
-            <div>
-              <h3>{work.name}</h3>
-              <span>{work.kind}</span>
+            <div class="work-list__identity">
+              <ProjectIcon slug={work.slug} name={work.name} domain={work.domain} size="featured" />
+              <div class="work-list__label">
+                <h3>{work.name}</h3>
+                <span>{work.kind}</span>
+              </div>
             </div>
             <p>{work.description}</p>
             <i aria-hidden="true">↗</i>
