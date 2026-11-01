@@ -575,7 +575,7 @@ main,
 .setup-grid { display: grid; grid-template-columns: 220px 1fr; gap: 42px; }
 .setup-grid .plain-section__title { margin: 0; }
 .setup-steps { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line-dark); }
-.setup-steps li { display: grid; grid-template-columns: 220px 1fr; gap: 28px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.setup-steps li { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 28px; padding: 16px 0; border-bottom: 1px solid var(--line); }
 .setup-steps strong { font-size: .87rem; }
 .setup-steps span { color: var(--muted); font-size: .86rem; }
 .note-link { margin: 18px 0 0; color: var(--muted); font-size: .84rem; }
@@ -665,6 +665,7 @@ main,
   .work-list__item { grid-template-columns: 200px 1fr 18px; }
   .project-row__details { grid-template-columns: 1fr; }
   .seoto-hero__copy { grid-template-columns: 1fr; gap: 12px; }
+  .setup-grid { grid-template-columns: 1fr; gap: 17px; }
   .design-grid { grid-template-columns: 180px 1fr; gap: 34px; }
 }
 
