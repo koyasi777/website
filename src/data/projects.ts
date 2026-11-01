@@ -37,6 +37,7 @@ export const projects: Project[] = [
     slug: "mozkey",
     name: "Mozkey",
     repo: "https://github.com/koyasi777/mozkey",
+    demo: "/mozkey/",
     domain: "japanese-input",
     domainLabel: "Japanese Input",
     origin: "fork-heavy",

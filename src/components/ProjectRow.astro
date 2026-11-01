@@ -59,7 +59,7 @@ const layers = project.layers.map((layer) => layerLabels[layer] ?? layer);
     </div>
 
     <div class="project-row__links">
-      {project.demo && <a href={project.demo}>デモ ↗</a>}
+      {project.demo && <a href={project.demo}>{project.slug === "mozkey" ? "公式サイト" : "デモ ↗"}</a>}
       <a href={project.repo}>GitHub ↗</a>
     </div>
   </div>

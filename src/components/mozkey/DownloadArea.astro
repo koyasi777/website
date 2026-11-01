@@ -1,0 +1,311 @@
+---
+import { mozkey } from "../../data/mozkey";
+
+const { distribution, links } = mozkey;
+const files = [
+  { key: "windows-x64", os: "Windows", title: "Windows x64", subtitle: "Intel / AMD（64-bit）", asset: distribution.assets.windowsX64 },
+  { key: "windows-arm64", os: "Windows", title: "Windows ARM64", subtitle: "Windows on Arm", asset: distribution.assets.windowsArm64 },
+  { key: "macos", os: "macOS", title: "macOS Universal", subtitle: "Apple Silicon / Intel", asset: distribution.assets.macosUniversal },
+] as const;
+---
+
+<section class="mz-section mz-download" id="download" aria-labelledby="download-title">
+  <div class="mz-shell">
+    <div class="mz-download__heading">
+      <span class="mz-kicker">GET MOZKEY<img class="mz-download__kicker-icon" src="/mozkey/icon.svg" width="20" height="20" alt="" loading="lazy" decoding="async" /></span>
+      <h2 id="download-title">Mozkeyを使ってみる。</h2>
+      <p>お使いの環境に合うインストーラーを、ここから直接ダウンロードできます。</p>
+    </div>
+
+    <div class="mz-dl__selection" id="mz-download-selection" aria-live="polite">
+      <span class="mz-dl__selection-label" data-mz-recommend-label>配布バージョン</span>
+      <div class="mz-dl__selection-text">
+        <strong data-mz-recommend-title>Mozkey {distribution.version}</strong>
+        <p data-mz-recommend-desc>OS・CPUに対応するインストーラーを選んでください。</p>
+      </div>
+      <a class="mz-button mz-button--primary mz-dl__suggested-button" data-mz-recommended-download href="#download" hidden>
+        推奨版をダウンロード <span aria-hidden="true">↓</span>
+      </a>
+    </div>
+
+    <div class="mz-dl__cards" aria-label="OS別のダウンロード">
+      {files.map((item) => (
+        <article class="mz-dl__card" data-mz-platform={item.key}>
+          <div class="mz-dl__card-heading">
+            <span class="mz-dl__platform">{item.os}</span>
+            <span class="mz-dl__rec-tag" hidden>お使いの環境向け</span>
+          </div>
+          <h3>{item.title}</h3>
+          <p class="mz-dl__subtitle">{item.subtitle}</p>
+          <p class="mz-dl__version"><span data-mz-file-version>{distribution.version}</span> <span aria-hidden="true">·</span> <span data-mz-file-size>{item.asset.sizeLabel}</span></p>
+          <a
+            class="mz-dl__file-link"
+            href={item.asset.url}
+            data-mz-file={item.key}
+            aria-label={`${item.title}版 Mozkey ${distribution.version} をダウンロード`}
+          >
+            インストーラーをダウンロード <span aria-hidden="true">↓</span>
+          </a>
+          <p class="mz-dl__filename" data-mz-file-name>{item.asset.name}</p>
+          <details class="mz-dl__checksum">
+            <summary>SHA-256を表示</summary>
+            <code data-mz-file-sha256>{item.asset.sha256}</code>
+          </details>
+        </article>
+      ))}
+    </div>
+
+
+    <!-- MOZKEY PLAYBACK AND INSTALL GUIDE V2: concise, OS-specific help. -->
+    <section class="mz-install" aria-labelledby="mz-install-title">
+      <div class="mz-install__intro">
+        <span class="mz-kicker">INSTALLATION</span>
+        <h3 id="mz-install-title">インストールのご案内</h3>
+        <p>ダウンロード後の手順と、初回のセキュリティ確認についてご案内します。</p>
+      </div>
+      <div class="mz-install__grid">
+        <details class="mz-install__card">
+          <summary><span><strong>Windows</strong><small>MSI・SmartScreenの確認</small></span><span class="mz-install__chevron" aria-hidden="true">＋</span></summary>
+          <ol>
+            <li>お使いのCPUに合ったMSIをダウンロードし、ダブルクリックしてインストールします。</li>
+            <li>未署名版でSmartScreenの警告が出た場合は、公式配布元とSHA-256を確認したうえで「詳細情報」→「実行」を選択できます。</li>
+            <li>インストール後は <strong>Win + Space</strong> でMozkeyを選択します。表示されなければ再サインインまたは再起動してください。</li>
+          </ol>
+          <p>既存版から更新する前に、設定やユーザー辞書をバックアップしてください。</p>
+        </details>
+        <details class="mz-install__card">
+          <summary><span><strong>macOS</strong><small>Gatekeeperの確認・再ログイン</small></span><span class="mz-install__chevron" aria-hidden="true">＋</span></summary>
+          <ol>
+            <li>Universal PKGをダウンロードし、Finderから開いてインストールします。</li>
+            <li>開発元の確認ができない警告で止まった場合は、公式配布元とSHA-256を確認してから、<strong>システム設定 → プライバシーとセキュリティ → このまま開く</strong>で対象PKGのみ許可できます。</li>
+            <li>インストール後は<strong>ログアウト・再ログイン</strong>し、<strong>システム設定 → キーボード → テキスト入力 → 編集</strong>から「ひらがな（Mozkey）」を選択または追加します。</li>
+          </ol>
+          <p><a href="https://support.apple.com/ja-jp/102445" target="_blank" rel="noopener noreferrer">Appleのセキュリティ案内 ↗</a></p>
+        </details>
+      </div>
+      <p class="mz-install__warning">単に発行元を確認できない警告と、マルウェア検出・破損の警告は異なります。後者の場合は実行しないでください。SmartScreen・Gatekeeperなどの保護機能全体を無効化する必要はありません。</p>
+      <a class="mz-install__more" href={links.readme} target="_blank" rel="noopener noreferrer">詳しい手順はREADMEへ <span aria-hidden="true">↗</span></a>
+    </section>
+    <p class="mz-dl__os-note">Linux向けインストーラーは現在公開していません。スマートフォン・タブレットにも対応していません。</p>
+    <div class="mz-dl__footnotes">
+      <p>Windows向けMSIは現在未署名です。macOSでもセキュリティ確認が必要な場合があります。OSの保護機能全体を無効化しないでください。 <a href={links.signing} target="_blank" rel="noopener noreferrer">署名ポリシー ↗</a></p>
+      <p>配布元はMozkey公式GitHub Releasesです。<a href={distribution.checksumsUrl} data-mz-checksums>SHA-256チェックサムを確認 ↗</a> <span aria-hidden="true">·</span> <a href={links.releases} data-mz-release-notes target="_blank" rel="noopener noreferrer">リリースノート ↗</a></p>
+      <p data-mz-release-status role="status" aria-live="polite">最新リリースを確認しています。JavaScriptが無効な場合は、サイトに保存された{distribution.version}の配布情報を表示します。</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // The site uses its own Cloudflare API endpoint; no user IP / UA is sent to GitHub.
+  // SSR contains a verified v1.0.0 fallback, so downloads remain available without JS.
+  type DownloadKey = "windows-x64" | "windows-arm64" | "macos";
+  type AssetKey = "windowsX64" | "windowsArm64" | "macosUniversal";
+  type ReleaseAsset = { name: string; url: string; size: number; sha256: string };
+  type LatestRelease = {
+    version: string;
+    publishedAt: string;
+    checkedAt: string;
+    releaseUrl: string;
+    checksumsUrl: string;
+    assets: Record<AssetKey, ReleaseAsset>;
+  };
+  type UAData = {
+    platform?: string;
+    getHighEntropyValues?: (hints: string[]) => Promise<{ architecture?: string; bitness?: string }>;
+  };
+
+  const directCtas = document.querySelectorAll<HTMLAnchorElement>("[data-mz-direct-cta]");
+  const recommendButton = document.querySelector<HTMLAnchorElement>("[data-mz-recommended-download]");
+  const recommendTitle = document.querySelector<HTMLElement>("[data-mz-recommend-title]");
+  const recommendDesc = document.querySelector<HTMLElement>("[data-mz-recommend-desc]");
+  const recommendLabel = document.querySelector<HTMLElement>("[data-mz-recommend-label]");
+  const releaseStatus = document.querySelector<HTMLElement>("[data-mz-release-status]");
+  let activeVersion = document.querySelector<HTMLElement>("[data-mz-file-version]")?.textContent?.trim() || "v1.0.0";
+  const cards: { key: DownloadKey; assetKey: AssetKey; label: string }[] = [
+    { key: "windows-x64", assetKey: "windowsX64", label: "Windows x64" },
+    { key: "windows-arm64", assetKey: "windowsArm64", label: "Windows ARM64" },
+    { key: "macos", assetKey: "macosUniversal", label: "macOS Universal" },
+  ];
+
+  function isRelease(value: unknown): value is LatestRelease {
+    if (!value || typeof value !== "object") return false;
+    const release = value as Record<string, unknown>;
+    if (typeof release.version !== "string" || !/^v\d+\.\d+\.\d+$/.test(release.version)) return false;
+    if (typeof release.publishedAt !== "string" || typeof release.checkedAt !== "string") return false;
+    if (!release.assets || typeof release.assets !== "object") return false;
+    const base = `https://github.com/koyasi777/mozkey/releases/download/${release.version}/`;
+    const assets = release.assets as Record<string, unknown>;
+    for (const item of cards) {
+      const asset = assets[item.assetKey] as Record<string, unknown> | undefined;
+      const suffix = item.assetKey === "windowsX64" ? "x64.msi" : item.assetKey === "windowsArm64" ? "arm64.msi" : "macos_universal.pkg";
+      const expectedName = `Mozkey_${release.version}_${suffix}`;
+      if (!asset || asset.name !== expectedName || asset.url !== base + expectedName ||
+          typeof asset.size !== "number" || asset.size <= 0 || !Number.isFinite(asset.size) ||
+          typeof asset.sha256 !== "string" || !/^[a-f0-9]{64}$/i.test(asset.sha256)) return false;
+    }
+    return release.checksumsUrl === base + "SHA256SUMS.txt" &&
+      release.releaseUrl === `https://github.com/koyasi777/mozkey/releases/tag/${release.version}`;
+  }
+
+  function setStatus(text: string): void {
+    if (releaseStatus) releaseStatus.textContent = text;
+  }
+
+  async function updateRelease(): Promise<void> {
+    try {
+      const response = await fetch("/api/mozkey/release", { headers: { Accept: "application/json" } });
+      if (!response.ok) throw new Error("Latest release unavailable");
+      const remote: unknown = await response.json();
+      if (!isRelease(remote)) throw new Error("Unexpected release response");
+      const release = remote;
+
+      // Validate all assets BEFORE mutating links to avoid mixed versions.
+      for (const item of cards) {
+        const card = document.querySelector<HTMLElement>(`[data-mz-platform="${item.key}"]`);
+        const link = card?.querySelector<HTMLAnchorElement>("[data-mz-file]");
+        if (!card || !link) throw new Error("Missing download card");
+      }
+      for (const item of cards) {
+        const card = document.querySelector<HTMLElement>(`[data-mz-platform="${item.key}"]`)!;
+        const asset = release.assets[item.assetKey];
+        const link = card.querySelector<HTMLAnchorElement>("[data-mz-file]")!;
+        link.href = asset.url;
+        link.setAttribute("aria-label", `${item.label}版 Mozkey ${release.version} をダウンロード`);
+        const version = card.querySelector<HTMLElement>("[data-mz-file-version]");
+        const size = card.querySelector<HTMLElement>("[data-mz-file-size]");
+        const name = card.querySelector<HTMLElement>("[data-mz-file-name]");
+        const sha256 = card.querySelector<HTMLElement>("[data-mz-file-sha256]");
+        if (version) version.textContent = release.version;
+        if (size) size.textContent = `${Math.round(asset.size / 1_000_000)} MB`;
+        if (name) name.textContent = asset.name;
+        if (sha256) sha256.textContent = asset.sha256;
+      }
+      const checksums = document.querySelector<HTMLAnchorElement>("[data-mz-checksums]");
+      const notes = document.querySelector<HTMLAnchorElement>("[data-mz-release-notes]");
+      if (checksums) checksums.href = release.checksumsUrl;
+      if (notes) notes.href = release.releaseUrl;
+      activeVersion = release.version;
+      if (recommendTitle) recommendTitle.textContent = `Mozkey ${release.version}`;
+      setStatus(`最新の正式版 ${release.version} を確認しました（GitHub公開日：${release.publishedAt.slice(0, 10)}）。新しい正式リリースは約15分以内を目安に反映されます。`);
+    } catch {
+      // Keep complete, verified v1.0.0 static links; never show them as confirmed latest.
+      setStatus("最新の配布情報を確認できませんでした。現在はサイトに保存されたv1.0.0の情報を表示しています。最新情報はGitHub Releasesをご確認ください。");
+    }
+  }
+
+  async function detectPlatform(): Promise<{ key: DownloadKey | null; message: string }> {
+    const ua = navigator.userAgent || "";
+    const agent = (navigator as Navigator & { userAgentData?: UAData }).userAgentData;
+    const platform = agent?.platform || navigator.platform || "";
+    if (/android|iphone|ipad|ipod/i.test(ua) || (/mac/i.test(platform) && navigator.maxTouchPoints > 1)) {
+      return { key: null, message: "スマートフォン・タブレットには対応していません。WindowsまたはMacからご利用ください。" };
+    }
+    if (/mac/i.test(platform) || /macintosh/i.test(ua)) {
+      return { key: "macos", message: "macOSを検出しました。Universal版をご利用いただけます。" };
+    }
+    if (/win/i.test(platform) || /windows/i.test(ua)) {
+      if (typeof agent?.getHighEntropyValues === "function") {
+        try {
+          const info = await agent.getHighEntropyValues(["architecture", "bitness"]);
+          const arch = (info.architecture || "").toLowerCase();
+          if (info.bitness === "64" && /^(arm|aarch64)/.test(arch)) {
+            return { key: "windows-arm64", message: "Windows ARM64環境向けのインストーラーをおすすめします。" };
+          }
+          if (info.bitness === "64" && /^(x86|x86_64|amd64)$/.test(arch)) {
+            return { key: "windows-x64", message: "Windows x64向けのインストーラーをおすすめします。" };
+          }
+        } catch { /* Never guess architecture from a potentially emulated browser */ }
+      }
+      return { key: null, message: "Windowsを検出しました。CPUがIntel/AMDならx64版、Windows on ArmならARM64版を選んでください。" };
+    }
+    if (/linux/i.test(platform) || /linux/i.test(ua)) {
+      return { key: null, message: "Linux版インストーラーは現在公開していません。" };
+    }
+    return { key: null, message: "OSを自動判定できませんでした。対応するインストーラーを選んでください。" };
+  }
+
+  async function initDownloads(): Promise<void> {
+    // Release metadata first: the direct CTA must never point to the old version after a successful refresh.
+    await updateRelease();
+    const result = await detectPlatform();
+    if (recommendDesc) recommendDesc.textContent = result.message;
+    if (!result.key) return;
+    const candidate = document.querySelector<HTMLAnchorElement>(`[data-mz-file="${result.key}"]`);
+    const card = document.querySelector<HTMLElement>(`[data-mz-platform="${result.key}"]`);
+    if (!candidate || !card) return;
+    const label = cards.find((item) => item.key === result.key)?.label ?? "Mozkey";
+    directCtas.forEach((anchor) => {
+      anchor.href = candidate.href;
+      anchor.setAttribute("aria-label", `${label}版 Mozkeyを直接ダウンロード`);
+    });
+    if (recommendLabel) recommendLabel.textContent = "推奨ダウンロード";
+    if (recommendTitle) recommendTitle.textContent = `${label} · Mozkey ${activeVersion}`;
+    if (recommendButton) {
+      recommendButton.href = candidate.href;
+      recommendButton.hidden = false;
+      recommendButton.setAttribute("aria-label", `${label}版 Mozkeyを直接ダウンロード`);
+    }
+    card.classList.add("mz-dl__card--recommended");
+    const mark = card.querySelector<HTMLElement>(".mz-dl__rec-tag");
+    if (mark) mark.hidden = false;
+  }
+
+  void initDownloads();
+</script>
+
+<style>
+  /* Small brand accent beside GET MOZKEY, not inside the Japanese heading */
+  .mz-download__kicker-icon { display: block; flex: none; width: 20px; height: 20px; }
+  .mz-dl__selection { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; max-width: 1010px; margin: 0 auto 22px; border: 1px solid #c8ded2; border-radius: 14px; background: #eaf4ef; padding: 19px 24px; }
+  .mz-dl__selection-label { font-size: 11px; letter-spacing: .08em; font-weight: 800; color: #167160; flex: 0 0 auto; }
+  .mz-dl__selection-text { flex: 1 1 260px; min-width: 0; }
+  .mz-dl__selection-text strong { font-size: 17px; font-weight: 800; color: #183e34; }
+  .mz-dl__selection-text p { margin-top: 4px; color: #4c685c; font-size: 12px; line-height: 1.65; }
+  .mz-dl__suggested-button { flex: 0 0 auto; text-decoration: none; font-size: 13px; }
+  .mz-dl__suggested-button[hidden] { display: none; }
+  .mz-dl__cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; max-width: 1010px; margin: 0 auto; }
+  .mz-dl__card { min-width: 0; display: flex; flex-direction: column; padding: 24px 20px 20px; border: 1px solid #d8e6dc; border-radius: 13px; background: #fff; transition: border-color .18s ease, box-shadow .18s ease; }
+  .mz-dl__card--recommended { border-color: #258670; box-shadow: 0 10px 32px rgba(28, 108, 81, .09); }
+  .mz-dl__card-heading { display: flex; justify-content: space-between; gap: 5px; align-items: center; min-height: 25px; }
+  .mz-dl__platform { font-size: 10px; color: #197563; letter-spacing: .1em; font-weight: 800; text-transform: uppercase; }
+  .mz-dl__rec-tag { white-space: nowrap; font-size: 10px; color: #126d56; background: #e2f3e9; padding: 4px 8px; border-radius: 99px; }
+  .mz-dl__rec-tag[hidden] { display: none; }
+  .mz-dl__card h3 { margin-top: 16px; font-size: 21px; color: #1b4035; font-weight: 800; }
+  .mz-dl__subtitle { margin-top: 5px; color: #556d60; font-size: 12px; min-height: 20px; }
+  .mz-dl__version { color: #567066; margin: 17px 0 18px; font-size: 12px; }
+  .mz-dl__file-link { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; margin-top: auto; padding: 10px 13px; border-radius: 7px; color: white; background: #167b67; text-decoration: none; font-size: 12px; font-weight: 750; transition: background .18s ease; }
+  .mz-dl__file-link:hover { background: #0b604f; }
+  .mz-dl__file-link:focus-visible, .mz-dl__suggested-button:focus-visible { outline: 3px solid #2b9d87; outline-offset: 3px; }
+  .mz-dl__filename { margin-top: 13px; color: #657a6f; font-size: 10px; line-height: 1.6; overflow-wrap: anywhere; }
+  .mz-dl__os-note, .mz-dl__footnotes { max-width: 1010px; margin-left: auto; margin-right: auto; }
+  .mz-dl__checksum { margin-top: 9px; color: #567066; font-size: 11px; }
+  .mz-dl__checksum summary { cursor: pointer; }
+  .mz-dl__checksum code { display: block; overflow-wrap: anywhere; margin-top: 5px; font-size: 10px; line-height: 1.6; }
+  .mz-dl__os-note { margin-top: 24px; font-size: 13px; color: #58695f; }
+  .mz-dl__footnotes { display: grid; gap: 7px; margin-top: 17px; padding-top: 16px; border-top: 1px solid #d8e6dc; color: #617368; font-size: 11px; line-height: 1.85; }
+  .mz-dl__footnotes a { color: #116c59; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 900px) { .mz-dl__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .mz-dl__selection { gap: 12px; } }
+  @media (max-width: 620px) { .mz-dl__cards { grid-template-columns: 1fr; } .mz-dl__selection { display: block; padding: 19px; } .mz-dl__selection-text { margin-top: 8px; } .mz-dl__suggested-button { width: 100%; justify-content: center; margin-top: 16px; } .mz-dl__card { padding: 20px; } .mz-dl__card h3 { margin-top: 10px; } }
+
+  /* MOZKEY PLAYBACK AND INSTALL GUIDE V2 */
+  .mz-install { max-width: 1010px; margin: 34px auto 0; padding: 26px 0 0; border-top: 1px solid #d8e6dc; }
+  .mz-install__intro .mz-kicker { font-size: 10px; }
+  .mz-install__intro h3 { margin-top: 7px; font-size: 21px; letter-spacing: -.035em; color: #1b4035; }
+  .mz-install__intro p { margin-top: 5px; font-size: 12px; color: #617368; }
+  .mz-install__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+  .mz-install__card { min-width: 0; background: #fff; border: 1px solid #d8e6dc; border-radius: 12px; padding: 0 20px; }
+  .mz-install__card summary { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 0; cursor: pointer; list-style: none; }
+  .mz-install__card summary::-webkit-details-marker { display: none; }
+  .mz-install__card summary strong { display: block; font-size: 15px; color: #1c4337; }
+  .mz-install__card summary small { display: block; margin-top: 3px; color: #62786b; font-size: 11px; }
+  .mz-install__chevron { flex: 0 0 auto; font-size: 20px; font-weight: 400; color: #277e68; line-height: 1; }
+  .mz-install__card[open] .mz-install__chevron { transform: rotate(45deg); }
+  .mz-install__card ol { padding: 1px 0 0 20px; margin: 0; color: #486459; font-size: 12px; line-height: 1.9; }
+  .mz-install__card li + li { margin-top: 8px; }
+  .mz-install__card > p { margin: 11px 0 18px; color: #62786b; font-size: 11px; line-height: 1.8; }
+  .mz-install__card a, .mz-install__more { color: #126d59; text-decoration: underline; text-underline-offset: 3px; }
+  .mz-install__warning { margin-top: 15px; font-size: 11px; line-height: 1.85; color: #617368; }
+  .mz-install__more { display: inline-block; font-size: 12px; margin-top: 12px; font-weight: 700; }
+  @media (max-width: 620px) { .mz-install { margin-top: 25px; } .mz-install__grid { grid-template-columns: 1fr; } .mz-install__card { padding-inline: 17px; } }
+  @media (prefers-reduced-motion: reduce) { .mz-dl__card, .mz-dl__file-link { transition: none; } }
+</style>

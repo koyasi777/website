@@ -1,0 +1,104 @@
+---
+interface Props {
+  label: string;
+  description: string;
+  video: string;
+  poster: string;
+  mp4?: string;
+  available: boolean;
+  id: string;
+  prominent?: boolean;
+}
+const { label, description, video, poster, mp4, available, id, prominent = false } = Astro.props;
+---
+<figure class:list={["mz-demo", prominent && "mz-demo--hero"]} aria-labelledby={`${id}-caption`}>
+  <div class="mz-demo__frame">
+    {available ? (
+      <video
+        class="mz-demo__video"
+        controls
+        playsinline
+        muted
+        loop
+        data-mz-demo-autoplay
+        preload={prominent ? "metadata" : "none"}
+        poster={poster}
+        aria-describedby={`${id}-description`}
+        aria-label={`${label}のMozkey実機操作動画`}
+      >
+        {mp4 && <source src={mp4} type="video/mp4" />}
+        <source src={video} type="video/webm" />
+        動画を再生できません。映像の内容は下の説明をご覧ください。
+      </video>
+    ) : (
+      <div class="mz-demo__pending" role="img" aria-label={`${label}：実機デモ映像は準備中`}>
+        <img class="mz-demo__pending-logo" src="/mozkey/icon.svg" width="70" height="70" alt="" loading={prominent ? "eager" : "lazy"} decoding="async" />
+        <p class="mz-demo__pending-heading">実機デモを準備中</p>
+        <p class="mz-demo__pending-sub">Mozkey の実際の操作映像をここに掲載します。</p>
+      </div>
+    )}
+    <span class="mz-demo__corner" aria-hidden="true">MOZKEY / PRODUCT DEMO</span>
+  </div>
+  <figcaption id={`${id}-caption`} class="mz-demo__caption">
+    <strong>{label}</strong>
+    <span id={`${id}-description`}>{description}</span>
+    {available && <button type="button" class="mz-demo__autoplay-toggle" data-mz-autoplay-toggle hidden>自動再生を停止</button>}
+  </figcaption>
+</figure>
+<script>
+  /* MOZKEY PLAYBACK AND INSTALL GUIDE V2: viewport-only silent autoplay; no OS motion gate. */
+  const videos = Array.from(document.querySelectorAll<HTMLVideoElement>(".mz-demo__video[data-mz-demo-autoplay]"));
+  const controls = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-mz-autoplay-toggle]"));
+  if (videos.length && "IntersectionObserver" in window) {
+    const visible = new WeakMap<HTMLVideoElement, boolean>();
+    let manuallyControlled = new WeakSet<HTMLVideoElement>();
+    const preferenceKey = "mozkey-demo-autoplay-disabled";
+    let autoplayEnabled = true;
+    try { autoplayEnabled = localStorage.getItem(preferenceKey) !== "1"; } catch { /* storage may be disabled */ }
+
+    const updateControls = () => {
+      for (const control of controls) {
+        control.hidden = false;
+        control.textContent = autoplayEnabled ? "自動再生を停止" : "自動再生を有効にする";
+        control.setAttribute("aria-label", autoplayEnabled
+          ? "このページのデモ動画の自動再生を停止"
+          : "このページのデモ動画の自動再生を有効にする");
+      }
+    };
+    const syncPlayback = () => {
+      const pageActive = document.visibilityState === "visible";
+      for (const video of videos) {
+        if (!autoplayEnabled || !pageActive || !visible.get(video)) {
+          if (!video.paused) video.pause();
+        } else if (!manuallyControlled.has(video) && video.paused) {
+          // A browser-level autoplay restriction cannot and should not be bypassed.
+          void video.play().catch(() => { /* native controls remain available */ });
+        }
+      }
+    };
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        visible.set(entry.target as HTMLVideoElement,
+          entry.isIntersecting && entry.intersectionRatio >= 0.5);
+      }
+      syncPlayback();
+    }, { threshold: [0, 0.5, 1] });
+
+    for (const video of videos) {
+      video.addEventListener("pointerdown", () => manuallyControlled.add(video), { passive: true });
+      video.addEventListener("keydown", () => manuallyControlled.add(video));
+      observer.observe(video);
+    }
+    for (const control of controls) {
+      control.addEventListener("click", () => {
+        autoplayEnabled = !autoplayEnabled;
+        try { localStorage.setItem(preferenceKey, autoplayEnabled ? "0" : "1"); } catch { /* optional preference */ }
+        if (autoplayEnabled) manuallyControlled = new WeakSet<HTMLVideoElement>();
+        updateControls();
+        syncPlayback();
+      });
+    }
+    document.addEventListener("visibilitychange", syncPlayback);
+    updateControls();
+  }
+</script>

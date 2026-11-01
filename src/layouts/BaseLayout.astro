@@ -81,8 +81,9 @@ const seotoCurrent = pathname.startsWith("/seoto/");
         </a>
         <nav class="site-nav" aria-label="メインナビゲーション">
           <a href="/projects/" aria-current={projectsCurrent ? "page" : undefined}>制作物</a>
+          <a href="/mozkey/">Mozkey</a>
           <a href="/seoto/" aria-current={seotoCurrent ? "page" : undefined}>せおと配列</a>
-          <a href="https://github.com/koyasi777">GitHub ↗</a>
+          <a class="site-nav__github" href="https://github.com/koyasi777">GitHub ↗</a>
         </nav>
       </div>
     </header>
@@ -94,6 +95,7 @@ const seotoCurrent = pathname.startsWith("/seoto/");
         <p>© koyasi777</p>
         <nav aria-label="フッターナビゲーション">
           <a href="/projects/">制作物</a>
+          <a href="/mozkey/">Mozkey</a>
           <a href="/seoto/">せおと配列</a>
           <a href="https://github.com/koyasi777">GitHub</a>
           <a href="https://note.com/firstyear_dev">note</a>

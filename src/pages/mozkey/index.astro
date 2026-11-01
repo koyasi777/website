@@ -1,0 +1,235 @@
+---
+import "../../styles/mozkey.css";
+import ProductDemo from "../../components/mozkey/ProductDemo.astro";
+import DownloadArea from "../../components/mozkey/DownloadArea.astro";
+import { mozkey } from "../../data/mozkey";
+
+const { links, media } = mozkey;
+const values = [
+  { href: "#features", number: "01", title: "自然に変換", detail: "ライブ変換と文脈補正" },
+  { href: "#personal", number: "02", title: "使うほど馴染む", detail: "あなたの選択を学ぶ" },
+  { href: "#customization", number: "03", title: "自分好みに", detail: "見た目も操作も自由に" },
+];
+const softwareApplicationJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: mozkey.name,
+  alternateName: "もずきー",
+  description: mozkey.description,
+  url: mozkey.canonical,
+  image: "https://koyasi777.com/mozkey/icon.svg",
+  inLanguage: "ja",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Windows, macOS",
+  isAccessibleForFree: true,
+  downloadUrl: mozkey.links.releases,
+  sameAs: mozkey.links.repository,
+  author: { "@type": "Person", name: "koyasi777", url: mozkey.links.creator },
+  offers: {
+    "@type": "Offer",
+    price: 0,
+    priceCurrency: "JPY",
+    url: mozkey.links.releases,
+  },
+}).replace(/</g, "\\u003c");
+
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f7faf8" />
+    <title>{mozkey.pageTitle}</title>
+    <meta name="description" content={mozkey.description} />
+    <link rel="canonical" href={mozkey.canonical} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mozkey" />
+    <meta property="og:title" content={mozkey.pageTitle} />
+    <meta property="og:description" content={mozkey.description} />
+    <meta property="og:url" content={mozkey.canonical} />
+    <meta property="og:image" content="https://koyasi777.com/og/mozkey.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mozkey — 書くことに集中できる、日本語入力。" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={mozkey.pageTitle} />
+    <meta name="twitter:description" content={mozkey.description} />
+    <meta name="twitter:image" content="https://koyasi777.com/og/mozkey.png" />
+    <meta name="twitter:image:alt" content="Mozkey — 書くことに集中できる、日本語入力。" />
+    <link rel="icon" href="/mozkey/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script is:inline type="application/ld+json" set:html={softwareApplicationJsonLd} />
+  </head>
+  <body>
+    <a class="mz-skip" href="#main-content">本文へスキップ</a>
+    <header class="mz-header">
+      <div class="mz-shell mz-header__inner">
+        <a class="mz-brand" href="/mozkey/" aria-label="Mozkey ホーム">
+          <img src="/mozkey/icon.svg" width="36" height="36" alt="" decoding="async" />
+          <span>Mozkey</span>
+        </a>
+        <nav class="mz-nav" aria-label="Mozkey ナビゲーション">
+          <a class="mz-nav__features" href="#features">特徴</a>
+          <a class="mz-nav__github" href={links.repository} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+          <a class="mz-button mz-button--small" data-mz-direct-cta href="#download">ダウンロード <span aria-hidden="true">↓</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="mz-hero" aria-labelledby="mozkey-title">
+        <div class="mz-shell mz-hero__topline">
+          <div class="mz-hero__identity">
+            <img class="mz-hero__logo" src="/mozkey/icon.svg" width="80" height="80" alt="" decoding="async" fetchpriority="high" />
+            <div class="mz-hero__identity-copy">
+              <p class="mz-hero__name">Mozkey</p>
+              <p class="mz-eyebrow"><span class="mz-eyebrow__line" aria-hidden="true"></span> OPEN SOURCE JAPANESE IME</p>
+            </div>
+          </div>
+        </div>
+        <div class="mz-shell mz-hero__grid">
+          <div class="mz-hero__copy">
+            <h1 id="mozkey-title">書くことに集中できる、<br class="mz-heading-break" /><span class="mz-hero__final-phrase">日本語入力。</span></h1>
+            <p class="mz-hero__lead">自然に変換し、使うほど馴染む。<br class="mz-desktop-break" />あなたの入力スタイルに合わせられる、日本語IME。</p>
+            <div class="mz-values mz-values--mobile" aria-label="Mozkeyの3つの強み">
+              {values.map((item) => (
+                <a class="mz-value" href={item.href}>
+                  <span class="mz-value__number" aria-hidden="true">{item.number}</span>
+                  <span class="mz-value__text"><strong>{item.title}</strong><span>{item.detail}</span></span>
+                  <span class="mz-value__arrow" aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </div>
+            <div class="mz-hero__actions">
+              <a class="mz-button mz-button--primary" data-mz-direct-cta href="#download">ダウンロード <span aria-hidden="true">↗</span></a>
+              <a class="mz-text-link" href={links.repository} target="_blank" rel="noopener noreferrer">GitHubを見る <span aria-hidden="true">↗</span></a>
+            </div>
+            <p class="mz-hero__note">Local AI <span aria-hidden="true">·</span> Open Source</p>
+          </div>
+          <div class="mz-hero__media">
+            <ProductDemo id="hero-demo" prominent={true} {...media.hero} />
+          </div>
+        </div>
+        <div class="mz-shell mz-values mz-values--desktop" aria-label="Mozkeyの3つの強み">
+          {values.map((item) => (
+            <a class="mz-value" href={item.href}>
+              <span class="mz-value__number" aria-hidden="true">{item.number}</span>
+              <span class="mz-value__text"><strong>{item.title}</strong><span>{item.detail}</span></span>
+              <span class="mz-value__arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="mz-section mz-section--border" id="features" aria-labelledby="natural-title">
+        <div class="mz-shell mz-feature">
+          <div class="mz-feature__copy">
+            <span class="mz-kicker">01 / NATURAL</span>
+            <h2 id="natural-title">変換を意識せず、<br />思いのままに。</h2>
+            <p>スペースを押す前から文章を変換。Mozcの通常変換とローカルZenzによる文脈補正が、自然な入力を支えます。</p>
+            <a class="mz-inline-link" href={links.readme} target="_blank" rel="noopener noreferrer">変換機能の詳細を読む <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="mz-feature__visual">
+            <ProductDemo id="natural-demo" {...media.natural} />
+          </div>
+        </div>
+      </section>
+
+      <section class="mz-section mz-section--tint" id="personal" aria-labelledby="personal-title">
+        <div class="mz-shell mz-feature mz-feature--reverse">
+          <div class="mz-feature__copy">
+            <span class="mz-kicker">02 / PERSONAL</span>
+            <h2 id="personal-title">使うほど、<br />自分の言葉に。</h2>
+            <p>選んだ表記を学び、好まない補正は控える。使い続けるほど、あなたの書き方に馴染んでいきます。</p>
+            <p class="mz-feature__fineprint">学習の反映は設定や入力状況により異なります。</p>
+          </div>
+          <div class="mz-feature__visual">
+            <ProductDemo id="learning-demo" {...media.learning} />
+          </div>
+        </div>
+      </section>
+
+      <section class="mz-section" id="customization" aria-labelledby="custom-title">
+        <div class="mz-shell mz-feature">
+          <div class="mz-feature__copy">
+            <span class="mz-kicker">03 / CUSTOMIZATION</span>
+            <!-- MOZKEY PLAYBACK AND INSTALL GUIDE V2: controlled Japanese line wrapping -->
+            <h2 id="custom-title" class="mz-custom-heading"><span>心地よさも、</span><span>使いやすさも、</span><span>自分好みに。</span></h2>
+            <p>候補ウィンドウの見た目から、キー操作やローマ字入力のルールまで。使い慣れた入力環境を自分で作れます。</p>
+          </div>
+          <div class="mz-feature__visual">
+            <ProductDemo id="customization-demo" {...media.customization} />
+          </div>
+        </div>
+      </section>
+
+      <section class="mz-privacy" id="privacy" aria-labelledby="privacy-title">
+        <div class="mz-shell mz-privacy__inner">
+          <div>
+            <span class="mz-kicker mz-kicker--light">LOCAL-FIRST BY DESIGN</span>
+            <h2 id="privacy-title">あなたの入力は、<br />あなたのもの。</h2>
+          </div>
+          <div class="mz-privacy__body">
+            <p>ZenzによるAI補正はローカルで実行。利用統計の送信機能を無効化し、入力のプライバシーに配慮して設計されています。Mozkeyはオープンソースです。</p>
+            <p class="mz-privacy__terms">Local AI <span aria-hidden="true">/</span> Open Source <span aria-hidden="true">/</span> Privacy-conscious</p>
+            <a class="mz-privacy__link" href={links.security} target="_blank" rel="noopener noreferrer">セキュリティの設計と制限事項 <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+
+      <DownloadArea />
+      <section class="mz-discover" id="more-by-koyasi777" aria-labelledby="mz-discover-title">
+        <div class="mz-shell">
+          <div class="mz-discover__head">
+            <span class="mz-kicker">MORE FROM KOYASI777</span>
+            <h2 id="mz-discover-title">ほかにも、つくっています。</h2>
+            <p>日本語入力からキーボード配列、検索ツールまで。ほかの制作物も紹介しています。</p>
+          </div>
+          <nav class="mz-discover__links" aria-label="koyasi777の他のページ">
+            <a class="mz-discover__link" href="/seoto/">
+              <span class="mz-discover__number" aria-hidden="true">01</span>
+              <span class="mz-discover__text"><strong>せおと配列</strong><span>日本語を指の流れから考えたキーボード配列</span></span>
+              <span class="mz-discover__arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="mz-discover__link" href="/projects/">
+              <span class="mz-discover__number" aria-hidden="true">02</span>
+              <span class="mz-discover__text"><strong>制作物一覧</strong><span>公開しているソフトウェアやツールを見る</span></span>
+              <span class="mz-discover__arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="mz-discover__link" href="/">
+              <span class="mz-discover__number" aria-hidden="true">03</span>
+              <span class="mz-discover__text"><strong>koyasi777.com</strong><span>制作者のホームページへ戻る</span></span>
+              <span class="mz-discover__arrow" aria-hidden="true">↗</span>
+            </a>
+          </nav>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mz-footer">
+      <div class="mz-shell mz-footer__top">
+        <div class="mz-footer__brand">
+          <a href="/mozkey/"><img src="/mozkey/icon.svg" width="32" height="32" alt="" loading="lazy" decoding="async" /> Mozkey</a>
+          <p>Mozcをベースにした非公式フォークであり、Googleの公式製品ではありません。Googleによるサポートや品質保証の対象外です。</p>
+        </div>
+        <nav aria-label="製品ドキュメント">
+          <a href="/">制作者ホーム</a>
+          <a href="/projects/">制作物一覧</a>
+          <a href={links.repository} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a href={links.readme} target="_blank" rel="noopener noreferrer">README ↗</a>
+          <a href={links.releases} target="_blank" rel="noopener noreferrer">Releases ↗</a>
+          <a href={links.notices} target="_blank" rel="noopener noreferrer">ライセンス・クレジット ↗</a>
+        </nav>
+      </div>
+      <div class="mz-shell mz-footer__bottom">
+        <p>© 2026 koyasi777. Based on <a href={links.mozc} target="_blank" rel="noopener noreferrer">Mozc</a>. See <a href={links.notices} target="_blank" rel="noopener noreferrer">third-party notices</a> for Zenz, llama.cpp and other components.</p>
+        <a href={links.creator}>koyasi777.com <span aria-hidden="true">↗</span></a>
+      </div>
+    </footer>
+  </body>
+</html>
