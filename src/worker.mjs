@@ -94,14 +94,25 @@ export default {
         },
         signal: AbortSignal.timeout(6000),
       });
-      if (!upstream.ok) throw new Error("GitHub unavailable");
+      if (!upstream.ok) {
+        // Safe diagnostics: log only status and rate-limit headers; never response bodies or credentials.
+        const remaining = upstream.headers.get("x-ratelimit-remaining") ?? "unknown";
+        const reset = upstream.headers.get("x-ratelimit-reset") ?? "unknown";
+        const retryAfter = upstream.headers.get("retry-after") ?? "none";
+        throw new Error(
+          `GitHub releases API HTTP ${upstream.status}; remaining=${remaining}; reset=${reset}; retryAfter=${retryAfter}`,
+        );
+      }
       const json = await upstream.json();
       const release = parseLatestRelease(json);
       if (!release) throw new Error("Latest release has incomplete or unexpected assets");
       const response = responseJSON(release, 200, true);
       if (cache && ctx?.waitUntil) ctx.waitUntil(cache.put(key, response.clone()));
       return response;
-    } catch {
+    } catch (error) {
+      // Diagnostic is server-side only. Do not expose error details or request/user data to the client.
+      const reason = error instanceof Error ? `${error.name}: ${error.message}` : "unknown error";
+      console.error("[mozkey-release] release_unavailable", reason);
       // Do not cache errors or send unvalidated URLs. The static v1.0.0 HTML remains usable.
       return responseJSON({ error: "release_unavailable" }, 503, false);
     }
