@@ -57,9 +57,10 @@ const seotoCurrent = pathname.startsWith("/seoto/");
     <meta name="twitter:image" content={ogImageURL} />
     <meta name="twitter:image:alt" content={ogAlt} />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {seotoCurrent && <link rel="icon" href="/seoto/favicon-16.png?v=3" sizes="16x16" type="image/png" />}
+    <link rel="icon" href={seotoCurrent ? "/seoto/favicon-32.png?v=3" : "/koyasi777-favicon-32.png?v=2"} sizes="32x32" type="image/png" />
+    <link rel="icon" href={seotoCurrent ? "/seoto/favicon-48.png?v=3" : "/koyasi777-favicon-48.png?v=2"} sizes="48x48" type="image/png" />
+    <link rel="apple-touch-icon" href={seotoCurrent ? "/seoto/apple-touch-icon.png?v=3" : "/koyasi777-apple-touch-icon.png?v=2"} sizes="180x180" />
   </head>
 
   <body>
