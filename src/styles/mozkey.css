@@ -26,8 +26,8 @@ img, video { display: block; max-width: 100%; }
 .mz-skip:focus { top: 0; }
 .mz-header { background: rgba(247,250,248,.97); border-bottom: 1px solid var(--mz-line); }
 .mz-header__inner { min-height: 64px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-.mz-brand { display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; color: var(--mz-ink); font-weight: 800; font-size: 21px; letter-spacing: -.045em; }
-.mz-brand img { width: 37px; height: 37px; }
+.mz-brand { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; color: var(--mz-ink); font-weight: 750; font-size: 15px; letter-spacing: -.02em; }
+.mz-brand img { width: 30px; height: 30px; flex: 0 0 auto; object-fit: cover; border-radius: 50%; }
 .mz-nav { display: flex; align-items: center; gap: clamp(18px, 3.2vw, 38px); font-size: 13px; font-weight: 650; }
 .mz-nav > a:not(.mz-button), .mz-text-link, .mz-inline-link { transition: color .18s ease; }
 .mz-nav > a:not(.mz-button):hover, .mz-text-link:hover, .mz-inline-link:hover { color: var(--mz-accent); }
@@ -132,8 +132,8 @@ img, video { display: block; max-width: 100%; }
 @media (max-width: 767px) {
   .mz-shell { width: min(100% - 36px, 560px); }
   .mz-header__inner { min-height: 58px; }
-  .mz-brand { font-size: 19px; }
-  .mz-brand img { width: 33px; height: 33px; }
+  .mz-brand { font-size: 13px; }
+  .mz-brand img { width: 28px; height: 28px; }
   .mz-nav { gap: 7px; }
   .mz-nav__features, .mz-nav__github { display: none; }
   .mz-button--small { min-height: 40px; padding: 9px 12px; }
@@ -296,4 +296,27 @@ img, video { display: block; max-width: 100%; }
 }
 @media (max-width: 359px) {
   .mz-header__inner { gap: 8px; }
+}
+
+/* Mobile hero demo: immediately after the lead; desktop remains unchanged. */
+@media (max-width: 767px) {
+  .mz-hero__copy > .mz-hero__media {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
+/* MOZKEY MOBILE HERO VIDEO BEFORE LEAD V2 */
+@media (max-width: 767px) {
+  .mz-hero__copy > .mz-hero__lead { margin-top: 18px; }
+  #hero-demo-caption { display: none; }
+}
+
+/* MOZKEY MOBILE STRENGTHS SPACING V1 */
+@media (max-width: 767px) {
+  /* Increase separation after the download/secondary links. */
+  .mz-hero .mz-values--mobile { margin-top: 48px; }
+  /* Tighten the combined gap before the first feature section. */
+  .mz-hero { padding-bottom: 18px; }
+  .mz-hero + .mz-section--border { padding-top: 48px; }
 }

@@ -69,9 +69,9 @@ const softwareApplicationJsonLd = JSON.stringify({
     <a class="mz-skip" href="#main-content">本文へスキップ</a>
     <header class="mz-header">
       <div class="mz-shell mz-header__inner">
-        <a class="mz-brand" href="/mozkey/" aria-label="Mozkey ホーム">
-          <img src="/mozkey/icon.svg" width="36" height="36" alt="" decoding="async" />
-          <span>Mozkey</span>
+        <a class="mz-brand" href="/" aria-label="koyasi777 ホーム">
+          <img src="/koyasi777-icon.jpg" width="36" height="36" alt="" decoding="async" />
+          <span>koyasi777</span>
         </a>
         <nav class="mz-nav" aria-label="Mozkey ナビゲーション">
           <a class="mz-nav__features" href="#features">特徴</a>
@@ -96,6 +96,11 @@ const softwareApplicationJsonLd = JSON.stringify({
           <div class="mz-hero__copy">
             <h1 id="mozkey-title">書くことに集中できる、<br class="mz-heading-break" /><span class="mz-hero__final-phrase">日本語入力。</span></h1>
             <p class="mz-hero__lead">自然に変換し、使うほど馴染む。<br class="mz-desktop-break" />あなたの入力スタイルに合わせられる、日本語IME。</p>
+            <div class="mz-hero__actions">
+              <a class="mz-button mz-button--primary" data-mz-direct-cta href="#download">ダウンロード <span aria-hidden="true">↗</span></a>
+              <a class="mz-text-link" href={links.repository} target="_blank" rel="noopener noreferrer">GitHubを見る <span aria-hidden="true">↗</span></a>
+            </div>
+            <p class="mz-hero__note">Local AI <span aria-hidden="true">·</span> Open Source</p>
             <div class="mz-values mz-values--mobile" aria-label="Mozkeyの3つの強み">
               {values.map((item) => (
                 <a class="mz-value" href={item.href}>
@@ -105,11 +110,6 @@ const softwareApplicationJsonLd = JSON.stringify({
                 </a>
               ))}
             </div>
-            <div class="mz-hero__actions">
-              <a class="mz-button mz-button--primary" data-mz-direct-cta href="#download">ダウンロード <span aria-hidden="true">↗</span></a>
-              <a class="mz-text-link" href={links.repository} target="_blank" rel="noopener noreferrer">GitHubを見る <span aria-hidden="true">↗</span></a>
-            </div>
-            <p class="mz-hero__note">Local AI <span aria-hidden="true">·</span> Open Source</p>
           </div>
           <div class="mz-hero__media">
             <ProductDemo id="hero-demo" prominent={true} {...media.hero} />
@@ -231,5 +231,27 @@ const softwareApplicationJsonLd = JSON.stringify({
         <a href={links.creator}>koyasi777.com <span aria-hidden="true">↗</span></a>
       </div>
     </footer>
+    <script>
+      // Preserve the desktop two-column markup. On mobile, the demo precedes the lead text.
+      const heroGrid = document.querySelector<HTMLElement>(".mz-hero__grid");
+      const heroCopy = heroGrid?.querySelector<HTMLElement>(".mz-hero__copy");
+      const heroLead = heroCopy?.querySelector<HTMLElement>(".mz-hero__lead");
+      const heroMedia = heroGrid?.querySelector<HTMLElement>(".mz-hero__media");
+      const mobileHero = window.matchMedia("(max-width: 767px)");
+
+      if (heroGrid && heroCopy && heroLead && heroMedia) {
+        const positionHeroMedia = () => {
+          if (mobileHero.matches) {
+            if (heroMedia.nextElementSibling !== heroLead) {
+              heroLead.insertAdjacentElement("beforebegin", heroMedia);
+            }
+          } else if (heroMedia.parentElement !== heroGrid) {
+            heroGrid.appendChild(heroMedia);
+          }
+        };
+        positionHeroMedia();
+        mobileHero.addEventListener("change", positionHeroMedia);
+      }
+    </script>
   </body>
 </html>
