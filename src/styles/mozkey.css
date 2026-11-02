@@ -142,7 +142,7 @@ img, video { display: block; max-width: 100%; }
   .mz-eyebrow { font-size: 10px; }
   .mz-hero h1 { font-size: clamp(27px, 7.2vw, 36px); line-height: 1.43; margin: 13px 0 9px; }
   .mz-heading-break { display: none; }
-  .mz-desktop-break { display: none; }
+  .mz-desktop-break { display: inline; }
   .mz-hero__lead { font-size: 13px; line-height: 1.85; }
   .mz-values--mobile { display: grid; grid-template-columns: 1fr; margin-top: 21px; border-top: 1px solid #cdded3; }
   .mz-values--desktop { display: none; }
