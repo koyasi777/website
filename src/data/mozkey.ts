@@ -54,7 +54,7 @@ export const mozkey = {
       mp4: "/mozkey/media/hero.mp4",
       poster: "/mozkey/media/hero.webp",
       label: "入力からライブ変換へ",
-      description: "入力途中から候補が変わり、MozcとローカルZenzが変換を支える様子を実機で紹介します。",
+      description: "入力途中から候補が変化するライブ変換に対応。ちらつきを抑えるため、変換タイミングも調整できます。",
     },
     natural: {
       available: true,
@@ -62,7 +62,7 @@ export const mozkey = {
       mp4: "/mozkey/media/natural.mp4",
       poster: "/mozkey/media/natural.webp",
       label: "同じ読みも、文脈に合わせて",
-      description: "「のります」は「乗ります／載ります」に、「しかい」は「司会／歯科医」に。文脈に合わせた変換を実機で紹介します。",
+      description: "同音異義語も、前後の文脈に合った変換を行います。",
     },
     learning: {
       available: true,
@@ -70,7 +70,7 @@ export const mozkey = {
       mp4: "/mozkey/media/learning.mp4",
       poster: "/mozkey/media/learning.webp",
       label: "選択を学ぶ",
-      description: "一度選んだ表記が、次回の変換候補へ反映される様子を実機で紹介します。",
+      description: "一度選んだ表記が、次回の変換候補へ反映されます。",
     },
     customization: {
       available: true,
@@ -78,7 +78,7 @@ export const mozkey = {
       mp4: "/mozkey/media/customization.mp4",
       poster: "/mozkey/media/customization.webp",
       label: "自分だけの入力環境へ",
-      description: "候補ウィンドウや入力モード表示の配色・サイズなど、調整できる項目を実機の設定画面で紹介します。",
+      description: "候補ウィンドウや入力モード表示の配色・サイズなどを、自分好みに細かく調整できます。",
     },
   },
 } as const;
