@@ -302,7 +302,7 @@ img, video { display: block; max-width: 100%; }
 @media (max-width: 767px) {
   .mz-hero__copy > .mz-hero__media {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 14px;
   }
 }
 
