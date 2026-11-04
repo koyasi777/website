@@ -37,7 +37,7 @@ const files = [
           </div>
           <h3>{item.title}</h3>
           <p class="mz-dl__subtitle">{item.subtitle}</p>
-          <p class="mz-dl__version"><span data-mz-file-version>{distribution.version}</span> <span aria-hidden="true">·</span> <span data-mz-file-size>{item.asset.sizeLabel}</span></p>
+          <p class="mz-dl__version"><span class="mz-dl__new-tag" data-mz-card-new hidden aria-label="公開から3か月以内の新しいリリース">New!!</span> <span data-mz-file-version>{distribution.version}</span><span class="mz-dl__published" data-mz-card-published hidden>（<time data-mz-card-release-date></time>）</span> <span aria-hidden="true">·</span> <span data-mz-file-size>{item.asset.sizeLabel}</span></p>
           <a
             class="mz-dl__file-link"
             href={item.asset.url}
@@ -60,15 +60,34 @@ const files = [
     <section class="mz-install" aria-labelledby="mz-install-title">
       <div class="mz-install__intro">
         <span class="mz-kicker">INSTALLATION</span>
-        <h3 id="mz-install-title">インストールのご案内</h3>
-        <p>ダウンロード後の手順と、初回のセキュリティ確認についてご案内します。</p>
+        <div class="mz-install__title-row">
+          <span class="mz-install__alert-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+              <path d="M12 9v4" />
+              <path d="M12 17h.01" />
+            </svg>
+          </span>
+          <div class="mz-install__title-copy">
+            <h3 id="mz-install-title">インストールのご案内</h3>
+            <p>はじめてインストールする方へ。OS別の手順と確認事項をご案内します。</p>
+          </div>
+        </div>
+      </div>
+      <div class="mz-install__notice" role="note" aria-label="インストール前の確認事項">
+        <p class="mz-install__notice-heading">インストール時に警告が表示される場合があります</p>
+        <p>現在公開しているMozkey v1.0.0のインストーラーは、Windows版がコード署名されておらず、macOS版もApple Developer IDによる署名・公証が行われていません。</p>
+        <p>そのため、インストール時にOSのセキュリティ警告が表示される場合があります。</p>
+        <p>このページのダウンロードボタンからインストーラーを入手できます。警告が表示された場合は、以下のOS別の手順をご確認ください。</p>
+        <p class="mz-install__notice-critical"><strong>重要：</strong>マルウェア検出やファイル破損の警告が表示された場合は、実行しないでください。OSの保護機能全体を無効化する必要はありません。</p>
+        <p class="mz-install__notice-signing"><a href={links.signing} target="_blank" rel="noopener noreferrer">コード署名の方針 ↗</a></p>
       </div>
       <div class="mz-install__grid">
         <details class="mz-install__card">
           <summary><span><strong>Windows</strong><small>MSI・SmartScreenの確認</small></span><span class="mz-install__chevron" aria-hidden="true">＋</span></summary>
           <ol>
             <li>お使いのCPUに合ったMSIをダウンロードし、ダブルクリックしてインストールします。</li>
-            <li>未署名版でSmartScreenの警告が出た場合は、公式配布元とSHA-256を確認したうえで「詳細情報」→「実行」を選択できます。</li>
+            <li>SmartScreenで警告が出た場合は、このページから入手したファイルであることを確かめ、「詳細情報」で内容を確認してください。信頼できると判断できる場合に限り「実行」を選択できます。</li>
             <li>インストール後は <strong>Win + Space</strong> でMozkeyを選択します。表示されなければ再サインインまたは再起動してください。</li>
           </ol>
           <p>既存版から更新する前に、設定やユーザー辞書をバックアップしてください。</p>
@@ -77,13 +96,21 @@ const files = [
           <summary><span><strong>macOS</strong><small>Gatekeeperの確認・再ログイン</small></span><span class="mz-install__chevron" aria-hidden="true">＋</span></summary>
           <ol>
             <li>Universal PKGをダウンロードし、Finderから開いてインストールします。</li>
-            <li>開発元の確認ができない警告で止まった場合は、公式配布元とSHA-256を確認してから、<strong>システム設定 → プライバシーとセキュリティ → このまま開く</strong>で対象PKGのみ許可できます。</li>
+            <li>開発元を確認できない警告が出た場合は、このページから入手したファイルであることを確かめてから、<strong>システム設定 → プライバシーとセキュリティ → このまま開く</strong>で対象PKGのみ許可できます。</li>
             <li>インストール後は<strong>ログアウト・再ログイン</strong>し、<strong>システム設定 → キーボード → テキスト入力 → 編集</strong>から「ひらがな（Mozkey）」を選択または追加します。</li>
           </ol>
           <p><a href="https://support.apple.com/ja-jp/102445" target="_blank" rel="noopener noreferrer">Appleのセキュリティ案内 ↗</a></p>
         </details>
       </div>
-      <p class="mz-install__warning">単に発行元を確認できない警告と、マルウェア検出・破損の警告は異なります。後者の場合は実行しないでください。SmartScreen・Gatekeeperなどの保護機能全体を無効化する必要はありません。</p>
+      <details class="mz-install__file-check">
+        <summary>ダウンロードしたファイルの確認方法（詳しい方向け）</summary>
+        <p>各カードの「SHA-256を表示」にある英数字は、ファイルが配布時のものと一致するか調べるための値です。</p>
+        <ul>
+          <li>Windows：PowerShellで <code>Get-FileHash "ファイルのパス" -Algorithm SHA256</code> を実行。</li>
+          <li>macOS：ターミナルで <code>shasum -a 256 "ファイルのパス"</code> を実行。</li>
+        </ul>
+        <p>「ファイルのパス」はダウンロードしたMSIまたはPKGの保存先に置き換えてください。計算された値がカードの表示と一致しなければ実行しないでください。一致しても安全性を保証するものではありません。</p>
+      </details>
       <a class="mz-install__more" href={links.readme} target="_blank" rel="noopener noreferrer">詳しい手順はREADMEへ <span aria-hidden="true">↗</span></a>
     </section>
     <p class="mz-dl__os-note">Linux向けインストーラーは現在公開していません。スマートフォン・タブレットにも対応していません。</p>
@@ -131,7 +158,8 @@ const files = [
     if (!value || typeof value !== "object") return false;
     const release = value as Record<string, unknown>;
     if (typeof release.version !== "string" || !/^v\d+\.\d+\.\d+$/.test(release.version)) return false;
-    if (typeof release.publishedAt !== "string" || typeof release.checkedAt !== "string") return false;
+    if (typeof release.publishedAt !== "string" || !Number.isFinite(Date.parse(release.publishedAt)) ||
+        typeof release.checkedAt !== "string") return false;
     if (!release.assets || typeof release.assets !== "object") return false;
     const base = `https://github.com/koyasi777/mozkey/releases/download/${release.version}/`;
     const assets = release.assets as Record<string, unknown>;
@@ -147,6 +175,27 @@ const files = [
       release.releaseUrl === `https://github.com/koyasi777/mozkey/releases/tag/${release.version}`;
   }
 
+  function isWithinThreeMonthsOfReleaseJST(publishedAt: string): boolean {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: "Asia/Tokyo", year: "numeric", month: "numeric", day: "numeric",
+    });
+    const calendarDay = (value: Date) => {
+      const parts = formatter.formatToParts(value);
+      const number = (type: string): number => Number(parts.find((part) => part.type === type)?.value);
+      return { year: number("year"), month: number("month"), day: number("day") };
+    };
+    const published = calendarDay(new Date(publishedAt));
+    const today = calendarDay(new Date());
+    const start = Date.UTC(published.year, published.month - 1, published.day);
+    const current = Date.UTC(today.year, today.month - 1, today.day);
+    const expiryMonth = new Date(Date.UTC(published.year, published.month - 1 + 3, 1));
+    const expiryYear = expiryMonth.getUTCFullYear();
+    const expiryMonthIndex = expiryMonth.getUTCMonth();
+    const lastDay = new Date(Date.UTC(expiryYear, expiryMonthIndex + 1, 0)).getUTCDate();
+    const expiry = Date.UTC(expiryYear, expiryMonthIndex, Math.min(published.day, lastDay));
+    return current >= start && current < expiry;
+  }
+
   function setStatus(text: string): void {
     if (releaseStatus) releaseStatus.textContent = text;
   }
@@ -158,12 +207,18 @@ const files = [
       const remote: unknown = await response.json();
       if (!isRelease(remote)) throw new Error("Unexpected release response");
       const release = remote;
+      const publishedText = new Intl.DateTimeFormat("ja-JP", {
+        timeZone: "Asia/Tokyo", year: "numeric", month: "numeric", day: "numeric",
+      }).format(new Date(release.publishedAt));
+      const isNew = isWithinThreeMonthsOfReleaseJST(release.publishedAt);
 
       // Validate all assets BEFORE mutating links to avoid mixed versions.
       for (const item of cards) {
         const card = document.querySelector<HTMLElement>(`[data-mz-platform="${item.key}"]`);
         const link = card?.querySelector<HTMLAnchorElement>("[data-mz-file]");
-        if (!card || !link) throw new Error("Missing download card");
+        if (!card || !link || !card.querySelector("[data-mz-card-published]") ||
+            !card.querySelector("[data-mz-card-release-date]") ||
+            !card.querySelector("[data-mz-card-new]")) throw new Error("Missing download card metadata");
       }
       for (const item of cards) {
         const card = document.querySelector<HTMLElement>(`[data-mz-platform="${item.key}"]`)!;
@@ -179,6 +234,13 @@ const files = [
         if (size) size.textContent = `${Math.round(asset.size / 1_000_000)} MB`;
         if (name) name.textContent = asset.name;
         if (sha256) sha256.textContent = asset.sha256;
+        const published = card.querySelector<HTMLElement>("[data-mz-card-published]")!;
+        const publishedDate = card.querySelector<HTMLTimeElement>("[data-mz-card-release-date]")!;
+        const newBadge = card.querySelector<HTMLElement>("[data-mz-card-new]")!;
+        publishedDate.dateTime = release.publishedAt;
+        publishedDate.textContent = publishedText;
+        published.hidden = false;
+        newBadge.hidden = !isNew;
       }
       const checksums = document.querySelector<HTMLAnchorElement>("[data-mz-checksums]");
       const notes = document.querySelector<HTMLAnchorElement>("[data-mz-release-notes]");
@@ -186,7 +248,7 @@ const files = [
       if (notes) notes.href = release.releaseUrl;
       activeVersion = release.version;
       if (recommendTitle) recommendTitle.textContent = `Mozkey ${release.version}`;
-      setStatus(`最新の正式版 ${release.version} を確認しました（GitHub公開日：${release.publishedAt.slice(0, 10)}）。新しい正式リリースは約15分以内を目安に反映されます。`);
+      setStatus(`最新の正式版 ${release.version} を確認しました（GitHub公開日：${publishedText}・日本時間）。新しい正式リリースは約15分以内を目安に反映されます。`);
     } catch {
       // Keep complete, verified v1.0.0 static links; never show them as confirmed latest.
       setStatus("最新の配布情報を確認できませんでした。現在はサイトに保存されたv1.0.0の情報を表示しています。最新情報はGitHub Releasesをご確認ください。");
@@ -263,16 +325,19 @@ const files = [
   .mz-dl__selection-text p { margin-top: 4px; color: #4c685c; font-size: 12px; line-height: 1.65; }
   .mz-dl__suggested-button { flex: 0 0 auto; text-decoration: none; font-size: 13px; }
   .mz-dl__suggested-button[hidden] { display: none; }
-  .mz-dl__cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; max-width: 1010px; margin: 0 auto; }
+  .mz-dl__cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; align-items: start; max-width: 1010px; margin: 0 auto; }
   .mz-dl__card { min-width: 0; display: flex; flex-direction: column; padding: 24px 20px 20px; border: 1px solid #d8e6dc; border-radius: 13px; background: #fff; transition: border-color .18s ease, box-shadow .18s ease; }
   .mz-dl__card--recommended { border-color: #258670; box-shadow: 0 10px 32px rgba(28, 108, 81, .09); }
   .mz-dl__card-heading { display: flex; justify-content: space-between; gap: 5px; align-items: center; min-height: 25px; }
   .mz-dl__platform { font-size: 10px; color: #197563; letter-spacing: .1em; font-weight: 800; text-transform: uppercase; }
+  .mz-dl__new-tag { display: inline-flex; align-items: center; margin-right: 6px; padding: 2px 6px; border-radius: 4px; color: #fff; background: #167b67; font-size: 8px; font-weight: 800; letter-spacing: .01em; line-height: 1.2; vertical-align: 1px; white-space: nowrap; }
+  .mz-dl__new-tag[hidden] { display: none; }
   .mz-dl__rec-tag { white-space: nowrap; font-size: 10px; color: #126d56; background: #e2f3e9; padding: 4px 8px; border-radius: 99px; }
   .mz-dl__rec-tag[hidden] { display: none; }
   .mz-dl__card h3 { margin-top: 16px; font-size: 21px; color: #1b4035; font-weight: 800; }
   .mz-dl__subtitle { margin-top: 5px; color: #556d60; font-size: 12px; min-height: 20px; }
   .mz-dl__version { color: #567066; margin: 17px 0 18px; font-size: 12px; }
+  .mz-dl__published[hidden] { display: none; }
   .mz-dl__file-link { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; margin-top: auto; padding: 10px 13px; border-radius: 7px; color: white; background: #167b67; text-decoration: none; font-size: 12px; font-weight: 750; transition: background .18s ease; }
   .mz-dl__file-link:hover { background: #0b604f; }
   .mz-dl__file-link:focus-visible, .mz-dl__suggested-button:focus-visible { outline: 3px solid #2b9d87; outline-offset: 3px; }
@@ -290,9 +355,20 @@ const files = [
   /* MOZKEY PLAYBACK AND INSTALL GUIDE V2 */
   .mz-install { max-width: 1010px; margin: 34px auto 0; padding: 26px 0 0; border-top: 1px solid #d8e6dc; }
   .mz-install__intro .mz-kicker { font-size: 10px; }
-  .mz-install__intro h3 { margin-top: 7px; font-size: 21px; letter-spacing: -.035em; color: #1b4035; }
+  .mz-install__intro h3 { margin-top: 0; font-size: 21px; letter-spacing: -.035em; color: #1b4035; }
   .mz-install__intro p { margin-top: 5px; font-size: 12px; color: #617368; }
-  .mz-install__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+  .mz-install__title-row { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+  .mz-install__alert-icon { display: grid; place-items: center; width: 43px; height: 43px; flex: 0 0 43px; border-radius: 10px; background: #fff0d5; color: #9c671f; }
+  .mz-install__title-copy { min-width: 0; }
+  .mz-install__notice { margin-top: 20px; padding: 16px 19px; border: 1px solid #ead9b7; border-left: 3px solid #d19a41; border-radius: 10px; background: #fff9eb; color: #655439; }
+  .mz-install__notice p { font-size: 12px; line-height: 1.85; }
+  .mz-install__notice > p + p { margin-top: 7px; }
+  .mz-install__notice .mz-install__notice-heading { color: #624a23; font-size: 13px; font-weight: 760; }
+  .mz-install__notice .mz-install__notice-critical { margin-top: 12px; padding-top: 10px; border-top: 1px solid #e9dab9; }
+  .mz-install__notice-critical strong { color: #795525; }
+  .mz-install__notice-signing a { color: #815821; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .mz-install__notice-signing a:hover { color: #5b390d; }
+  .mz-install__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: start; margin-top: 18px; }
   .mz-install__card { min-width: 0; background: #fff; border: 1px solid #d8e6dc; border-radius: 12px; padding: 0 20px; }
   .mz-install__card summary { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 0; cursor: pointer; list-style: none; }
   .mz-install__card summary::-webkit-details-marker { display: none; }
@@ -304,7 +380,11 @@ const files = [
   .mz-install__card li + li { margin-top: 8px; }
   .mz-install__card > p { margin: 11px 0 18px; color: #62786b; font-size: 11px; line-height: 1.8; }
   .mz-install__card a, .mz-install__more { color: #126d59; text-decoration: underline; text-underline-offset: 3px; }
-  .mz-install__warning { margin-top: 15px; font-size: 11px; line-height: 1.85; color: #617368; }
+  .mz-install__file-check { margin-top: 14px; padding: 0 16px; border: 1px solid #d8e6dc; border-radius: 10px; background: #f9fcfa; color: #586b60; font-size: 11px; line-height: 1.85; }
+  .mz-install__file-check summary { padding: 12px 0; cursor: pointer; color: #126d59; font-weight: 700; }
+  .mz-install__file-check p, .mz-install__file-check ul { margin: 0 0 10px; }
+  .mz-install__file-check ul { padding-left: 19px; }
+  .mz-install__file-check code { padding: 1px 3px; border-radius: 3px; background: #eaf2ed; overflow-wrap: anywhere; }
   .mz-install__more { display: inline-block; font-size: 12px; margin-top: 12px; font-weight: 700; }
   @media (max-width: 620px) { .mz-install { margin-top: 25px; } .mz-install__grid { grid-template-columns: 1fr; } .mz-install__card { padding-inline: 17px; } }
   @media (prefers-reduced-motion: reduce) { .mz-dl__card, .mz-dl__file-link { transition: none; } }
