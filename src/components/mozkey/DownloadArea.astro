@@ -2,6 +2,9 @@
 import { mozkey } from "../../data/mozkey";
 
 const { distribution, links } = mozkey;
+const fallbackPublishedText = new Intl.DateTimeFormat("ja-JP", {
+  timeZone: "Asia/Tokyo", year: "numeric", month: "numeric", day: "numeric",
+}).format(new Date(distribution.publishedAt));
 const files = [
   { key: "windows-x64", os: "Windows", title: "Windows x64", subtitle: "Intel / AMD（64-bit）", asset: distribution.assets.windowsX64 },
   { key: "windows-arm64", os: "Windows", title: "Windows ARM64", subtitle: "Windows on Arm", asset: distribution.assets.windowsArm64 },
@@ -9,7 +12,7 @@ const files = [
 ] as const;
 ---
 
-<section class="mz-section mz-download" id="download" aria-labelledby="download-title">
+<section class="mz-section mz-download" id="download" aria-labelledby="download-title" data-mz-fallback-published={distribution.publishedAt}>
   <div class="mz-shell">
     <div class="mz-download__heading">
       <span class="mz-kicker">GET MOZKEY<img class="mz-download__kicker-icon" src="/mozkey/icon.svg" width="20" height="20" alt="" loading="lazy" decoding="async" /></span>
@@ -37,7 +40,7 @@ const files = [
           </div>
           <h3>{item.title}</h3>
           <p class="mz-dl__subtitle">{item.subtitle}</p>
-          <p class="mz-dl__version"><span class="mz-dl__new-tag" data-mz-card-new hidden aria-label="公開から3か月以内の新しいリリース">New!!</span> <span data-mz-file-version>{distribution.version}</span><span class="mz-dl__published" data-mz-card-published hidden>（<time data-mz-card-release-date></time>）</span> <span aria-hidden="true">·</span> <span data-mz-file-size>{item.asset.sizeLabel}</span></p>
+          <p class="mz-dl__version"><span class="mz-dl__new-tag" data-mz-card-new hidden aria-label="公開から3か月以内の新しいリリース">New!!</span> <span data-mz-file-version>{distribution.version}</span><span class="mz-dl__published" data-mz-card-published>（<time data-mz-card-release-date datetime={distribution.publishedAt}>{fallbackPublishedText}</time>）</span> <span aria-hidden="true">·</span> <span data-mz-file-size>{item.asset.sizeLabel}</span></p>
           <a
             class="mz-dl__file-link"
             href={item.asset.url}
@@ -200,9 +203,20 @@ const files = [
     if (releaseStatus) releaseStatus.textContent = text;
   }
 
+  function showFallbackReleaseBadges(): void {
+    // The build-time release date is verified independently of the live API.
+    // Never infer that this fallback is the latest published release.
+    const publishedAt = document.querySelector<HTMLElement>(".mz-download")?.dataset.mzFallbackPublished;
+    if (!publishedAt || !Number.isFinite(Date.parse(publishedAt))) return;
+    const isNew = isWithinThreeMonthsOfReleaseJST(publishedAt);
+    document.querySelectorAll<HTMLElement>("[data-mz-card-new]").forEach((badge) => {
+      badge.hidden = !isNew;
+    });
+  }
+
   async function updateRelease(): Promise<void> {
     try {
-      const response = await fetch("/api/mozkey/release", { headers: { Accept: "application/json" } });
+      const response = await fetch("/api/mozkey/release", { cache: "no-store", headers: { Accept: "application/json" } });
       if (!response.ok) throw new Error("Latest release unavailable");
       const remote: unknown = await response.json();
       if (!isRelease(remote)) throw new Error("Unexpected release response");
@@ -250,7 +264,7 @@ const files = [
       if (recommendTitle) recommendTitle.textContent = `Mozkey ${release.version}`;
       setStatus(`最新の正式版 ${release.version} を確認しました（GitHub公開日：${publishedText}・日本時間）。新しい正式リリースは約15分以内を目安に反映されます。`);
     } catch {
-      // Keep complete, verified v1.0.0 static links; never show them as confirmed latest.
+      // Keep the dated, verified fallback; never claim it is the latest published release.
       setStatus("最新の配布情報を確認できませんでした。現在はサイトに保存されたv1.0.0の情報を表示しています。最新情報はGitHub Releasesをご確認ください。");
     }
   }
@@ -287,6 +301,8 @@ const files = [
   }
 
   async function initDownloads(): Promise<void> {
+    // Show the known release badge even when the live API is unavailable.
+    showFallbackReleaseBadges();
     // Release metadata first: the direct CTA must never point to the old version after a successful refresh.
     await updateRelease();
     const result = await detectPlatform();

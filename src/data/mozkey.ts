@@ -25,6 +25,7 @@ export const mozkey = {
   distribution: {
     checkedOn: "2026-11-01",
     version: "v1.0.0",
+    publishedAt: "2026-11-01T03:45:22Z",
     checksumsUrl: "https://github.com/koyasi777/mozkey/releases/download/v1.0.0/SHA256SUMS.txt",
     assets: {
       windowsX64: {
