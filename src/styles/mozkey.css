@@ -46,8 +46,32 @@ img, video { display: block; max-width: 100%; }
 .mz-hero__lead { max-width: 510px; color: #52665c; line-height: 1.95; font-size: clamp(14px, 1.2vw, 16px); }
 .mz-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-top: 30px; }
 .mz-text-link { display: inline-flex; gap: 7px; align-items: center; font-size: 13px; font-weight: 700; min-height: 44px; }
-.mz-hero__note { margin-top: 15px; font-size: 11px; color: #586f64; letter-spacing: .1em; }
-.mz-hero__note span { margin: 0 6px; }
+
+/* OS-aware first-click download CTA and optional GitHub public metrics. */
+.mz-hero__download { min-height: 62px; justify-content: flex-start; text-align: left; gap: 10px; padding: 10px 16px; white-space: normal; border-radius: 8px; }
+.mz-hero__download-icon { flex: 0 0 18px; width: 18px; height: 18px; }
+.mz-hero__download-copy { display: grid; gap: 1px; min-width: 0; }
+.mz-hero__download-copy strong { font-size: 14px; line-height: 1.35; font-weight: 760; }
+.mz-hero__download-copy small { font-size: 10px; line-height: 1.4; font-weight: 500; opacity: .92; }
+.mz-hero__stats { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+.mz-hero__stats[hidden], .mz-hero__stats [hidden] { display: none !important; }
+.mz-hero__stats a { display: inline-flex; align-items: center; gap: 7px; border: 1px solid #cdded4; background: #eef6f1; border-radius: 99px; padding: 5px 12px; font-size: 11px; color: #385e50; text-decoration: none; white-space: nowrap; }
+.mz-hero__stats a:hover { background: #e1f0e7; }
+/* Keep the secondary navigation distinct from the direct download CTA. */
+.mz-hero__other-os { min-height: 44px; padding: 0 13px; border: 1px solid #c7dbd0; border-radius: 8px; background: rgba(255,255,255,.7); color: #126653; }
+.mz-hero__other-os:hover { background: #ebf5ef; }
+.mz-hero__other-os[hidden] { display: none; }
+/* GitHub remains available even if the public metrics API fails. */
+.mz-hero__stats .mz-hero__stats-github-row { display: flex; align-items: center; }
+.mz-hero__stats a.mz-hero__stats-github { min-height: 35px; padding: 6px 12px; border: 1px solid #c7dbd0; border-radius: 8px; background: #f9fcfa; font-size: 12px; font-weight: 750; color: #126653; }
+.mz-hero__stats a.mz-hero__stats-github:hover { background: #eaf5ee; text-decoration: none; }
+.mz-hero__stats strong { font-variant-numeric: tabular-nums; font-weight: 800; color: #1b5242; }
+@media (max-width: 767px) {
+  .mz-hero__download { width: auto; min-height: 59px; padding: 9px 13px; }
+  .mz-hero__download-copy strong { font-size: 13px; }
+  .mz-hero__download-copy small { font-size: 10px; }
+  .mz-hero__stats { margin-top: 10px; order: 2; }
+}
 .mz-values { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .mz-values--mobile { display: none; }
 .mz-values--desktop { margin-top: 50px; border-top: 1px solid #cfdcd4; border-bottom: 1px solid #cfdcd4; }
@@ -153,7 +177,6 @@ img, video { display: block; max-width: 100%; }
   .mz-value__text > span { font-size: 11px; }
   .mz-hero__actions { margin-top: 20px; gap: 15px; }
   .mz-hero__actions .mz-button { min-height: 46px; font-size: 13px; }
-  .mz-hero__note { margin-top: 7px; font-size: 10px; }
   .mz-hero__media { width: 100%; }
   .mz-demo__frame { border-radius: 11px; }
   .mz-demo__caption { font-size: 10px; }
@@ -235,7 +258,6 @@ img, video { display: block; max-width: 100%; }
   .mz-hero h1 { margin: 0 0 21px; font-size: clamp(35px, 3.5vw, 52px); line-height: 1.31; }
   .mz-hero__lead { line-height: 1.8; }
   .mz-hero__actions { margin-top: 32px; }
-  .mz-hero__note { margin-top: 12px; }
   .mz-values--desktop { margin-top: 39px; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -245,14 +267,12 @@ img, video { display: block; max-width: 100%; }
   .mz-hero h1 { margin: 0 0 17px; line-height: 1.31; }
   .mz-hero__lead { line-height: 1.8; }
   .mz-hero__actions { margin-top: 22px; }
-  .mz-hero__note { margin-top: 10px; }
   .mz-values--desktop { margin-top: 30px; }
 }
 @media (max-width: 767px) {
   .mz-hero__topline { margin-bottom: 22px; }
   .mz-hero__copy { display: flex; flex-direction: column; }
   .mz-hero__actions { order: 1; }
-  .mz-hero__note { order: 2; }
   .mz-values--mobile { order: 3; }
   .mz-hero h1 { margin-top: 0; }
 }
@@ -271,6 +291,29 @@ img, video { display: block; max-width: 100%; }
   .mz-hero__grid > .mz-hero__media {
     transform: translateY(-36px);
   }
+}
+
+
+/* GitHub Sponsors: a compact, distinct section between downloads and other projects. */
+.mz-sponsors { padding: 104px 0; border-top: 1px solid #e2ebe5; background: #fcfdfc; }
+.mz-sponsors__inner { display: flex; justify-content: space-between; align-items: center; gap: 28px 42px; }
+.mz-sponsors__copy { max-width: 650px; }
+.mz-sponsors__copy h2 { margin: 12px 0 10px; color: var(--mz-ink); font-size: clamp(26px, 3vw, 37px); line-height: 1.4; letter-spacing: -.05em; }
+.mz-sponsors__copy p { max-width: 590px; color: #536a5e; font-size: 13px; line-height: 1.9; }
+.mz-sponsors__button { display: inline-flex; justify-content: center; align-items: center; gap: 9px; flex: none; min-height: 46px; padding: 11px 17px; border: 1px solid #bfd8cd; border-radius: 9px; color: #126653; background: #eff7f2; font-size: 13px; font-weight: 760; text-decoration: none; }
+.mz-sponsors__button:hover { background: #e0f0e7; }
+.mz-sponsors__supporters { margin-top: 24px; }
+.mz-sponsors__supporters > p { color: #587065; font-size: 12px; margin-bottom: 12px; }
+.mz-sponsors__avatars { display: flex; flex-wrap: wrap; gap: 10px; }
+.mz-sponsors__avatars a { display: block; border-radius: 50%; }
+.mz-sponsors__avatars img { display: block; width: 46px; height: 46px; object-fit: cover; border: 2px solid #d5e8dc; border-radius: 50%; background: #ecf2ef; }
+.mz-sponsors__avatars a:hover img { border-color: #157a6a; }
+@media (max-width: 767px) {
+  /* Keep the GitHub link on its own line before the two metric chips. */
+  .mz-hero__stats > .mz-hero__stats-github-row { flex: 0 0 100%; }
+  .mz-sponsors { padding: 67px 0; }
+  .mz-sponsors__inner { flex-direction: column; align-items: flex-start; gap: 19px; }
+  .mz-sponsors__button { flex: 0 1 auto; max-width: 100%; }
 }
 
 /* Mozkey creator navigation + discover section */

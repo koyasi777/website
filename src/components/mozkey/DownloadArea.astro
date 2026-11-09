@@ -145,6 +145,7 @@ const files = [
   };
 
   const directCtas = document.querySelectorAll<HTMLAnchorElement>("[data-mz-direct-cta]");
+  const otherOsButton = document.querySelector<HTMLAnchorElement>(".mz-hero__other-os");
   const recommendButton = document.querySelector<HTMLAnchorElement>("[data-mz-recommended-download]");
   const recommendTitle = document.querySelector<HTMLElement>("[data-mz-recommend-title]");
   const recommendDesc = document.querySelector<HTMLElement>("[data-mz-recommend-desc]");
@@ -311,7 +312,17 @@ const files = [
     const candidate = document.querySelector<HTMLAnchorElement>(`[data-mz-file="${result.key}"]`);
     const card = document.querySelector<HTMLElement>(`[data-mz-platform="${result.key}"]`);
     if (!candidate || !card) return;
+    // Only reveal the alternate-OS link when the primary CTA is a verified direct download.
+    if (otherOsButton) otherOsButton.hidden = false;
     const label = cards.find((item) => item.key === result.key)?.label ?? "Mozkey";
+    const heroLabel = document.querySelector<HTMLElement>("[data-mz-hero-download-label]");
+    const heroMeta = document.querySelector<HTMLElement>("[data-mz-hero-download-meta]");
+    if (heroLabel) heroLabel.textContent = `${label}版をダウンロード`;
+    if (heroMeta) {
+      const fileSize = card.querySelector<HTMLElement>("[data-mz-file-size]")?.textContent?.trim();
+      const format = result.key === "macos" ? "Universal PKG" : "MSI";
+      heroMeta.textContent = [activeVersion, format, fileSize].filter(Boolean).join(" · ");
+    }
     directCtas.forEach((anchor) => {
       anchor.href = candidate.href;
       anchor.setAttribute("aria-label", `${label}版 Mozkeyを直接ダウンロード`);
