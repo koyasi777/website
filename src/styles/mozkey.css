@@ -54,7 +54,7 @@ img, video { display: block; max-width: 100%; }
 .mz-hero__download-copy strong { font-size: 14px; line-height: 1.35; font-weight: 760; }
 .mz-hero__download-copy strong .mz-hero__download-architecture { font-size: .78em; font-weight: 650; }
 .mz-hero__download-copy small { font-size: 10px; line-height: 1.4; font-weight: 500; opacity: .92; }
-.mz-hero__stats { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.mz-hero__stats { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 .mz-hero__stats[hidden], .mz-hero__stats [hidden] { display: none !important; }
 .mz-hero__stats a { display: inline-flex; align-items: center; gap: 5px; min-height: 30px; border: 1px solid #cdded4; background: #eef6f1; border-radius: 99px; padding: 4px 10px; font-size: 10px; color: #385e50; text-decoration: none; white-space: nowrap; }
 .mz-hero__stats a:hover { background: #e1f0e7; }
@@ -67,7 +67,7 @@ img, video { display: block; max-width: 100%; }
   .mz-hero__download { width: auto; min-height: 59px; padding: 9px 13px; }
   .mz-hero__download-copy strong { font-size: 13px; }
   .mz-hero__download-copy small { font-size: 10px; }
-  .mz-hero__stats { margin-top: 10px; order: 2; }
+  .mz-hero__stats { margin-top: 18px; order: 2; }
 }
 .mz-values { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .mz-values--mobile { display: none; }
