@@ -135,6 +135,7 @@ const files = [
     version: string;
     publishedAt: string;
     checkedAt: string;
+    stale?: boolean;
     releaseUrl: string;
     checksumsUrl: string;
     assets: Record<AssetKey, ReleaseAsset>;
@@ -263,7 +264,7 @@ const files = [
       if (notes) notes.href = release.releaseUrl;
       activeVersion = release.version;
       if (recommendTitle) recommendTitle.textContent = `Mozkey ${release.version}`;
-      setStatus(`最新の正式版 ${release.version} を確認しました（GitHub公開日：${publishedText}・日本時間）。新しい正式リリースは約15分以内を目安に反映されます。`);
+      setStatus(release.stale === true ? `最後に確認できた正式版 ${release.version} を表示しています（GitHub公開日：${publishedText}・日本時間）。最新情報は一時的に確認できていません。` : `最新の正式版 ${release.version} を確認しました（GitHub公開日：${publishedText}・日本時間）。新しい正式リリースは反映までしばらくかかる場合があります。`);
     } catch {
       // Keep the dated, verified fallback; never claim it is the latest published release.
       setStatus("最新の配布情報を確認できませんでした。現在はサイトに保存されたv1.0.0の情報を表示しています。最新情報はGitHub Releasesをご確認ください。");

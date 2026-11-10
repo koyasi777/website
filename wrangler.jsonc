@@ -9,6 +9,8 @@
     "binding": "ASSETS",
     "run_worker_first": ["/api/mozkey/*"]
   },
+  "kv_namespaces": [{ "binding": "MOZKEY_CACHE", "id": "70b32084948f45ba993a83c3cd500686" }],
+  "triggers": { "crons": ["*/15 * * * *"] },
   "routes": [
     {
       "pattern": "koyasi777.com",
