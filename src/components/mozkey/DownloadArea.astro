@@ -316,17 +316,31 @@ const files = [
     // Only reveal the alternate-OS link when the primary CTA is a verified direct download.
     if (otherOsButton) otherOsButton.hidden = false;
     const label = cards.find((item) => item.key === result.key)?.label ?? "Mozkey";
+    const architecture = result.key === "windows-arm64" ? "ARM64" :
+      result.key === "windows-x64" ? "x64" : null;
     const heroLabel = document.querySelector<HTMLElement>("[data-mz-hero-download-label]");
     const heroMeta = document.querySelector<HTMLElement>("[data-mz-hero-download-meta]");
-    if (heroLabel) heroLabel.textContent = `${label}版をダウンロード`;
+    if (heroLabel) {
+      if (architecture) {
+        const arch = document.createElement("span");
+        arch.className = "mz-hero__download-architecture";
+        arch.textContent = `(${architecture})`;
+        heroLabel.replaceChildren("Windows版", arch, "をダウンロード");
+      } else {
+        heroLabel.textContent = "macOS版をダウンロード";
+      }
+    }
     if (heroMeta) {
       const fileSize = card.querySelector<HTMLElement>("[data-mz-file-size]")?.textContent?.trim();
-      const format = result.key === "macos" ? "Universal PKG" : "MSI";
+      const format = result.key === "macos" ? "PKG" : "MSI";
       heroMeta.textContent = [activeVersion, format, fileSize].filter(Boolean).join(" · ");
     }
+    const directAriaLabel = architecture
+      ? `Windows版（${architecture}）Mozkeyを直接ダウンロード`
+      : "macOS版 Mozkeyを直接ダウンロード";
     directCtas.forEach((anchor) => {
       anchor.href = candidate.href;
-      anchor.setAttribute("aria-label", `${label}版 Mozkeyを直接ダウンロード`);
+      anchor.setAttribute("aria-label", directAriaLabel);
     });
     if (recommendLabel) recommendLabel.textContent = "推奨ダウンロード";
     if (recommendTitle) recommendTitle.textContent = `${label} · Mozkey ${activeVersion}`;
