@@ -109,11 +109,11 @@ const softwareApplicationJsonLd = JSON.stringify({
               </a>
               <a class="mz-text-link mz-hero__other-os" href="#download" hidden>他のOSを見る <span aria-hidden="true">↓</span></a>
             </div>
-            <div class="mz-hero__stats" data-mz-stats aria-label="GitHubの公開統計とリポジトリへのリンク">
-              <span class="mz-hero__stats-github-row">
+            <div class="mz-hero__stats" data-mz-stats hidden aria-label="GitHubの公開統計とリポジトリへのリンク">
+              <span class="mz-hero__stats-github-row" data-mz-stats-fallback hidden>
                 <a class="mz-hero__stats-github" href={links.repository} target="_blank" rel="noopener noreferrer">GitHubを見る <span aria-hidden="true">↗</span></a>
               </span>
-              <a href={links.repository} target="_blank" rel="noopener noreferrer" data-mz-stars-stat hidden title="GitHubでスターを付けたユーザー数"><span aria-hidden="true">☆</span> <strong data-mz-stars-count></strong> Stars</a>
+              <a href={links.repository} target="_blank" rel="noopener noreferrer" data-mz-stars-stat hidden title="GitHubでスターを付けたユーザー数"><span aria-hidden="true">☆</span> <strong data-mz-stars-count></strong> GitHub Stars</a>
               <a href={links.releases} target="_blank" rel="noopener noreferrer" data-mz-downloads-stat hidden title="GitHub Releasesに公開された全リリース（開発版・旧myproduct版を含む）のMSI・PKGダウンロード回数合計。人数やインストール数ではありません。"><span aria-hidden="true">↓</span> <strong data-mz-downloads-count></strong> ダウンロード</a>
             </div>
             <div class="mz-values mz-values--mobile" aria-label="Mozkeyの3つの強み">
@@ -275,16 +275,21 @@ const softwareApplicationJsonLd = JSON.stringify({
       // Public metrics are proxied through our Worker; browsers never query GitHub API directly.
       async function loadMozkeyPublicStats(): Promise<void> {
         const wrapper = document.querySelector<HTMLElement>("[data-mz-stats]");
+        const githubFallback = document.querySelector<HTMLElement>("[data-mz-stats-fallback]");
         const starsItem = document.querySelector<HTMLElement>("[data-mz-stars-stat]");
         const downloadsItem = document.querySelector<HTMLElement>("[data-mz-downloads-stat]");
-        if (!wrapper || !starsItem || !downloadsItem) return;
+        if (!wrapper || !githubFallback || !starsItem || !downloadsItem) return;
+        let starsLoaded = false;
+        let downloadsLoaded = false;
         try {
           const response = await fetch("/api/mozkey/stats", {
             cache: "no-store", headers: { Accept: "application/json" },
           });
-          if (!response.ok) return;
+          if (!response.ok) throw new Error("GitHub statistics unavailable");
           const json: unknown = await response.json();
-          if (!json || typeof json !== "object") return;
+          if (!json || typeof json !== "object" || Array.isArray(json)) {
+            throw new Error("Unexpected statistics response");
+          }
           const stats = json as Record<string, unknown>;
           const validCount = (count: unknown): count is number =>
             typeof count === "number" && Number.isSafeInteger(count) && count >= 0;
@@ -294,7 +299,7 @@ const softwareApplicationJsonLd = JSON.stringify({
             if (value) {
               value.textContent = formatCount(stats.stars);
               starsItem.hidden = false;
-              wrapper.hidden = false;
+              starsLoaded = true;
             }
           }
           if (validCount(stats.installerDownloads)) {
@@ -302,11 +307,15 @@ const softwareApplicationJsonLd = JSON.stringify({
             if (value) {
               value.textContent = formatCount(stats.installerDownloads);
               downloadsItem.hidden = false;
-              wrapper.hidden = false;
+              downloadsLoaded = true;
             }
           }
         } catch {
           // Statistics are optional and must never interfere with downloads.
+        } finally {
+          // Show the GitHub link only if at least one statistic is unavailable.
+          githubFallback.hidden = starsLoaded && downloadsLoaded;
+          wrapper.hidden = false;
         }
       }
       void loadMozkeyPublicStats();
