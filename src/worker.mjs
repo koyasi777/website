@@ -1,4 +1,5 @@
 import { serveMozkey, refreshMozkey } from "./mozkey-gh-runtime.mjs";
+import { servePublicSponsors, refreshPublicSponsors } from "./mozkey-sponsors-runtime.mjs";
 // API-only Worker for Mozkey release metadata. Other requests preserve Astro's static assets.
 const REPO = "koyasi777/mozkey";
 const GH_DOWNLOAD_ROOT = `https://github.com/${REPO}/releases/download/`;
@@ -61,16 +62,24 @@ export default {
     const pathname = new URL(request.url).pathname;
     const kind = pathname === "/api/mozkey/release" ? "release" :
       pathname === "/api/mozkey/stats" ? "stats" : null;
-    if (!kind) return env.ASSETS.fetch(request);
+    const isSponsors = pathname === "/api/mozkey/sponsors";
+    if (!kind && !isSponsors) return env.ASSETS.fetch(request);
     if (request.method !== "GET") {
       return new Response("Method Not Allowed", {
         status: 405, headers: { Allow: "GET", "Cache-Control": "no-store" },
       });
     }
+    if (isSponsors) return servePublicSponsors(env);
     return serveMozkey(kind, request, env, ctx, parseLatestRelease);
   },
   async scheduled(controller, env, ctx) {
-    const task = refreshMozkey(controller, env, parseLatestRelease);
+    const tasks = [refreshMozkey(controller, env, parseLatestRelease)];
+    const scheduledTime = Number.isFinite(controller?.scheduledTime) ? controller.scheduledTime : Date.now();
+    // Reuse the existing quarter-hour cron; update public sponsors once per hour.
+    if (new Date(scheduledTime).getUTCMinutes() === 0) {
+      tasks.push(refreshPublicSponsors(env));
+    }
+    const task = Promise.allSettled(tasks);
     if (ctx?.waitUntil) ctx.waitUntil(task);
     else await task;
   },

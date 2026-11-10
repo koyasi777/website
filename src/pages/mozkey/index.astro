@@ -10,9 +10,6 @@ const values = [
   { href: "#personal", number: "02", title: "使うほど馴染む", detail: "あなたの選択を学ぶ" },
   { href: "#customization", number: "03", title: "自分好みに", detail: "見た目も操作も自由に" },
 ];
-// Add only confirmed, PUBLIC GitHub Sponsors accounts that agree to be featured.
-// Do not add private sponsors. Avatars are hidden if this list is empty.
-const publicSponsorLogins: string[] = [];
 const softwareApplicationJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -210,18 +207,10 @@ const softwareApplicationJsonLd = JSON.stringify({
             GitHub Sponsorsで応援する <span aria-hidden="true">↗</span>
           </a>
         </div>
-        {publicSponsorLogins.length > 0 && (
-          <div class="mz-shell mz-sponsors__supporters" aria-label="公開を了承したスポンサー">
-            <p>開発を支えてくださっている皆さん</p>
-            <div class="mz-sponsors__avatars">
-              {publicSponsorLogins.map((login) => (
-                <a href={`https://github.com/${login}`} target="_blank" rel="noopener noreferrer" title={`@${login}`} aria-label={`スポンサー @${login} のGitHubプロフィール`}>
-                  <img src={`https://github.com/${login}.png?size=96`} width="46" height="46" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt={`@${login}`} />
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
+        <div class="mz-shell mz-sponsors__supporters" data-mz-public-sponsors hidden aria-label="公開中のGitHub Sponsors支援者">
+          <p>開発を支えてくださっている皆さん</p>
+          <div class="mz-sponsors__avatars" data-mz-public-sponsors-avatars></div>
+        </div>
       </section>
       <section class="mz-discover" id="more-by-koyasi777" aria-labelledby="mz-discover-title">
         <div class="mz-shell">
@@ -271,6 +260,51 @@ const softwareApplicationJsonLd = JSON.stringify({
         <a href={links.creator}>koyasi777.com <span aria-hidden="true">↗</span></a>
       </div>
     </footer>
+    <script>
+      // Show only public GitHub Sponsors from our hourly KV snapshot.
+      async function loadMozkeyPublicSponsors(): Promise<void> {
+        const section = document.querySelector<HTMLElement>("[data-mz-public-sponsors]");
+        const avatars = document.querySelector<HTMLElement>("[data-mz-public-sponsors-avatars]");
+        if (!section || !avatars) return;
+        try {
+          const response = await fetch("/api/mozkey/sponsors", {
+            headers: { Accept: "application/json" },
+          });
+          if (!response.ok) return;
+          const json: unknown = await response.json();
+          if (!json || typeof json !== "object" || !('sponsors' in json) ||
+              !Array.isArray(json.sponsors)) return;
+
+          const fragment = document.createDocumentFragment();
+          for (const login of json.sponsors.slice(0, 48)) {
+            if (typeof login !== "string" || !/^[a-z0-9](?:[a-z0-9-]{0,38})$/i.test(login) ||
+                login.endsWith("-")) continue;
+            const link = document.createElement("a");
+            link.href = `https://github.com/${login}`;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.title = `@${login}`;
+            link.setAttribute("aria-label", `スポンサー @${login} のGitHubプロフィール`);
+            const avatar = document.createElement("img");
+            avatar.src = `https://github.com/${login}.png?size=96`;
+            avatar.width = 46;
+            avatar.height = 46;
+            avatar.loading = "lazy";
+            avatar.decoding = "async";
+            avatar.referrerPolicy = "no-referrer";
+            avatar.alt = `@${login}`;
+            link.appendChild(avatar);
+            fragment.appendChild(link);
+          }
+          if (!fragment.childNodes.length) return;
+          avatars.replaceChildren(fragment);
+          section.hidden = false;
+        } catch {
+          // Sponsorship data is optional; never interfere with the page or downloads.
+        }
+      }
+      void loadMozkeyPublicSponsors();
+    </script>
     <script>
       // Public metrics are proxied through our Worker; browsers never query GitHub API directly.
       async function loadMozkeyPublicStats(): Promise<void> {
