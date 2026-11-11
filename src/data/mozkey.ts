@@ -31,19 +31,19 @@ export const mozkey = {
       windowsX64: {
         name: "Mozkey_v1.0.0_x64.msi",
         url: "https://github.com/koyasi777/mozkey/releases/download/v1.0.0/Mozkey_v1.0.0_x64.msi",
-        sizeLabel: "114 MB",
+        sizeLabel: "109 MB",
         sha256: "a779f0fc09366100778c469923bd94aff2a52aa69b4d23e8d0258395c60547f6",
       },
       windowsArm64: {
         name: "Mozkey_v1.0.0_arm64.msi",
         url: "https://github.com/koyasi777/mozkey/releases/download/v1.0.0/Mozkey_v1.0.0_arm64.msi",
-        sizeLabel: "115 MB",
+        sizeLabel: "109 MB",
         sha256: "61f879637d84863dcf159844a86dbebc4efb54b00c42893ea09fc2668a68a999",
       },
       macosUniversal: {
         name: "Mozkey_v1.0.0_macos_universal.pkg",
         url: "https://github.com/koyasi777/mozkey/releases/download/v1.0.0/Mozkey_v1.0.0_macos_universal.pkg",
-        sizeLabel: "179 MB",
+        sizeLabel: "171 MB",
         sha256: "fe50c1ddcc7a590aee057b4fa60755d669b9523dbd94ebb0c7c7c1e61ff65bea",
       },
     },
