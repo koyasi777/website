@@ -102,6 +102,7 @@ img, video { display: block; max-width: 100%; }
 .mz-feature h2 { margin-top: 20px; }
 .mz-feature__copy > p { margin-top: 23px; font-size: 15px; line-height: 2.15; color: #50665c; max-width: 460px; }
 .mz-feature__copy .mz-feature__fineprint { margin-top: 12px; font-size: 12px; }
+.mz-feature__inline-note { font-size: 10px; color: inherit; font-weight: 400; }
 .mz-inline-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 25px; padding-bottom: 5px; border-bottom: 1px solid #b6d5c7; font-size: 13px; color: #176e5d; font-weight: 750; }
 .mz-privacy { background: #143e34; color: #f2f9f5; padding: 76px 0; }
 .mz-privacy__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 80px; align-items: center; }
