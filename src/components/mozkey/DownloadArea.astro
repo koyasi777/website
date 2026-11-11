@@ -170,9 +170,11 @@ const files = [
     const assets = release.assets as Record<string, unknown>;
     for (const item of cards) {
       const asset = assets[item.assetKey] as Record<string, unknown> | undefined;
-      const suffix = item.assetKey === "windowsX64" ? "x64.msi" : item.assetKey === "windowsArm64" ? "arm64.msi" : "macos_universal.pkg";
-      const expectedName = `Mozkey_${release.version}_${suffix}`;
-      if (!asset || asset.name !== expectedName || asset.url !== base + expectedName ||
+      const suffixes = item.assetKey === "windowsX64" ? ["windows_x64.msi", "x64.msi"] :
+        item.assetKey === "windowsArm64" ? ["windows_arm64.msi", "arm64.msi"] : ["macos_universal.pkg"];
+      const allowedNames = suffixes.map((suffix) => `Mozkey_${release.version}_${suffix}`);
+      if (!asset || typeof asset.name !== "string" || !allowedNames.includes(asset.name) ||
+          asset.url !== base + asset.name ||
           typeof asset.size !== "number" || asset.size <= 0 || !Number.isFinite(asset.size) ||
           typeof asset.sha256 !== "string" || !/^[a-f0-9]{64}$/i.test(asset.sha256)) return false;
     }

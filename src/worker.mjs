@@ -3,10 +3,12 @@ import { servePublicSponsors, refreshPublicSponsors } from "./mozkey-sponsors-ru
 // API-only Worker for Mozkey release metadata. Other requests preserve Astro's static assets.
 const REPO = "koyasi777/mozkey";
 const GH_DOWNLOAD_ROOT = `https://github.com/${REPO}/releases/download/`;
+// Accept the current explicit Windows filenames and the v1.0.0 legacy names.
+// Only these exact names may be promoted into a public download link.
 const PLATFORMS = {
-  windowsX64: "x64.msi",
-  windowsArm64: "arm64.msi",
-  macosUniversal: "macos_universal.pkg",
+  windowsX64: ["windows_x64.msi", "x64.msi"],
+  windowsArm64: ["windows_arm64.msi", "arm64.msi"],
+  macosUniversal: ["macos_universal.pkg"],
 };
 
 function hasOwn(object, key) {
@@ -26,11 +28,13 @@ export function parseLatestRelease(input, now = new Date().toISOString()) {
   const base = `${GH_DOWNLOAD_ROOT}${version}/`;
   const assets = {};
 
-  for (const [key, suffix] of Object.entries(PLATFORMS)) {
-    const name = `Mozkey_${version}_${suffix}`;
-    const matching = input.assets.filter((a) => a && a.name === name && a.state === "uploaded");
+  for (const [key, suffixes] of Object.entries(PLATFORMS)) {
+    const allowedNames = suffixes.map((suffix) => `Mozkey_${version}_${suffix}`);
+    const matching = input.assets.filter((a) => a && allowedNames.includes(a.name) && a.state === "uploaded");
+    // Ambiguous Windows assets are not safe to auto-select.
     if (matching.length !== 1) return null;
     const asset = matching[0];
+    const name = asset.name;
     if (asset.browser_download_url !== base + encodeURIComponent(name)) return null;
     if (!Number.isSafeInteger(asset.size) || asset.size <= 0 || asset.size > 2_000_000_000) return null;
     if (!isHex256(asset.digest)) return null;

@@ -13,7 +13,7 @@ const QUERY = `query PublicMozkeySponsors($cursor: String) {
     sponsorshipsAsMaintainer(
       first: 100
       after: $cursor
-      activeOnly: true
+      activeOnly: false
       includePrivate: false
       orderBy: {field: CREATED_AT, direction: DESC}
     ) {

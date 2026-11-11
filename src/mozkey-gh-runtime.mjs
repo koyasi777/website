@@ -24,12 +24,14 @@ function validData(kind, data) {
   const base = `https://github.com/${REPO}/releases/download/${data.version}/`;
   if (data.releaseUrl !== `https://github.com/${REPO}/releases/tag/${data.version}` ||
       data.checksumsUrl !== base + "SHA256SUMS.txt" || !data.assets) return false;
-  for (const [key, suffix] of Object.entries({
-    windowsX64: "x64.msi", windowsArm64: "arm64.msi", macosUniversal: "macos_universal.pkg",
+  for (const [key, suffixes] of Object.entries({
+    windowsX64: ["windows_x64.msi", "x64.msi"],
+    windowsArm64: ["windows_arm64.msi", "arm64.msi"],
+    macosUniversal: ["macos_universal.pkg"],
   })) {
     const asset = data.assets[key];
-    const name = `Mozkey_${data.version}_${suffix}`;
-    if (!asset || asset.name !== name || asset.url !== base + name ||
+    const allowedNames = suffixes.map((suffix) => `Mozkey_${data.version}_${suffix}`);
+    if (!asset || !allowedNames.includes(asset.name) || asset.url !== base + asset.name ||
         !Number.isSafeInteger(asset.size) || asset.size <= 0 ||
         typeof asset.sha256 !== "string" || !/^[a-f0-9]{64}$/i.test(asset.sha256)) return false;
   }
