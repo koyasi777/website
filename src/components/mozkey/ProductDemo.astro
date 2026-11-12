@@ -8,8 +8,9 @@ interface Props {
   available: boolean;
   id: string;
   prominent?: boolean;
+  showLabel?: boolean;
 }
-const { label, description, video, poster, mp4, available, id, prominent = false } = Astro.props;
+const { label, description, video, poster, mp4, available, id, prominent = false, showLabel = true } = Astro.props;
 ---
 <figure class:list={["mz-demo", prominent && "mz-demo--hero"]} aria-labelledby={`${id}-caption`}>
   <div class="mz-demo__frame">
@@ -40,7 +41,7 @@ const { label, description, video, poster, mp4, available, id, prominent = false
     <span class="mz-demo__corner" aria-hidden="true">MOZKEY / PRODUCT DEMO</span>
   </div>
   <figcaption id={`${id}-caption`} class="mz-demo__caption">
-    <strong>{label}</strong>
+    {showLabel && <strong>{label}</strong>}
     <span id={`${id}-description`}>{description}</span>
     {available && <button type="button" class="mz-demo__autoplay-toggle" data-mz-autoplay-toggle hidden>自動再生を停止</button>}
   </figcaption>

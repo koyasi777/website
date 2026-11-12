@@ -144,7 +144,7 @@ const softwareApplicationJsonLd = JSON.stringify({
             <a class="mz-inline-link" href={links.readme} target="_blank" rel="noopener noreferrer">変換機能の詳細を読む <span aria-hidden="true">↗</span></a>
           </div>
           <div class="mz-feature__visual">
-            <ProductDemo id="natural-demo" {...media.natural} />
+            <ProductDemo id="natural-demo" {...media.natural} showLabel={false} />
           </div>
         </div>
       </section>
@@ -158,7 +158,7 @@ const softwareApplicationJsonLd = JSON.stringify({
             <p class="mz-feature__fineprint">（学習の反映は設定や入力状況により異なります。）</p>
           </div>
           <div class="mz-feature__visual">
-            <ProductDemo id="learning-demo" {...media.learning} />
+            <ProductDemo id="learning-demo" {...media.learning} showLabel={false} />
           </div>
         </div>
       </section>
@@ -172,7 +172,7 @@ const softwareApplicationJsonLd = JSON.stringify({
             <p>候補ウィンドウの見た目から、キー操作やローマ字入力のルールまで。使い慣れた入力環境を自分で作れます。</p>
           </div>
           <div class="mz-feature__visual">
-            <ProductDemo id="customization-demo" {...media.customization} />
+            <ProductDemo id="customization-demo" {...media.customization} showLabel={false} />
           </div>
         </div>
       </section>
@@ -214,7 +214,7 @@ const softwareApplicationJsonLd = JSON.stringify({
           <div class="mz-discover__head">
             <span class="mz-kicker">MORE FROM KOYASI777</span>
             <h2 id="mz-discover-title">ほかにも、つくっています。</h2>
-            <p>日本語入力からキーボード配列の設計・解析まで。関連する制作物を紹介しています。</p>
+            <p>日本語入力からキーボード配列の設計・解析まで。<br class="mz-mobile-break" />関連する制作物を紹介しています。</p>
           </div>
           <nav class="mz-discover__links" aria-label="koyasi777の他のページ">
             <a class="mz-discover__link" href="/seoto/">
@@ -241,7 +241,7 @@ const softwareApplicationJsonLd = JSON.stringify({
       <div class="mz-shell mz-footer__top">
         <div class="mz-footer__brand">
           <a href="/mozkey/"><img src="/mozkey/icon.svg" width="32" height="32" alt="" loading="lazy" decoding="async" /> Mozkey</a>
-          <p>Mozcをベースにした非公式フォークであり、Googleの公式製品ではありません。Googleによるサポートや品質保証の対象外です。</p>
+          <p>Mozcをベースにした非公式フォークであり、Googleの公式製品ではありません。<br />Googleによるサポートや品質保証の対象外です。</p>
         </div>
         <nav aria-label="製品ドキュメント">
           <a href="/">制作者ホーム</a>

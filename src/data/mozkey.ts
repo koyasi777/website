@@ -63,7 +63,7 @@ export const mozkey = {
       mp4: "/mozkey/media/natural.mp4",
       poster: "/mozkey/media/natural.webp",
       label: "同じ読みも、文脈に合わせて",
-      description: "同音異義語も、前後の文脈に合った変換を行います。",
+      description: "同音異義語も、前後の文脈に合った変換を行います。Zenz補正は手動実行にも対応し、自動補正の開始タイミングも自由に設定できます。（動画上は700msの遅延設定時）",
     },
     learning: {
       available: true,
@@ -71,7 +71,7 @@ export const mozkey = {
       mp4: "/mozkey/media/learning.mp4",
       poster: "/mozkey/media/learning.webp",
       label: "選択を学ぶ",
-      description: "一度選んだ表記が、次回の変換候補へ反映されます。",
+      description: "一度選んだ表記を学び、次回以降の変換候補に反映します。確定直後にBackspaceやUndoで修正した場合は、その操作に応じて直前の学習も取り消します。",
     },
     customization: {
       available: true,

@@ -98,11 +98,17 @@ img, video { display: block; max-width: 100%; }
 .mz-feature--reverse { grid-template-columns: minmax(0, 1.07fr) minmax(0, .93fr); }
 .mz-feature--reverse .mz-feature__copy { order: 2; }
 .mz-feature--reverse .mz-feature__visual { order: 1; }
+/* Slight desktop-only lift for NATURAL / PERSONAL copy. */
+@media (min-width: 768px) {
+  #features .mz-feature__copy,
+  #personal .mz-feature__copy { transform: translateY(-10px); }
+}
 .mz-feature h2, .mz-privacy h2, .mz-download h2 { font-size: clamp(29px, 3.3vw, 43px); line-height: 1.48; font-weight: 780; letter-spacing: -.055em; color: var(--mz-ink); }
 .mz-feature h2 { margin-top: 20px; }
 .mz-feature__copy > p { margin-top: 23px; font-size: 15px; line-height: 2.15; color: #50665c; max-width: 460px; }
 .mz-feature__copy .mz-feature__fineprint { margin-top: 12px; font-size: 10px; }
 .mz-feature__inline-note { font-size: 10px; color: inherit; font-weight: 400; }
+.mz-mobile-break { display: none; }
 .mz-inline-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 25px; padding-bottom: 5px; border-bottom: 1px solid #b6d5c7; font-size: 13px; color: #176e5d; font-weight: 750; }
 .mz-privacy { background: #143e34; color: #f2f9f5; padding: 76px 0; }
 .mz-privacy__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 80px; align-items: center; }
@@ -166,6 +172,7 @@ img, video { display: block; max-width: 100%; }
   .mz-heading-break { display: none; }
   .mz-desktop-break { display: inline; }
   .mz-feature__desktop-break { display: none; }
+  .mz-mobile-break { display: inline; }
   .mz-hero__lead { font-size: 13px; line-height: 1.85; }
   .mz-values--mobile { display: grid; grid-template-columns: 1fr; margin-top: 21px; border-top: 1px solid #cdded3; }
   .mz-values--desktop { display: none; }
@@ -317,6 +324,7 @@ img, video { display: block; max-width: 100%; }
   .mz-sponsors__inner { flex-direction: column; align-items: center; gap: 19px; text-align: center; }
   .mz-sponsors__copy .mz-kicker { justify-content: center; }
   .mz-sponsors__copy p { margin-inline: auto; }
+  .mz-sponsors__closing { display: block; }
   .mz-sponsors__button { flex: 0 1 auto; max-width: 100%; }
   .mz-sponsors__supporters { text-align: center; }
   .mz-sponsors__avatars { justify-content: center; }
